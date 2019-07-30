@@ -28,3 +28,13 @@ void GImage::show(const string& imageName, const string& windowName) {
 	cv::imshow(windowName, lImg);
 }
 //================================================
+void GImage::setImage(const string& imageName, const cv::Mat& image) {
+	m_imgMap[imageName] = image;
+}
+//================================================
+bool GImage::empty(const string& imageName) {
+	cv::Mat lImg = m_imgMap[imageName];
+	bool lEmpty = lImg.empty();
+	return lEmpty;
+}
+//================================================
