@@ -31,13 +31,13 @@ GProcessO* GProcessHelp() {
 }
 //===============================================
 static void GProcessHelp_Run(int argc, char** argv) {
-    GConsole()->Print("\n");
-    GConsole()->Print("gopencv est une application de traitement d'images video.\n\n");
-    GConsole()->Print("Utilisation:\n");
-    GConsole()->Print("\tgopencv [ process ] [ options ]\n\n");
-    GConsole()->Print("Process:\n");
-    GConsole()->Print("\t%-15s : %s\n", "Help", "Affiche le programme d'aide");
-    GConsole()->Print("\t%-15s : %s\n", "Compile", "Lance le programme de compilation");
-    GConsole()->Print("\n");
+    printf("\n");
+    printf("gopencv est une application de traitement d'images video.\n\n");
+    printf("Utilisation:\n");
+    printf("\tgopencv [ process ] [ options ]\n\n");
+    printf("Process:\n");
+    printf("\t%-15s : %s\n", "Help", "Affiche le programme d'aide");
+    printf("\t%-15s : %s\n", "Compile", "Lance le programme de compilation");
+    printf("\n");
 }
 //===============================================

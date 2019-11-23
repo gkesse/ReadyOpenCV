@@ -72,7 +72,7 @@ static char* GConfigTemplate_GetData(char* key) {
     GConfigTemplateO* lConfigTemplate = m_GConfigTemplateO->m_child;
     GMapO(GConfigTemplate, GCHAR_PTR, GCHAR_PTR)* lDataMap = lConfigTemplate->m_dataMap;
     char* lValue = lDataMap->GetData(lDataMap, key, GConfigTemplate_MapEqual);
-    //if(lValue == 0) {GConsole()->Print("[ GConfig ] Error GConfigTemplate_GetData: %s\n", key); exit(0);}
+    //if(lValue == 0) {printf("[ GConfig ] Error GConfigTemplate_GetData: %s\n", key); exit(0);}
     return lValue;
 }
 //===============================================

@@ -6,7 +6,8 @@
 #define G_PLATEFORM_OS "WINDOWS"
 //===============================================
 #define _USE_MATH_DEFINES
-#define GLEW_STATIC
+//===============================================
+#define G_USE_OPENCV_ON
 //===============================================
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,6 +15,9 @@
 #include <ctype.h>
 #include <math.h>
 #include <stdarg.h>
+//===============================================
+#include <opencv2/imgproc/imgproc_c.h>
+#include <opencv2/highgui/highgui_c.h>
 //===============================================
 #elif defined(__unix)
 #define G_PLATEFORM_OS "UNIX"
@@ -26,10 +30,6 @@
 #if !defined(TRUE)
 #define FALSE (0)
 #define TRUE (!FALSE)
-#endif
-//===============================================
-#if !defined(BOOL)
-#define BOOL int
 #endif
 //===============================================
 typedef unsigned char uchar;
