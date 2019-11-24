@@ -1,6 +1,5 @@
 //===============================================
 #include "GFile2.h"
-#include "GConsole.h"
 //===============================================
 typedef char* GCHAR_PTR;
 typedef FILE* GFILE_PTR;

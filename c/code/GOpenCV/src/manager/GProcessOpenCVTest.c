@@ -1,6 +1,6 @@
 //===============================================
 #include "GProcessOpenCVTest.h"
-#include "GConsole.h"
+#include "GOpenCVTest.h"
 //===============================================
 static GProcessO* m_GProcessOpenCVTestO = 0;
 //===============================================
@@ -31,7 +31,6 @@ GProcessO* GProcessOpenCVTest() {
 }
 //===============================================
 static void GProcessOpenCVTest_Run(int argc, char** argv) {
-	//cvNamedWindow("HELLO");
-	cvWaitKey(0);
+	GOpenCVTest()->Run();
 }
 //===============================================

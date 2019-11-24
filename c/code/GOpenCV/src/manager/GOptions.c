@@ -2,7 +2,6 @@
 #include "GOptions.h"
 #include "GString2.h"
 #include "GConfig.h"
-#include "GConsole.h"
 //===============================================
 static GOptionsO* m_GOptionsO = 0;
 //===============================================
@@ -32,18 +31,12 @@ GOptionsO* GOptions() {
 //===============================================
 static void GOptions_GetArgs(int argc, char** argv) {
     GConfig()->SetData("PROCESS", "HELP");
+	GConfig()->SetData("OPTION_1", argv[2]);
+	GConfig()->SetData("OPTION_2", argv[3]);
 
 	if(argc >= 2) {
 		char* lProcess = GString2()->ToUpper(argv[1]);
 		GConfig()->SetData("PROCESS", lProcess);
-	}
-	if(argc >= 3) {
-		char* lOption1 = GString2()->ToUpper(argv[2]);
-		GConfig()->SetData("OPTION_1", lOption1);
-	}
-	if(argc >= 4) {
-		char* lOption2 = GString2()->ToUpper(argv[3]);
-		GConfig()->SetData("OPTION_2", lOption2);
 	}
 }
 //===============================================
