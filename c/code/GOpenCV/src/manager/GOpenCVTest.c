@@ -11,6 +11,7 @@ static GOpenCVTestO* m_GOpenCVTestO = 0;
 static void GOpenCVTest_Run();
 static void GOpenCVTest_RunNumber();
 static void GOpenCVTest_RunFunc();
+static void GOpenCVTest_RunLast();
 //===============================================
 static void GOpenCVTest_ImageLoad();
 //===============================================
@@ -50,6 +51,7 @@ static void GOpenCVTest_Run() {
 	char* lOption1 = GConfig()->GetData("OPTION_1");
 	if(GString2()->IsEqual(lOption1, "number")) GOpenCVTest_RunNumber();
 	else if(GString2()->IsEqual(lOption1, "run")) GOpenCVTest_RunFunc();
+	else if(GString2()->IsEqual(lOption1, "last")) GOpenCVTest_RunLast();
 }
 //===============================================
 static void GOpenCVTest_RunNumber() {
@@ -73,10 +75,36 @@ static void GOpenCVTest_RunFunc() {
 		int lOnFlag = lTestFunc.onFlag;
 		if(lOnFlag == 0) break;
 		if(i == lFuncId) {
+			char* lName = lTestFunc.name;
 			GTEST_FUNC lFunction = lTestFunc.func;
+			printf("//===============================================\n");
+			printf("//### %s\n", lName);
+			printf("//===============================================\n");
+			printf("Execution...\n");
 			lFunction();
 			break;
 		}
+		i++;
+	}
+}
+//===============================================
+static void GOpenCVTest_RunLast() {
+	int i = 0;
+	sGTestFunc lLastFunc = GTEST_FUNC_MAP[0];
+	while(1) {
+		sGTestFunc lTestFunc = GTEST_FUNC_MAP[i];
+		int lOnFlag = lTestFunc.onFlag;
+		if(lOnFlag == 0) {
+			char* lName = lLastFunc.name;
+			GTEST_FUNC lFunction = lLastFunc.func;
+			printf("//===============================================\n");
+			printf("//### %s\n", lName);
+			printf("//===============================================\n");
+			printf("Execution...\n");
+			lFunction();
+			break;
+		}
+		lLastFunc = lTestFunc;
 		i++;
 	}
 }
