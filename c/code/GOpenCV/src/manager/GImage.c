@@ -127,6 +127,32 @@ static void GImage_CreateGray(char* imgName, char* outName) {
 #endif
 }
 //===============================================
+static void GImage_CreateHeader(char* imgName, char* outName, CvRect rect) {
+#if defined(G_USE_OPENCV_ON)
+	GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
+	IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
+	CvSize lSize = cvSize(rect.width, rect.height);
+	int lDeth = lImg->depth;
+	int lChannels = lImg->nChannels;
+	IplImage* lOut = cvCreateImageHeader(lSize, lDeth, lChannels);
+	lOut->origin = lImg->origin;
+	lOut->widthStep = lImg->widthStep;
+
+	int lX = rect.x;
+	int lY = rect.y;
+	int lWidth = rect.width;
+
+    int k = 0;
+    k += lX*lChannels;
+    k += lY*lChannels*lWidth;
+
+	lOut->imageData = &lImg->imageData[k];
+
+	if(lOut == 0) {printf("[ GImage ] Error GImage_CreateGray\n"); exit(0);}
+	lImgMap->SetData(lImgMap, outName, lOut, GImage_MapEqual);
+#endif
+}
+//===============================================
 static void GImage_Show(char* imgName, char* windowName) {
 #if defined(G_USE_OPENCV_ON)
 	GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
@@ -140,6 +166,14 @@ static void GImage_Remove(char* imgName) {
 	GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
 	IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
 	cvReleaseImage(&lImg);
+#endif
+}
+//===============================================
+static void GImage_RemoveHeader(char* imgName) {
+#if defined(G_USE_OPENCV_ON)
+	GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
+	IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
+	cvReleaseImageHeader(&lImg);
 #endif
 }
 //===============================================
@@ -185,6 +219,53 @@ static void GImage_Copy(char* imgName, char* outName) {
 	IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
 	IplImage* lOut = lImgMap->GetData(lImgMap, outName, GImage_MapEqual);
 	cvCopy(lImg, lOut, 0);
+#endif
+}
+//===============================================
+static void GImage_SetRoi(char* imgName, CvRect rect) {
+#if defined(G_USE_OPENCV_ON)
+	GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
+	IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
+	cvSetImageROI(lImg, rect);
+#endif
+}
+//===============================================
+static void GImage_ResetRoi(char* imgName) {
+#if defined(G_USE_OPENCV_ON)
+	GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
+	IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
+	cvResetImageROI(lImg);
+#endif
+}
+//===============================================
+static void GImage_Not(char* imgName, char* outName) {
+#if defined(G_USE_OPENCV_ON)
+	GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
+	IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
+	IplImage* lOut = lImgMap->GetData(lImgMap, outName, GImage_MapEqual);
+	cvNot(lImg, lOut);
+#endif
+}
+//===============================================
+static void GImage_AddScalar(char* imgName, char* outName, CvScalar scalar) {
+#if defined(G_USE_OPENCV_ON)
+	GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
+	IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
+	IplImage* lOut = lImgMap->GetData(lImgMap, outName, GImage_MapEqual);
+	cvAddS(lImg, scalar, lOut, 0);
+#endif
+}
+//===============================================
+static void GImage_AddWeight(char* imgName, char* img2Name, char* outName, sGImgWeight weight) {
+#if defined(G_USE_OPENCV_ON)
+	GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
+	IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
+	IplImage* lImg2 = lImgMap->GetData(lImgMap, img2Name, GImage_MapEqual);
+	IplImage* lOut = lImgMap->GetData(lImgMap, outName, GImage_MapEqual);
+	double lApha = weight.alpha;
+	double lBeta = weight.beta;
+	double lGamma = weight.gamma;
+	cvAddWeighted(lImg, lApha, lImg2, lBeta, lGamma, lOut);
 #endif
 }
 //===============================================

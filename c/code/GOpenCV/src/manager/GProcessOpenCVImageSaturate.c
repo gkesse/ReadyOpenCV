@@ -47,7 +47,7 @@ static void GProcessOpenCVImageSaturate_Run(int argc, char** argv) {
 	GImage()->Show("SATURATE", "SATURATE");
 	GWaitKey()->Loop();
 	GImage()->Remove("IMAGE");
-	GImage()->Remove("SMOOTH");
+	GImage()->Remove("SATURATE");
 	GWindow()->RemoveAll();
 }
 //===============================================
