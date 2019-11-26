@@ -289,12 +289,12 @@ static void GOpenCVTest_ImageHeader() {
 	GWindow()->Create("ROI", CV_WINDOW_AUTOSIZE);
 	GWindow()->Create("HEADER", CV_WINDOW_AUTOSIZE);
 	GImage()->Show("IMAGE", "IMAGE");
-	GImage()->Show("HEADER", "HEADER");
 	GImage()->Show("ROI", "ROI");
+	GImage()->Show("HEADER", "HEADER");
 	GEvent()->Loop();
 	GImage()->Remove("IMAGE");
-	GImage()->Remove("HEADER");
 	GImage()->Remove("ROI");
+	GImage()->Remove("HEADER");
 	GWindow()->RemoveAll();
 }
 //===============================================
@@ -306,7 +306,7 @@ static void GOpenCVTest_ImageBlend() {
 			150, 150, lRoi.width, lRoi.height
 	};
 	sGImgWeight lImgWeight = {
-			0.5, 0.7, 0.0
+			0.5, 0.9, 0.0
 	};
 	GImage()->Load("IMAGE", "./data/img/lena.jpg", CV_LOAD_IMAGE_COLOR);
 	GImage()->Load("IMAGE_2", "./data/img/fruits.jpg", CV_LOAD_IMAGE_COLOR);
