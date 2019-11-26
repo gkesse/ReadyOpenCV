@@ -22,6 +22,8 @@ static void GOpenCVTest_ImageCanny();
 static void GOpenCVTest_ImagePyrDown();
 static void GOpenCVTest_ImageSaturate();
 static void GOpenCVTest_ImageRoi();
+static void GOpenCVTest_ImageHeader();
+static void GOpenCVTest_ImageBlend();
 //===============================================
 #define GDEFINE_TEST_FUNC(GFUNC) {1, #GFUNC, GFUNC}
 #define GDEFINE_TEST_FUNC_LAST {0, 0, 0}
@@ -36,6 +38,8 @@ static sGTestFunc GTEST_FUNC_MAP[] = {
 		GDEFINE_TEST_FUNC(GOpenCVTest_ImagePyrDown),
 		GDEFINE_TEST_FUNC(GOpenCVTest_ImageSaturate),
 		GDEFINE_TEST_FUNC(GOpenCVTest_ImageRoi),
+		GDEFINE_TEST_FUNC(GOpenCVTest_ImageHeader),
+		GDEFINE_TEST_FUNC(GOpenCVTest_ImageBlend),
 		GDEFINE_TEST_FUNC_LAST
 };
 //===============================================
@@ -269,7 +273,60 @@ static void GOpenCVTest_ImageRoi() {
 	GImage()->Show("ROI", "ROI");
 	GEvent()->Loop();
 	GImage()->Remove("IMAGE");
+	GWindow()->RemoveAll();
+}
+//===============================================
+static void GOpenCVTest_ImageHeader() {
+	CvRect lRoi = {
+			150, 150, 150, 150
+	};
+	GImage()->Load("IMAGE", "./data/img/lena.jpg", CV_LOAD_IMAGE_COLOR);
+	GImage()->CreateParams("IMAGE", "ROI");
+	GImage()->Copy("IMAGE", "ROI");
+	GImage()->CreateHeader("ROI", "HEADER", lRoi);
+	GImage()->Not("HEADER", "HEADER");
+	GWindow()->Create("IMAGE", CV_WINDOW_AUTOSIZE);
+	GWindow()->Create("ROI", CV_WINDOW_AUTOSIZE);
+	GWindow()->Create("HEADER", CV_WINDOW_AUTOSIZE);
+	GImage()->Show("IMAGE", "IMAGE");
+	GImage()->Show("HEADER", "HEADER");
+	GImage()->Show("ROI", "ROI");
+	GEvent()->Loop();
+	GImage()->Remove("IMAGE");
+	GImage()->Remove("HEADER");
 	GImage()->Remove("ROI");
+	GWindow()->RemoveAll();
+}
+//===============================================
+static void GOpenCVTest_ImageBlend() {
+	CvRect lRoi = {
+			150, 150, 150, 150
+	};
+	CvRect lRoi2 = {
+			150, 150, lRoi.width, lRoi.height
+	};
+	sGImgWeight lImgWeight = {
+			0.5, 0.7, 0.0
+	};
+	GImage()->Load("IMAGE", "./data/img/lena.jpg", CV_LOAD_IMAGE_COLOR);
+	GImage()->Load("IMAGE_2", "./data/img/fruits.jpg", CV_LOAD_IMAGE_COLOR);
+	GImage()->CreateParams("IMAGE", "BLEND");
+	GImage()->Copy("IMAGE", "BLEND");
+	GImage()->SetRoi("BLEND", lRoi);
+	GImage()->SetRoi("IMAGE_2", lRoi2);
+	GImage()->AddWeight("BLEND", "IMAGE_2", "BLEND", lImgWeight);
+	GImage()->ResetRoi("BLEND");
+	GImage()->ResetRoi("IMAGE_2");
+	GWindow()->Create("IMAGE", CV_WINDOW_AUTOSIZE);
+	GWindow()->Create("IMAGE_2", CV_WINDOW_AUTOSIZE);
+	GWindow()->Create("BLEND", CV_WINDOW_AUTOSIZE);
+	GImage()->Show("IMAGE", "IMAGE");
+	GImage()->Show("IMAGE_2", "IMAGE_2");
+	GImage()->Show("BLEND", "BLEND");
+	GEvent()->Loop();
+	GImage()->Remove("IMAGE");
+	GImage()->Remove("IMAGE_2");
+	GImage()->Remove("BLEND");
 	GWindow()->RemoveAll();
 }
 //===============================================
