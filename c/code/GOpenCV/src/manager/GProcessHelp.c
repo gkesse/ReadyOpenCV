@@ -35,8 +35,8 @@ static void GProcessHelp_Run(int argc, char** argv) {
     printf("Utilisation:\n");
     printf("\tgopencv [ process ] [ options ]\n\n");
     printf("Process:\n");
-    printf("\t%-15s : %s\n", "Help", "Affiche le programme d'aide");
-    printf("\t%-15s : %s\n", "Compile", "Lance le programme de compilation");
+    printf("\t%-15s : %s\n", "help", "Affiche le programme d'aide");
+    printf("\t%-15s : %s\n", "opencv_test", "Lance le programme de test");
     printf("\n");
 }
 //===============================================
