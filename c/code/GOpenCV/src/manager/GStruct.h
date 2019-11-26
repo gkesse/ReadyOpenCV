@@ -7,6 +7,8 @@ typedef struct _sGSaturateItem sGSaturateItem;
 typedef struct _sGTestFunc sGTestFunc;
 typedef struct _sGImgCreate sGImgCreate;
 typedef struct _sGImgWeight sGImgWeight;
+typedef struct _sGEvent sGEvent;
+typedef struct _sGEventKey sGEventKey;
 //===============================================
 typedef void (*GTEST_FUNC)();
 //===============================================
@@ -37,6 +39,16 @@ struct _sGImgWeight {
 	double alpha;
 	double beta;
 	double gamma;
+};
+//===============================================
+struct _sGEventKey {
+	int onFlag;
+	int key;
+	int waitKey;
+};
+//===============================================
+struct _sGEvent {
+	sGEventKey key;
 };
 //===============================================
 #endif

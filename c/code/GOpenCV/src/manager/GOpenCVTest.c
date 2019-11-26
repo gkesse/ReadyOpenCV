@@ -2,7 +2,8 @@
 #include "GOpenCVTest.h"
 #include "GImage.h"
 #include "GWindow.h"
-#include "GWaitKey.h"
+#include "GEvent.h"
+#include "GEvent.h"
 #include "GConfig.h"
 #include "GString2.h"
 //===============================================
@@ -20,6 +21,7 @@ static void GOpenCVTest_ImageSmooth();
 static void GOpenCVTest_ImageCanny();
 static void GOpenCVTest_ImagePyrDown();
 static void GOpenCVTest_ImageSaturate();
+static void GOpenCVTest_ImageRoi();
 //===============================================
 #define GDEFINE_TEST_FUNC(GFUNC) {1, #GFUNC, GFUNC}
 #define GDEFINE_TEST_FUNC_LAST {0, 0, 0}
@@ -33,11 +35,13 @@ static sGTestFunc GTEST_FUNC_MAP[] = {
 		GDEFINE_TEST_FUNC(GOpenCVTest_ImageCanny),
 		GDEFINE_TEST_FUNC(GOpenCVTest_ImagePyrDown),
 		GDEFINE_TEST_FUNC(GOpenCVTest_ImageSaturate),
+		GDEFINE_TEST_FUNC(GOpenCVTest_ImageRoi),
 		GDEFINE_TEST_FUNC_LAST
 };
 //===============================================
 GOpenCVTestO* GOpenCVTest_New() {
 	GOpenCVTestO* lObj = (GOpenCVTestO*)malloc(sizeof(GOpenCVTestO));
+	lObj->m_continue = TRUE;
 	lObj->Delete = GOpenCVTest_Delete;
 	lObj->Run = GOpenCVTest_Run;
 	return lObj;
@@ -60,10 +64,11 @@ GOpenCVTestO* GOpenCVTest() {
 //===============================================
 static void GOpenCVTest_Run() {
 	char* lOption1 = GConfig()->GetData("OPTION_1");
-	if(GString2()->IsEqual(lOption1, "number")) GOpenCVTest_RunNumber();
-	else if(GString2()->IsEqual(lOption1, "run")) GOpenCVTest_RunFunc();
-	else if(GString2()->IsEqual(lOption1, "last")) GOpenCVTest_RunLast();
-	else if(GString2()->IsEqual(lOption1, "all")) GOpenCVTest_RunAll();
+	if(GString2()->IsEqual(lOption1, "")) GOpenCVTest_RunNumber();
+	else if(GString2()->IsEqual(lOption1, "0")) GOpenCVTest_RunNumber();
+	else if(GString2()->IsEqual(lOption1, "-1")) GOpenCVTest_RunLast();
+	else if(GString2()->IsEqual(lOption1, "-2")) GOpenCVTest_RunAll();
+	else GOpenCVTest_RunFunc();
 }
 //===============================================
 static void GOpenCVTest_RunNumber() {
@@ -79,8 +84,8 @@ static void GOpenCVTest_RunNumber() {
 }
 //===============================================
 static void GOpenCVTest_RunFunc() {
-	char* lOption2 = GConfig()->GetData("OPTION_2");
-	int lFuncId = GString2()->ToInt(lOption2);
+	char* lOption1 = GConfig()->GetData("OPTION_1");
+	int lFuncId = GString2()->ToInt(lOption1);
 	int i = 0;
 	while(1) {
 		sGTestFunc lTestFunc = GTEST_FUNC_MAP[i];
@@ -142,7 +147,7 @@ static void GOpenCVTest_ImageLoad() {
 	GImage()->Load("IMAGE", "./data/img/lena.jpg", CV_LOAD_IMAGE_COLOR);
 	GWindow()->Create("IMAGE", CV_WINDOW_AUTOSIZE);
 	GImage()->Show("IMAGE", "IMAGE");
-	GWaitKey()->Loop();
+	GEvent()->Loop();
 	GImage()->Remove("IMAGE");
 	GWindow()->RemoveAll();
 }
@@ -155,7 +160,7 @@ static void GOpenCVTest_ImageGray() {
 	GWindow()->Create("GRAY", CV_WINDOW_AUTOSIZE);
 	GImage()->Show("IMAGE", "IMAGE");
 	GImage()->Show("GRAY", "GRAY");
-	GWaitKey()->Loop();
+	GEvent()->Loop();
 	GImage()->Remove("IMAGE");
 	GImage()->Remove("GRAY");
 	GWindow()->RemoveAll();
@@ -171,7 +176,7 @@ static void GOpenCVTest_ImageSmooth() {
 	GWindow()->Create("SMOOTH", CV_WINDOW_AUTOSIZE);
 	GImage()->Show("IMAGE", "IMAGE");
 	GImage()->Show("SMOOTH", "SMOOTH");
-	GWaitKey()->Loop();
+	GEvent()->Loop();
 	GImage()->Remove("IMAGE");
 	GImage()->Remove("SMOOTH");
 	GWindow()->RemoveAll();
@@ -186,7 +191,7 @@ static void GOpenCVTest_ImageCanny() {
 	GWindow()->Create("CANNY", CV_WINDOW_AUTOSIZE);
 	GImage()->Show("IMAGE", "IMAGE");
 	GImage()->Show("CANNY", "CANNY");
-	GWaitKey()->Loop();
+	GEvent()->Loop();
 	GImage()->Remove("IMAGE");
 	GImage()->Remove("CANNY");
 	GWindow()->RemoveAll();
@@ -204,7 +209,7 @@ static void GOpenCVTest_ImagePyrDown() {
 	GImage()->Show("IMAGE", "IMAGE");
 	GImage()->Show("PYRDOWN", "PYRDOWN");
 	GImage()->Show("PYRDOWN_2", "PYRDOWN_2");
-	GWaitKey()->Loop();
+	GEvent()->Loop();
 	GImage()->Remove("IMAGE");
 	GImage()->Remove("PYRDOWN");
 	GImage()->Remove("PYRDOWN_2");
@@ -240,7 +245,7 @@ static void GOpenCVTest_ImageSaturate() {
 	GImage()->Show("SATURATE", "SATURATE");
 	GImage()->Show("SATURATE_2", "SATURATE_2");
 	GImage()->Show("SATURATE_3", "SATURATE_3");
-	GWaitKey()->Loop();
+	GEvent()->Loop();
 	GImage()->Remove("IMAGE");
 	GImage()->Remove("SATURATE");
 	GImage()->Remove("SATURATE_2");
@@ -249,16 +254,22 @@ static void GOpenCVTest_ImageSaturate() {
 }
 //===============================================
 static void GOpenCVTest_ImageRoi() {
+	CvRect lRoi = {
+			100, 100, 200, 200
+	};
 	GImage()->Load("IMAGE", "./data/img/lena.jpg", CV_LOAD_IMAGE_COLOR);
-	GImage()->CreateParams("IMAGE", "SATURATE");
-	GImage()->Copy("IMAGE", "SATURATE");
+	GImage()->CreateParams("IMAGE", "ROI");
+	GImage()->Copy("IMAGE", "ROI");
+	GImage()->SetRoi("ROI", lRoi);
+	GImage()->Not("ROI", "ROI");
+	GImage()->ResetRoi("ROI");
 	GWindow()->Create("IMAGE", CV_WINDOW_AUTOSIZE);
-	GWindow()->Create("SATURATE", CV_WINDOW_AUTOSIZE);
+	GWindow()->Create("ROI", CV_WINDOW_AUTOSIZE);
 	GImage()->Show("IMAGE", "IMAGE");
-	GImage()->Show("SATURATE", "SATURATE");
-	GWaitKey()->Loop();
+	GImage()->Show("ROI", "ROI");
+	GEvent()->Loop();
 	GImage()->Remove("IMAGE");
-	GImage()->Remove("SMOOTH");
+	GImage()->Remove("ROI");
 	GWindow()->RemoveAll();
 }
 //===============================================

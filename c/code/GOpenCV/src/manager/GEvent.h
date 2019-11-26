@@ -1,20 +1,24 @@
 //===============================================
-#ifndef _GOpenCVTest_
-#define _GOpenCVTest_
+#ifndef _GEvent_
+#define _GEvent_
 //===============================================
 #include "GInclude.h"
 //===============================================
-typedef struct _GOpenCVTestO GOpenCVTestO;
+typedef struct _GEventO GEventO;
 //===============================================
-struct _GOpenCVTestO {
+struct _GEventO {
     void (*Delete)();
-    void (*Run)();
-    int m_continue;
+    void (*Init)(int waitKey);
+    void (*PollEvents)();
+    void (*Clean)();
+    void (*Loop)();
+    sGEvent* (*GetEvent)();
+    sGEvent m_event;
 };
 //===============================================
-GOpenCVTestO* GOpenCVTest_New();
-void GOpenCVTest_Delete();
-GOpenCVTestO* GOpenCVTest();
+GEventO* GEvent_New();
+void GEvent_Delete();
+GEventO* GEvent();
 //===============================================
 #endif
 //===============================================

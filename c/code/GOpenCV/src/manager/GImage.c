@@ -11,13 +11,20 @@ static void GImage_Create(char* imgName, CvSize size, int depth, int channels);
 static void GImage_CreateParams(char* imgName, char* outName);
 static void GImage_CreateHalf(char* imgName, char* outName);
 static void GImage_CreateGray(char* imgName, char* outName);
+static void GImage_CreateHeader(char* imgName, char* outName, CvRect rect);
 static void GImage_Show(char* imgName, char* windowName);
 static void GImage_Remove(char* imgName);
+static void GImage_RemoveHeader(char* imgName);
 static void GImage_Smooth(char* imgName, char* outName);
 static void GImage_PyrDown(char* imgName, char* outName);
 static void GImage_Gray(char* imgName, char* outName);
 static void GImage_Canny(char* imgName, char* outName, int low, int high, int size);
 static void GImage_Copy(char* imgName, char* outName);
+static void GImage_SetRoi(char* imgName, CvRect rect);
+static void GImage_ResetRoi(char* imgName);
+static void GImage_Not(char* imgName, char* outName);
+static void GImage_AddScalar(char* imgName, char* outName, CvScalar scalar);
+static void GImage_AddWeight(char* imgName, char* img2Name, char* outName, sGImgWeight weight);
 static void GImage_Saturate(char* imgName, sGSaturate* saturate);
 static void GImage_SetImage(char* imgName, void* img);
 static void GImage_SetPixelChannel(char* imgName, int x, int y, int channel, uchar data);
@@ -39,13 +46,20 @@ GImageO* GImage_New() {
 	lObj->CreateParams = GImage_CreateParams;
 	lObj->CreateHalf = GImage_CreateHalf;
 	lObj->CreateGray = GImage_CreateGray;
+	lObj->CreateHeader = GImage_CreateHeader;
 	lObj->Show = GImage_Show;
 	lObj->Remove = GImage_Remove;
+	lObj->RemoveHeader = GImage_RemoveHeader;
 	lObj->Smooth = GImage_Smooth;
 	lObj->PyrDown = GImage_PyrDown;
 	lObj->Gray = GImage_Gray;
 	lObj->Canny = GImage_Canny;
 	lObj->Copy = GImage_Copy;
+	lObj->SetRoi = GImage_SetRoi;
+	lObj->ResetRoi = GImage_ResetRoi;
+	lObj->Not = GImage_Not;
+	lObj->AddScalar = GImage_AddScalar;
+	lObj->AddWeight = GImage_AddWeight;
 	lObj->Saturate = GImage_Saturate;
 	lObj->SetImage = GImage_SetImage;
 	lObj->SetPixelChannel = GImage_SetPixelChannel;
@@ -142,9 +156,9 @@ static void GImage_CreateHeader(char* imgName, char* outName, CvRect rect) {
 	int lY = rect.y;
 	int lWidth = rect.width;
 
-    int k = 0;
-    k += lX*lChannels;
-    k += lY*lChannels*lWidth;
+	int k = 0;
+	k += lX*lChannels;
+	k += lY*lChannels*lWidth;
 
 	lOut->imageData = &lImg->imageData[k];
 

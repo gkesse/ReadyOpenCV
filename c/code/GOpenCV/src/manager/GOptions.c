@@ -31,12 +31,19 @@ GOptionsO* GOptions() {
 //===============================================
 static void GOptions_GetArgs(int argc, char** argv) {
     GConfig()->SetData("PROCESS", "HELP");
-	GConfig()->SetData("OPTION_1", argv[2]);
-	GConfig()->SetData("OPTION_2", argv[3]);
+	GConfig()->SetData("OPTION_1", "");
+	GConfig()->SetData("OPTION_2", "");
 
 	if(argc >= 2) {
 		char* lProcess = GString2()->ToUpper(argv[1]);
 		GConfig()->SetData("PROCESS", lProcess);
 	}
+	if(argc >= 3) {
+		GConfig()->SetData("OPTION_1", argv[2]);
+	}
+	if(argc >= 4) {
+		GConfig()->SetData("OPTION_2", argv[3]);
+	}
+
 }
 //===============================================
