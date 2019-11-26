@@ -25,7 +25,6 @@ struct _GImageO {
 	void (*Canny)(char* imgName, char* outName, int low, int high, int size);
 	void (*Copy)(char* imgName, char* outName);
 	 void (*SetRoi)(char* imgName, CvRect rect);
-	 void (*SetCoi)(char* imgName, int coi);
 	 void (*ResetRoi)(char* imgName);
 	 void (*Not)(char* imgName, char* outName);
 	 void (*AddScalar)(char* imgName, char* outName, CvScalar scalar);

@@ -21,7 +21,6 @@ static void GImage_Gray(char* imgName, char* outName);
 static void GImage_Canny(char* imgName, char* outName, int low, int high, int size);
 static void GImage_Copy(char* imgName, char* outName);
 static void GImage_SetRoi(char* imgName, CvRect rect);
-static void GImage_SetCoi(char* imgName, int coi);
 static void GImage_ResetRoi(char* imgName);
 static void GImage_Not(char* imgName, char* outName);
 static void GImage_AddScalar(char* imgName, char* outName, CvScalar scalar);
@@ -57,7 +56,6 @@ GImageO* GImage_New() {
 	lObj->Canny = GImage_Canny;
 	lObj->Copy = GImage_Copy;
 	lObj->SetRoi = GImage_SetRoi;
-	lObj->SetCoi = GImage_SetCoi;
 	lObj->ResetRoi = GImage_ResetRoi;
 	lObj->Not = GImage_Not;
 	lObj->AddScalar = GImage_AddScalar;
@@ -242,14 +240,6 @@ static void GImage_SetRoi(char* imgName, CvRect rect) {
 	GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
 	IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
 	cvSetImageROI(lImg, rect);
-#endif
-}
-//===============================================
-static void GImage_SetCoi(char* imgName, int coi) {
-#if defined(G_USE_OPENCV_ON)
-	GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
-	IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
-	cvSetImageCOI(lImg, coi);
 #endif
 }
 //===============================================
