@@ -40,10 +40,16 @@ struct _GImageO {
 	void (*Threshold)(char* imgName, char* outName, sGThreshold thres);
 	void (*HoughCircle)(char* imgName, char* storeName, sGHoughCircle houghCircle);
 	void (*HoughCircleSet)(char* imgName, char* storeName);
+	void (*WarpAffine)(char* imgName, char* outName, char* matName);
+	void (*WarpPerspective)(char* imgName, char* outName, char* matName);
 	void (*Saturate)(char* imgName, sGSaturate* saturate);
 	void (*SetImage)(char* imgName, void* img);
 	void (*SetPixelChannel)(char* imgName, int x, int y, int channel, uchar data);
 	void (*GetSize)(char* imgName, CvSize* size);
+	void (*GetCenter)(char* imgName, CvPoint* center);
+	void (*GetCenterF)(char* imgName, CvPoint2D32f* center);
+	void (*GetPointF)(char* imgName, CvPoint2D32f* point, CvPoint2D32f factor);
+	void (*GetQuad)(char* imgName, sGQuad* quad);
 	void (*HalfSize)(char* imgName, CvSize* size);
 	GMapO(GImage, GCHAR_PTR, GVOID_PTR)* m_imgMap;
 };

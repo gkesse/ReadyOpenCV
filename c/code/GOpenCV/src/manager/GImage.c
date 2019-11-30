@@ -1,6 +1,7 @@
 //===============================================
 #include "GImage.h"
 #include "GStorage.h"
+#include "GMatrix.h"
 //===============================================
 GDECLARE_MAP(GImage, GCHAR_PTR, GVOID_PTR)
 GDEFINE_MAP(GImage, GCHAR_PTR, GVOID_PTR)
@@ -37,10 +38,16 @@ static void GImage_Sum(char* imgName, char* redName, char* greenName, char* blue
 static void GImage_Threshold(char* imgName, char* outName, sGThreshold thres);
 static void GImage_HoughCircle(char* imgName, char* storeName, sGHoughCircle houghCircle);
 static void GImage_HoughCircleSet(char* imgName, char* storeName);
+static void GImage_WarpAffine(char* imgName, char* outName, char* matName);
+static void GImage_WarpPerspective(char* imgName, char* outName, char* matName);
 static void GImage_Saturate(char* imgName, sGSaturate* saturate);
 static void GImage_SetImage(char* imgName, void* img);
 static void GImage_SetPixelChannel(char* imgName, int x, int y, int channel, uchar data);
 static void GImage_GetSize(char* imgName, CvSize* size);
+static void GImage_GetCenter(char* imgName, CvPoint* center);
+static void GImage_GetCenterF(char* imgName, CvPoint2D32f* center);
+static void GImage_GetPointF(char* imgName, CvPoint2D32f* point, CvPoint2D32f factor);
+static void GImage_GetQuad(char* imgName, sGQuad* quad);
 static void GImage_HalfSize(char* imgName, CvSize* size);
 //===============================================
 #if defined(G_USE_OPENCV_ON)
@@ -83,10 +90,16 @@ GImageO* GImage_New() {
     lObj->Threshold = GImage_Threshold;
     lObj->HoughCircle = GImage_HoughCircle;
     lObj->HoughCircleSet = GImage_HoughCircleSet;
+    lObj->WarpAffine = GImage_WarpAffine;
+    lObj->WarpPerspective = GImage_WarpPerspective;
     lObj->Saturate = GImage_Saturate;
     lObj->SetImage = GImage_SetImage;
     lObj->SetPixelChannel = GImage_SetPixelChannel;
     lObj->GetSize = GImage_GetSize;
+    lObj->GetCenter = GImage_GetCenter;
+    lObj->GetCenterF = GImage_GetCenterF;
+    lObj->GetPointF = GImage_GetPointF;
+    lObj->GetQuad = GImage_GetQuad;
     lObj->HalfSize = GImage_HalfSize;
     return lObj;
 }
@@ -431,6 +444,30 @@ static void GImage_HoughCircleSet(char* imgName, char* storeName) {
 #endif
 }
 //===============================================
+static void GImage_WarpAffine(char* imgName, char* outName, char* matName) {
+#if defined(G_USE_OPENCV_ON)
+    GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
+    IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
+    IplImage* lOut = lImgMap->GetData(lImgMap, outName, GImage_MapEqual);
+    CvMat* lMat = GMatrix()->Get(matName);
+    int lFlags = CV_INTER_LINEAR + CV_WARP_FILL_OUTLIERS;
+    CvScalar lFillVal = cvScalarAll(0);
+    cvWarpAffine(lImg, lOut, lMat, lFlags, lFillVal);
+#endif
+}
+//===============================================
+static void GImage_WarpPerspective(char* imgName, char* outName, char* matName) {
+#if defined(G_USE_OPENCV_ON)
+    GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
+    IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
+    IplImage* lOut = lImgMap->GetData(lImgMap, outName, GImage_MapEqual);
+    CvMat* lMat = GMatrix()->Get(matName);
+    int lFlags = CV_INTER_LINEAR + CV_WARP_FILL_OUTLIERS;
+    CvScalar lFillVal = cvScalarAll(0);
+    cvWarpPerspective(lImg, lOut, lMat, lFlags, lFillVal);
+#endif
+}
+//===============================================
 static void GImage_Saturate(char* imgName, sGSaturate* saturate) {
 #if defined(G_USE_OPENCV_ON)
     GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
@@ -475,6 +512,62 @@ static void GImage_GetSize(char* imgName, CvSize* size) {
     GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
     IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
     *size = cvGetSize(lImg);
+#endif
+}
+//===============================================
+static void GImage_GetCenter(char* imgName, CvPoint* center) {
+#if defined(G_USE_OPENCV_ON)
+    GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
+    IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
+    center->x = lImg->width/2;
+    center->y = lImg->height/2;
+#endif
+}
+//===============================================
+static void GImage_GetCenterF(char* imgName, CvPoint2D32f* center) {
+#if defined(G_USE_OPENCV_ON)
+    GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
+    IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
+    center->x = lImg->width/2;
+    center->y = lImg->height/2;
+#endif
+}
+//===============================================
+static void GImage_GetPointF(char* imgName, CvPoint2D32f* point, CvPoint2D32f factor) {
+#if defined(G_USE_OPENCV_ON)
+    GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
+    IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
+    int lWidth = lImg->width - 1;
+    int lHeight = lImg->height - 1;
+    point->x = lWidth  * factor.x;
+    point->y = lHeight * factor.y;
+#endif
+}
+//===============================================
+static void GImage_GetQuad(char* imgName, sGQuad* quad) {
+#if defined(G_USE_OPENCV_ON)
+    GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
+    IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
+    int lWidth = lImg->width - 1;
+    int lHeight = lImg->height - 1;
+
+    quad->srcQuad[0].x = lWidth  * quad->srcFactor[0].x;
+    quad->srcQuad[0].y = lHeight * quad->srcFactor[0].y;
+    quad->srcQuad[1].x = lWidth  * quad->srcFactor[1].x;
+    quad->srcQuad[1].y = lWidth  * quad->srcFactor[1].y;
+    quad->srcQuad[2].x = lHeight * quad->srcFactor[2].x;
+    quad->srcQuad[2].y = lHeight * quad->srcFactor[2].y;
+    quad->srcQuad[3].x = lWidth  * quad->srcFactor[3].x;
+    quad->srcQuad[3].y = lHeight * quad->srcFactor[3].y;
+
+    quad->dstQuad[0].x = lWidth  * quad->dstFactor[0].x;
+    quad->dstQuad[0].y = lHeight * quad->dstFactor[0].y;
+    quad->dstQuad[1].x = lWidth  * quad->dstFactor[1].x;
+    quad->dstQuad[1].y = lWidth  * quad->dstFactor[1].y;
+    quad->dstQuad[2].x = lHeight * quad->dstFactor[2].x;
+    quad->dstQuad[2].y = lHeight * quad->dstFactor[2].y;
+    quad->dstQuad[3].x = lWidth  * quad->dstFactor[3].x;
+    quad->dstQuad[3].y = lHeight * quad->dstFactor[3].y;
 #endif
 }
 //===============================================

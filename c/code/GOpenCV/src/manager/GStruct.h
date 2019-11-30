@@ -16,6 +16,8 @@ typedef struct _sGEventMouse sGEventMouse;
 typedef struct _sGLine sGLine;
 typedef struct _sGRectangle sGRectangle;
 typedef struct _sGCircle sGCircle;
+typedef struct _sGRotate2D sGRotate2D;
+typedef struct _sGQuad sGQuad;
 //===============================================
 typedef void (*GTEST_FUNC)();
 //===============================================
@@ -104,6 +106,20 @@ struct _sGCircle {
 	int radius;
 	CvScalar color;
 	int thickness;
+};
+//===============================================
+struct _sGRotate2D {
+	CvPoint2D32f center;
+	CvPoint2D32f factor;
+	double angle;
+	double scale;
+};
+//===============================================
+struct _sGQuad {
+	CvPoint2D32f srcQuad[4];
+	CvPoint2D32f dstQuad[4];
+	CvPoint2D32f srcFactor[4];
+	CvPoint2D32f dstFactor[4];
 };
 //===============================================
 #endif

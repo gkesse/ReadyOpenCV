@@ -4,6 +4,7 @@
 #include "GWindow.h"
 #include "GEvent.h"
 #include "GStorage.h"
+#include "GMatrix.h"
 #include "GConfig.h"
 #include "GString2.h"
 //===============================================
@@ -31,6 +32,8 @@ static void GOpenCVImage_Sum();
 static void GOpenCVImage_AddWeight();
 static void GOpenCVImage_Threshold();
 static void GOpenCVImage_HoughCircle();
+static void GOpenCVImage_WarpAffine();
+static void GOpenCVImage_WarpPerspective();
 //===============================================
 #define GDEFINE_TEST_FUNC(GFUNC) {1, #GFUNC, GFUNC}
 #define GDEFINE_TEST_FUNC_LAST {0, 0, 0}
@@ -55,6 +58,8 @@ static sGTestFunc GTEST_FUNC_MAP[] = {
         GDEFINE_TEST_FUNC(GOpenCVImage_AddWeight),
         GDEFINE_TEST_FUNC(GOpenCVImage_Threshold),
         GDEFINE_TEST_FUNC(GOpenCVImage_HoughCircle),
+        GDEFINE_TEST_FUNC(GOpenCVImage_WarpAffine),
+        GDEFINE_TEST_FUNC(GOpenCVImage_WarpPerspective),
         GDEFINE_TEST_FUNC_LAST
 };
 //===============================================
@@ -513,6 +518,51 @@ static void GOpenCVImage_HoughCircle() {
     GImage()->Remove("IMAGE");
     GImage()->Remove("GRAY");
     GImage()->Remove("HOUGHCIRCLE");
+    GWindow()->RemoveAll();
+}
+//===============================================
+static void GOpenCVImage_WarpAffine() {
+	sGRotate2D lRotate2D = (sGRotate2D){
+		{0.0, 0.0}, {0.5, 0.5}, 45.0, 0.5
+	};
+    GImage()->Load("IMAGE", "./data/img/lena.jpg", CV_LOAD_IMAGE_COLOR);
+    GImage()->CreateParams("IMAGE", "WARP_AFFINE");
+    GMatrix()->Create("MATRIX", 2, 3, CV_32FC1);
+    GImage()->GetPointF("IMAGE", &lRotate2D.center, lRotate2D.factor);
+    GMatrix()->Rotate2D("MATRIX", lRotate2D);
+    GImage()->WarpAffine("IMAGE", "WARP_AFFINE", "MATRIX");
+    GWindow()->Create("IMAGE", CV_WINDOW_AUTOSIZE);
+    GWindow()->Create("WARP_AFFINE", CV_WINDOW_AUTOSIZE);
+    GImage()->Show("IMAGE", "IMAGE");
+    GImage()->Show("WARP_AFFINE", "WARP_AFFINE");
+    GEvent()->Loop();
+    GImage()->Remove("IMAGE");
+    GImage()->Remove("WARP_AFFINE");
+    GMatrix()->Remove("MATRIX");
+    GWindow()->RemoveAll();
+}
+//===============================================
+static void GOpenCVImage_WarpPerspective() {
+	sGQuad lQuad = (sGQuad){
+		{{0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}},
+		{{0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}, {0.0, 0.0}},
+		{{0.0, 0.0}, {1.0, 0.0}, {0.0, 1.0}, {1.0, 1.0}},
+		{{0.05, 0.33}, {0.9, 0.25}, {0.2, 0.7}, {0.8, 0.9}}
+	};
+    GImage()->Load("IMAGE", "./data/img/lena.jpg", CV_LOAD_IMAGE_COLOR);
+    GImage()->CreateParams("IMAGE", "WARP_PERSPECTIVE");
+    GMatrix()->Create("MATRIX", 3, 3, CV_32FC1);
+    GImage()->GetQuad("IMAGE", &lQuad);
+    GMatrix()->GetPerspective("MATRIX", lQuad);
+    GImage()->WarpPerspective("IMAGE", "WARP_PERSPECTIVE", "MATRIX");
+    GWindow()->Create("IMAGE", CV_WINDOW_AUTOSIZE);
+    GWindow()->Create("WARP_PERSPECTIVE", CV_WINDOW_AUTOSIZE);
+    GImage()->Show("IMAGE", "IMAGE");
+    GImage()->Show("WARP_PERSPECTIVE", "WARP_PERSPECTIVE");
+    GEvent()->Loop();
+    GImage()->Remove("IMAGE");
+    GImage()->Remove("WARP_PERSPECTIVE");
+    GMatrix()->Remove("MATRIX");
     GWindow()->RemoveAll();
 }
 //===============================================
