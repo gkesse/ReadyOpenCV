@@ -1,7 +1,8 @@
 //===============================================
 #include "GProcess.h"
 #include "GProcessHelp.h"
-#include "GProcessOpenCVTest.h"
+#include "GProcessOpenCVImage.h"
+#include "GProcessOpenCVEvent.h"
 #include "GString2.h"
 #include "GConfig.h"
 //===============================================
@@ -23,7 +24,8 @@ void GProcess_Delete(GProcessO* obj) {
 GProcessO* GProcess() {
 	char* lKey = GConfig()->GetData("PROCESS");
 	if(GString2()->IsEqual(lKey, "HELP")) return GProcessHelp();
-	if(GString2()->IsEqual(lKey, "OPENCV_TEST")) return GProcessOpenCVTest();
+	if(GString2()->IsEqual(lKey, "IMAGE")) return GProcessOpenCVImage();
+	if(GString2()->IsEqual(lKey, "EVENT")) return GProcessOpenCVEvent();
 	return GProcessHelp();
 }
 //===============================================

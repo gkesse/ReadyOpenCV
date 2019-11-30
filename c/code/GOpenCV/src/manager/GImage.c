@@ -1,5 +1,6 @@
 //===============================================
 #include "GImage.h"
+#include "GStorage.h"
 //===============================================
 GDECLARE_MAP(GImage, GCHAR_PTR, GVOID_PTR)
 GDEFINE_MAP(GImage, GCHAR_PTR, GVOID_PTR)
@@ -20,11 +21,22 @@ static void GImage_PyrDown(char* imgName, char* outName);
 static void GImage_Gray(char* imgName, char* outName);
 static void GImage_Canny(char* imgName, char* outName, int low, int high, int size);
 static void GImage_Copy(char* imgName, char* outName);
+static void GImage_Clone(char* imgName, char* outName);
 static void GImage_SetRoi(char* imgName, CvRect rect);
 static void GImage_ResetRoi(char* imgName);
 static void GImage_Not(char* imgName, char* outName);
+static void GImage_Zero(char* imgName);
 static void GImage_AddScalar(char* imgName, char* outName, CvScalar scalar);
 static void GImage_AddWeight(char* imgName, char* img2Name, char* outName, sGImgWeight weight);
+static void GImage_Line(char* imgName, sGLine line);
+static void GImage_Rectangle(char* imgName, sGRectangle rect);
+static void GImage_Circle(char* imgName, sGCircle circle);
+static void GImage_Split(char* imgName, char* redName, char* greenName, char* blueName);
+static void GImage_Merge(char* imgName, char* redName, char* greenName, char* blueName);
+static void GImage_Sum(char* imgName, char* redName, char* greenName, char* blueName, sGRgbFactor rgbFactor);
+static void GImage_Threshold(char* imgName, char* outName, sGThreshold thres);
+static void GImage_HoughCircle(char* imgName, char* storeName, sGHoughCircle houghCircle);
+static void GImage_HoughCircleSet(char* imgName, char* storeName);
 static void GImage_Saturate(char* imgName, sGSaturate* saturate);
 static void GImage_SetImage(char* imgName, void* img);
 static void GImage_SetPixelChannel(char* imgName, int x, int y, int channel, uchar data);
@@ -55,11 +67,22 @@ GImageO* GImage_New() {
 	lObj->Gray = GImage_Gray;
 	lObj->Canny = GImage_Canny;
 	lObj->Copy = GImage_Copy;
+	lObj->Clone = GImage_Clone;
 	lObj->SetRoi = GImage_SetRoi;
 	lObj->ResetRoi = GImage_ResetRoi;
 	lObj->Not = GImage_Not;
+	lObj->Zero = GImage_Zero;
 	lObj->AddScalar = GImage_AddScalar;
 	lObj->AddWeight = GImage_AddWeight;
+	lObj->Line = GImage_Line;
+	lObj->Rectangle = GImage_Rectangle;
+	lObj->Circle = GImage_Circle;
+	lObj->Split = GImage_Split;
+	lObj->Merge = GImage_Merge;
+	lObj->Sum = GImage_Sum;
+	lObj->Threshold = GImage_Threshold;
+	lObj->HoughCircle = GImage_HoughCircle;
+	lObj->HoughCircleSet = GImage_HoughCircleSet;
 	lObj->Saturate = GImage_Saturate;
 	lObj->SetImage = GImage_SetImage;
 	lObj->SetPixelChannel = GImage_SetPixelChannel;
@@ -235,6 +258,15 @@ static void GImage_Copy(char* imgName, char* outName) {
 #endif
 }
 //===============================================
+static void GImage_Clone(char* imgName, char* outName) {
+#if defined(G_USE_OPENCV_ON)
+	GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
+	IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
+	IplImage* lOut = cvCloneImage(lImg);
+	lImgMap->SetData(lImgMap, outName, lOut, GImage_MapEqual);
+#endif
+}
+//===============================================
 static void GImage_SetRoi(char* imgName, CvRect rect) {
 #if defined(G_USE_OPENCV_ON)
 	GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
@@ -260,6 +292,14 @@ static void GImage_Not(char* imgName, char* outName) {
 #endif
 }
 //===============================================
+static void GImage_Zero(char* imgName) {
+#if defined(G_USE_OPENCV_ON)
+	GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
+	IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
+	cvZero(lImg);
+#endif
+}
+//===============================================
 static void GImage_AddScalar(char* imgName, char* outName, CvScalar scalar) {
 #if defined(G_USE_OPENCV_ON)
 	GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
@@ -279,6 +319,115 @@ static void GImage_AddWeight(char* imgName, char* img2Name, char* outName, sGImg
 	double lBeta = weight.beta;
 	double lGamma = weight.gamma;
 	cvAddWeighted(lImg, lApha, lImg2, lBeta, lGamma, lOut);
+#endif
+}
+//===============================================
+static void GImage_Line(char* imgName, sGLine line) {
+#if defined(G_USE_OPENCV_ON)
+	GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
+	IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
+	cvLine(lImg, line.pt1, line.pt2, line.color, line.thickness, 8, 0);
+#endif
+}
+//===============================================
+static void GImage_Rectangle(char* imgName, sGRectangle rect) {
+#if defined(G_USE_OPENCV_ON)
+	GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
+	IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
+	cvRectangle(lImg, rect.pt1, rect.pt2, rect.color, rect.thickness, 8, 0);
+#endif
+}
+//===============================================
+static void GImage_Circle(char* imgName, sGCircle circle) {
+#if defined(G_USE_OPENCV_ON)
+	GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
+	IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
+	cvCircle(lImg, circle.center, circle.radius, circle.color, circle.thickness, 8, 0);
+#endif
+}
+//===============================================
+static void GImage_Split(char* imgName, char* redName, char* greenName, char* blueName) {
+#if defined(G_USE_OPENCV_ON)
+	GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
+	IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
+	IplImage* lRed = lImgMap->GetData(lImgMap, redName, GImage_MapEqual);
+	IplImage* lGreen = lImgMap->GetData(lImgMap, greenName, GImage_MapEqual);
+	IplImage* lBlue = lImgMap->GetData(lImgMap, blueName, GImage_MapEqual);
+	cvSplit(lImg, lRed, lGreen, lBlue, 0);
+#endif
+}
+//===============================================
+static void GImage_Merge(char* imgName, char* redName, char* greenName, char* blueName) {
+#if defined(G_USE_OPENCV_ON)
+	GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
+	IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
+	IplImage* lRed = lImgMap->GetData(lImgMap, redName, GImage_MapEqual);
+	IplImage* lGreen = lImgMap->GetData(lImgMap, greenName, GImage_MapEqual);
+	IplImage* lBlue = lImgMap->GetData(lImgMap, blueName, GImage_MapEqual);
+	cvMerge(lRed, lGreen, lBlue, 0, lImg);
+#endif
+}
+//===============================================
+static void GImage_Sum(char* imgName, char* redName, char* greenName, char* blueName, sGRgbFactor rgbFactor) {
+#if defined(G_USE_OPENCV_ON)
+	GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
+	IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
+	IplImage* lRed = lImgMap->GetData(lImgMap, redName, GImage_MapEqual);
+	IplImage* lGreen = lImgMap->GetData(lImgMap, greenName, GImage_MapEqual);
+	IplImage* lBlue = lImgMap->GetData(lImgMap, blueName, GImage_MapEqual);
+	double lRedFactor = rgbFactor.redFactor;
+	double lGreenFactor = rgbFactor.greenFactor;
+	double lBlueFactor = rgbFactor.blueFactor;
+	double lRedGreenFactor = lRedFactor + lGreenFactor;
+	cvAddWeighted(lRed, lRedFactor, lGreen, lGreenFactor, 0.0, lImg);
+	cvAddWeighted(lImg, lRedGreenFactor, lBlue, lBlueFactor, 0.0, lImg);
+#endif
+}
+//===============================================
+static void GImage_Threshold(char* imgName, char* outName, sGThreshold thres) {
+#if defined(G_USE_OPENCV_ON)
+	GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
+	IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
+	IplImage* lOut = lImgMap->GetData(lImgMap, outName, GImage_MapEqual);
+	cvThreshold(lImg, lOut, thres.thres, thres.max, thres.type);
+#endif
+}
+//===============================================
+static void GImage_HoughCircle(char* imgName, char* storeName, sGHoughCircle houghCircle) {
+#if defined(G_USE_OPENCV_ON)
+	GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
+	IplImage* lImg = lImgMap->GetData(lImgMap, imgName, GImage_MapEqual);
+	CvMemStorage* lStore = GStorage()->GetStore(storeName);
+	int lMethod = houghCircle.method;
+	double lDp = houghCircle.dp;
+	double lMinDist = lImg->width/10.0;
+	CvSeq* lSeq = cvHoughCircles(lImg, lStore, lMethod, lDp, lMinDist, 100, 100, 0, 0);
+	GStorage()->SetSeq(storeName, lSeq);
+#endif
+}
+//===============================================
+static void GImage_HoughCircleSet(char* imgName, char* storeName) {
+#if defined(G_USE_OPENCV_ON)
+	int lSeqTotal = GStorage()->GetSeqTotal(storeName);
+	sGCircle lCircle = (sGCircle) {
+		{0, 0}, 0, CV_RGB(255, 0, 0), 2
+	};
+	sGCircle lCenter = (sGCircle) {
+		{0, 0}, 8, CV_RGB(0, 255, 0), -1
+	};
+	sGLine lRadius = (sGLine) {
+		{0, 0}, {0, 0}, CV_RGB(0, 0, 255), 2
+	};
+	for(int i = 0; i < lSeqTotal; i++) {
+		GStorage()->GetSeqCircle(storeName, i, &lCircle);
+		lCenter.center = lCircle.center;
+		lRadius.pt1 = lCircle.center;
+		lRadius.pt2 = lCircle.center;
+		lRadius.pt2.x += lCircle.radius;
+		GImage()->Circle(imgName, lCircle);
+		GImage()->Circle(imgName, lCenter);
+		GImage()->Line(imgName, lRadius);
+	}
 #endif
 }
 //===============================================

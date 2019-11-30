@@ -1,20 +1,20 @@
 //===============================================
-#ifndef _GOpenCVTest_
-#define _GOpenCVTest_
+#ifndef _GOpenCVImage_
+#define _GOpenCVImage_
 //===============================================
 #include "GInclude.h"
 //===============================================
-typedef struct _GOpenCVTestO GOpenCVTestO;
+typedef struct _GOpenCVImageO GOpenCVImageO;
 //===============================================
-struct _GOpenCVTestO {
+struct _GOpenCVImageO {
     void (*Delete)();
     void (*Run)();
     int m_continue;
 };
 //===============================================
-GOpenCVTestO* GOpenCVTest_New();
-void GOpenCVTest_Delete();
-GOpenCVTestO* GOpenCVTest();
+GOpenCVImageO* GOpenCVImage_New();
+void GOpenCVImage_Delete();
+GOpenCVImageO* GOpenCVImage();
 //===============================================
 #endif
 //===============================================

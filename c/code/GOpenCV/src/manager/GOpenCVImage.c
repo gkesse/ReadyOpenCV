@@ -1,29 +1,35 @@
 //===============================================
-#include "GOpenCVTest.h"
+#include "GOpenCVImage.h"
 #include "GImage.h"
 #include "GWindow.h"
 #include "GEvent.h"
-#include "GEvent.h"
+#include "GStorage.h"
 #include "GConfig.h"
 #include "GString2.h"
 //===============================================
-static GOpenCVTestO* m_GOpenCVTestO = 0;
+static GOpenCVImageO* m_GOpenCVImageO = 0;
 //===============================================
-static void GOpenCVTest_Run();
-static void GOpenCVTest_RunNumber();
-static void GOpenCVTest_RunFunc();
-static void GOpenCVTest_RunLast();
-static void GOpenCVTest_RunAll();
+static void GOpenCVImage_Run();
+static void GOpenCVImage_RunNumber();
+static void GOpenCVImage_RunFunc();
+static void GOpenCVImage_RunLast();
+static void GOpenCVImage_RunAll();
 //===============================================
-static void GOpenCVTest_ImageLoad();
-static void GOpenCVTest_ImageGray();
-static void GOpenCVTest_ImageSmooth();
-static void GOpenCVTest_ImageCanny();
-static void GOpenCVTest_ImagePyrDown();
-static void GOpenCVTest_ImageSaturate();
-static void GOpenCVTest_ImageRoi();
-static void GOpenCVTest_ImageHeader();
-static void GOpenCVTest_ImageBlend();
+static void GOpenCVImage_Load();
+static void GOpenCVImage_Gray();
+static void GOpenCVImage_Smooth();
+static void GOpenCVImage_Canny();
+static void GOpenCVImage_PyrDown();
+static void GOpenCVImage_Saturate();
+static void GOpenCVImage_Roi();
+static void GOpenCVImage_Header();
+static void GOpenCVImage_Blend();
+static void GOpenCVImage_Rectangle();
+static void GOpenCVImage_Split();
+static void GOpenCVImage_Merge();
+static void GOpenCVImage_Sum();
+static void GOpenCVImage_Threshold();
+static void GOpenCVImage_HoughCircle();
 //===============================================
 #define GDEFINE_TEST_FUNC(GFUNC) {1, #GFUNC, GFUNC}
 #define GDEFINE_TEST_FUNC_LAST {0, 0, 0}
@@ -31,51 +37,58 @@ static void GOpenCVTest_ImageBlend();
 typedef void (*GTEST_FUNC)();
 //===============================================
 static sGTestFunc GTEST_FUNC_MAP[] = {
-		GDEFINE_TEST_FUNC(GOpenCVTest_ImageLoad),
-		GDEFINE_TEST_FUNC(GOpenCVTest_ImageGray),
-		GDEFINE_TEST_FUNC(GOpenCVTest_ImageSmooth),
-		GDEFINE_TEST_FUNC(GOpenCVTest_ImageCanny),
-		GDEFINE_TEST_FUNC(GOpenCVTest_ImagePyrDown),
-		GDEFINE_TEST_FUNC(GOpenCVTest_ImageSaturate),
-		GDEFINE_TEST_FUNC(GOpenCVTest_ImageRoi),
-		GDEFINE_TEST_FUNC(GOpenCVTest_ImageHeader),
-		GDEFINE_TEST_FUNC(GOpenCVTest_ImageBlend),
+		GDEFINE_TEST_FUNC(GOpenCVImage_RunNumber),
+		GDEFINE_TEST_FUNC(GOpenCVImage_Load),
+		GDEFINE_TEST_FUNC(GOpenCVImage_Gray),
+		GDEFINE_TEST_FUNC(GOpenCVImage_Smooth),
+		GDEFINE_TEST_FUNC(GOpenCVImage_Canny),
+		GDEFINE_TEST_FUNC(GOpenCVImage_PyrDown),
+		GDEFINE_TEST_FUNC(GOpenCVImage_Saturate),
+		GDEFINE_TEST_FUNC(GOpenCVImage_Roi),
+		GDEFINE_TEST_FUNC(GOpenCVImage_Header),
+		GDEFINE_TEST_FUNC(GOpenCVImage_Blend),
+		GDEFINE_TEST_FUNC(GOpenCVImage_Rectangle),
+		GDEFINE_TEST_FUNC(GOpenCVImage_Split),
+		GDEFINE_TEST_FUNC(GOpenCVImage_Merge),
+		GDEFINE_TEST_FUNC(GOpenCVImage_Sum),
+		GDEFINE_TEST_FUNC(GOpenCVImage_Threshold),
+		GDEFINE_TEST_FUNC(GOpenCVImage_HoughCircle),
 		GDEFINE_TEST_FUNC_LAST
 };
 //===============================================
-GOpenCVTestO* GOpenCVTest_New() {
-	GOpenCVTestO* lObj = (GOpenCVTestO*)malloc(sizeof(GOpenCVTestO));
+GOpenCVImageO* GOpenCVImage_New() {
+	GOpenCVImageO* lObj = (GOpenCVImageO*)malloc(sizeof(GOpenCVImageO));
 	lObj->m_continue = TRUE;
-	lObj->Delete = GOpenCVTest_Delete;
-	lObj->Run = GOpenCVTest_Run;
+	lObj->Delete = GOpenCVImage_Delete;
+	lObj->Run = GOpenCVImage_Run;
 	return lObj;
 }
 //===============================================
-void GOpenCVTest_Delete() {
-	GOpenCVTestO* lObj = GOpenCVTest();
+void GOpenCVImage_Delete() {
+	GOpenCVImageO* lObj = GOpenCVImage();
 	if(lObj != 0) {
 		free(lObj);
 	}
-	m_GOpenCVTestO = 0;
+	m_GOpenCVImageO = 0;
 }
 //===============================================
-GOpenCVTestO* GOpenCVTest() {
-	if(m_GOpenCVTestO == 0) {
-		m_GOpenCVTestO = GOpenCVTest_New();
+GOpenCVImageO* GOpenCVImage() {
+	if(m_GOpenCVImageO == 0) {
+		m_GOpenCVImageO = GOpenCVImage_New();
 	}
-	return m_GOpenCVTestO;
+	return m_GOpenCVImageO;
 }
 //===============================================
-static void GOpenCVTest_Run() {
+static void GOpenCVImage_Run() {
 	char* lOption1 = GConfig()->GetData("OPTION_1");
-	if(GString2()->IsEqual(lOption1, "")) GOpenCVTest_RunNumber();
-	else if(GString2()->IsEqual(lOption1, "0")) GOpenCVTest_RunNumber();
-	else if(GString2()->IsEqual(lOption1, "-1")) GOpenCVTest_RunLast();
-	else if(GString2()->IsEqual(lOption1, "-2")) GOpenCVTest_RunAll();
-	else GOpenCVTest_RunFunc();
+	if(GString2()->IsEqual(lOption1, "")) GOpenCVImage_RunNumber();
+	else if(GString2()->IsEqual(lOption1, "-1")) GOpenCVImage_RunNumber();
+	else if(GString2()->IsEqual(lOption1, "-2")) GOpenCVImage_RunLast();
+	else if(GString2()->IsEqual(lOption1, "-3")) GOpenCVImage_RunAll();
+	else GOpenCVImage_RunFunc();
 }
 //===============================================
-static void GOpenCVTest_RunNumber() {
+static void GOpenCVImage_RunNumber() {
 	int i = 0;
 	while(1) {
 		sGTestFunc lTestFunc = GTEST_FUNC_MAP[i];
@@ -87,7 +100,7 @@ static void GOpenCVTest_RunNumber() {
 	}
 }
 //===============================================
-static void GOpenCVTest_RunFunc() {
+static void GOpenCVImage_RunFunc() {
 	char* lOption1 = GConfig()->GetData("OPTION_1");
 	int lFuncId = GString2()->ToInt(lOption1);
 	int i = 0;
@@ -109,7 +122,7 @@ static void GOpenCVTest_RunFunc() {
 	}
 }
 //===============================================
-static void GOpenCVTest_RunLast() {
+static void GOpenCVImage_RunLast() {
 	int i = 0;
 	sGTestFunc lLastFunc = GTEST_FUNC_MAP[0];
 	while(1) {
@@ -130,7 +143,7 @@ static void GOpenCVTest_RunLast() {
 	}
 }
 //===============================================
-static void GOpenCVTest_RunAll() {
+static void GOpenCVImage_RunAll() {
 	int i = 0;
 	while(1) {
 		sGTestFunc lTestFunc = GTEST_FUNC_MAP[i];
@@ -147,7 +160,7 @@ static void GOpenCVTest_RunAll() {
 	}
 }
 //===============================================
-static void GOpenCVTest_ImageLoad() {
+static void GOpenCVImage_Load() {
 	GImage()->Load("IMAGE", "./data/img/lena.jpg", CV_LOAD_IMAGE_COLOR);
 	GWindow()->Create("IMAGE", CV_WINDOW_AUTOSIZE);
 	GImage()->Show("IMAGE", "IMAGE");
@@ -156,7 +169,7 @@ static void GOpenCVTest_ImageLoad() {
 	GWindow()->RemoveAll();
 }
 //===============================================
-static void GOpenCVTest_ImageGray() {
+static void GOpenCVImage_Gray() {
 	GImage()->Load("IMAGE", "./data/img/lena.jpg", CV_LOAD_IMAGE_COLOR);
 	GImage()->CreateGray("IMAGE", "GRAY");
 	GImage()->Gray("IMAGE", "GRAY");
@@ -170,7 +183,7 @@ static void GOpenCVTest_ImageGray() {
 	GWindow()->RemoveAll();
 }
 //===============================================
-static void GOpenCVTest_ImageSmooth() {
+static void GOpenCVImage_Smooth() {
 	GImage()->Load("IMAGE", "./data/img/lena.jpg", CV_LOAD_IMAGE_COLOR);
 	GImage()->CreateParams("IMAGE", "SMOOTH");
 	GImage()->Smooth("IMAGE", "SMOOTH");
@@ -186,7 +199,7 @@ static void GOpenCVTest_ImageSmooth() {
 	GWindow()->RemoveAll();
 }
 //===============================================
-static void GOpenCVTest_ImageCanny() {
+static void GOpenCVImage_Canny() {
 	GImage()->Load("IMAGE", "./data/img/lena.jpg", CV_LOAD_IMAGE_COLOR);
 	GImage()->CreateGray("IMAGE", "CANNY");
 	GImage()->Gray("IMAGE", "CANNY");
@@ -201,7 +214,7 @@ static void GOpenCVTest_ImageCanny() {
 	GWindow()->RemoveAll();
 }
 //===============================================
-static void GOpenCVTest_ImagePyrDown() {
+static void GOpenCVImage_PyrDown() {
 	GImage()->Load("IMAGE", "./data/img/lena.jpg", CV_LOAD_IMAGE_COLOR);
 	GImage()->CreateHalf("IMAGE", "PYRDOWN");
 	GImage()->CreateHalf("PYRDOWN", "PYRDOWN_2");
@@ -220,7 +233,7 @@ static void GOpenCVTest_ImagePyrDown() {
 	GWindow()->RemoveAll();
 }
 //===============================================
-static void GOpenCVTest_ImageSaturate() {
+static void GOpenCVImage_Saturate() {
 	sGSaturate lSaturate = (sGSaturate){
 		{1, 0}, {0, 0}, {0, 0}
 	};
@@ -257,7 +270,7 @@ static void GOpenCVTest_ImageSaturate() {
 	GWindow()->RemoveAll();
 }
 //===============================================
-static void GOpenCVTest_ImageRoi() {
+static void GOpenCVImage_Roi() {
 	CvRect lRoi = {
 			100, 100, 200, 200
 	};
@@ -276,7 +289,7 @@ static void GOpenCVTest_ImageRoi() {
 	GWindow()->RemoveAll();
 }
 //===============================================
-static void GOpenCVTest_ImageHeader() {
+static void GOpenCVImage_Header() {
 	CvRect lRoi = {
 			150, 150, 150, 150
 	};
@@ -298,7 +311,7 @@ static void GOpenCVTest_ImageHeader() {
 	GWindow()->RemoveAll();
 }
 //===============================================
-static void GOpenCVTest_ImageBlend() {
+static void GOpenCVImage_Blend() {
 	CvRect lRoi = {
 			150, 150, 150, 150
 	};
@@ -327,6 +340,150 @@ static void GOpenCVTest_ImageBlend() {
 	GImage()->Remove("IMAGE");
 	GImage()->Remove("IMAGE_2");
 	GImage()->Remove("BLEND");
+	GWindow()->RemoveAll();
+}
+//===============================================
+static void GOpenCVImage_Rectangle() {
+	sGRectangle lRect = (sGRectangle){
+		{100, 100}, {300, 300},
+		{{127, 0, 0, 0}},
+		2, 20
+	};
+	GImage()->Load("IMAGE", "./data/img/lena.jpg", CV_LOAD_IMAGE_COLOR);
+	GImage()->CreateParams("IMAGE", "RECTANGLE");
+	GImage()->Copy("IMAGE", "RECTANGLE");
+	GImage()->Rectangle("RECTANGLE", lRect);
+	GWindow()->Create("IMAGE", CV_WINDOW_AUTOSIZE);
+	GWindow()->Create("RECTANGLE", CV_WINDOW_AUTOSIZE);
+	GImage()->Show("IMAGE", "IMAGE");
+	GImage()->Show("RECTANGLE", "RECTANGLE");
+	GEvent()->Loop();
+	GImage()->Remove("IMAGE");
+	GImage()->Remove("RECTANGLE");
+	GWindow()->RemoveAll();
+}
+//===============================================
+static void GOpenCVImage_Split() {
+	GImage()->Load("IMAGE", "./data/img/lena.jpg", CV_LOAD_IMAGE_COLOR);
+	GImage()->CreateGray("IMAGE", "RED");
+	GImage()->CreateGray("IMAGE", "GREEN");
+	GImage()->CreateGray("IMAGE", "BLUE");
+	GImage()->Split("IMAGE", "RED", "GREEN", "BLUE");
+	GWindow()->Create("IMAGE", CV_WINDOW_AUTOSIZE);
+	GWindow()->Create("RED", CV_WINDOW_AUTOSIZE);
+	GWindow()->Create("GREEN", CV_WINDOW_AUTOSIZE);
+	GWindow()->Create("BLUE", CV_WINDOW_AUTOSIZE);
+	GImage()->Show("IMAGE", "IMAGE");
+	GImage()->Show("RED", "RED");
+	GImage()->Show("GREEN", "GREEN");
+	GImage()->Show("BLUE", "BLUE");
+	GEvent()->Loop();
+	GImage()->Remove("IMAGE");
+	GImage()->Remove("RED");
+	GImage()->Remove("GREEN");
+	GImage()->Remove("BLUE");
+	GWindow()->RemoveAll();
+}
+//===============================================
+static void GOpenCVImage_Merge() {
+	GImage()->Load("IMAGE", "./data/img/lena.jpg", CV_LOAD_IMAGE_COLOR);
+	GImage()->CreateGray("IMAGE", "RED");
+	GImage()->CreateGray("IMAGE", "GREEN");
+	GImage()->CreateGray("IMAGE", "BLUE");
+	GImage()->CreateParams("IMAGE", "MERGE");
+	GImage()->Split("IMAGE", "RED", "GREEN", "BLUE");
+	GImage()->Merge("MERGE", "RED", "GREEN", "BLUE");
+	GWindow()->Create("IMAGE", CV_WINDOW_AUTOSIZE);
+	GWindow()->Create("RED", CV_WINDOW_AUTOSIZE);
+	GWindow()->Create("GREEN", CV_WINDOW_AUTOSIZE);
+	GWindow()->Create("BLUE", CV_WINDOW_AUTOSIZE);
+	GWindow()->Create("MERGE", CV_WINDOW_AUTOSIZE);
+	GImage()->Show("IMAGE", "IMAGE");
+	GImage()->Show("RED", "RED");
+	GImage()->Show("GREEN", "GREEN");
+	GImage()->Show("BLUE", "BLUE");
+	GImage()->Show("MERGE", "MERGE");
+	GEvent()->Loop();
+	GImage()->Remove("IMAGE");
+	GImage()->Remove("RED");
+	GImage()->Remove("GREEN");
+	GImage()->Remove("BLUE");
+	GImage()->Remove("MERGE");
+	GWindow()->RemoveAll();
+}
+//===============================================
+static void GOpenCVImage_Sum() {
+	sGRgbFactor lRgbFactor = (sGRgbFactor){
+		1.0/9, 1.0/9, 7.0/9
+	};
+
+	GImage()->Load("IMAGE", "./data/img/lena.jpg", CV_LOAD_IMAGE_COLOR);
+	GImage()->CreateGray("IMAGE", "RED");
+	GImage()->CreateGray("IMAGE", "GREEN");
+	GImage()->CreateGray("IMAGE", "BLUE");
+	GImage()->CreateGray("IMAGE", "SUM");
+	GImage()->Split("IMAGE", "RED", "GREEN", "BLUE");
+	GWindow()->Create("IMAGE", CV_WINDOW_AUTOSIZE);
+	GWindow()->Create("RED", CV_WINDOW_AUTOSIZE);
+	GWindow()->Create("GREEN", CV_WINDOW_AUTOSIZE);
+	GWindow()->Create("BLUE", CV_WINDOW_AUTOSIZE);
+	GWindow()->Create("SUM", CV_WINDOW_AUTOSIZE);
+	GImage()->Sum("SUM", "RED", "GREEN", "BLUE", lRgbFactor);
+	GImage()->Show("IMAGE", "IMAGE");
+	GImage()->Show("RED", "RED");
+	GImage()->Show("GREEN", "GREEN");
+	GImage()->Show("BLUE", "BLUE");
+	GImage()->Show("SUM", "SUM");
+	GEvent()->Loop();
+	GImage()->Remove("IMAGE");
+	GImage()->Remove("RED");
+	GImage()->Remove("GREEN");
+	GImage()->Remove("BLUE");
+	GImage()->Remove("SUM");
+	GWindow()->RemoveAll();
+}
+//===============================================
+static void GOpenCVImage_Threshold() {
+	sGThreshold lThres = (sGThreshold){
+		100, 255, CV_THRESH_BINARY
+	};
+	GImage()->Load("IMAGE", "./data/img/lena.jpg", CV_LOAD_IMAGE_COLOR);
+	GImage()->CreateGray("IMAGE", "THRESHOLD");
+	GImage()->Gray("IMAGE", "THRESHOLD");
+	GImage()->Threshold("THRESHOLD", "THRESHOLD", lThres);
+	GWindow()->Create("IMAGE", CV_WINDOW_AUTOSIZE);
+	GWindow()->Create("THRESHOLD", CV_WINDOW_AUTOSIZE);
+	GImage()->Show("IMAGE", "IMAGE");
+	GImage()->Show("THRESHOLD", "THRESHOLD");
+	GEvent()->Loop();
+	GImage()->Remove("IMAGE");
+	GImage()->Remove("THRESHOLD");
+	GWindow()->RemoveAll();
+}
+//===============================================
+static void GOpenCVImage_HoughCircle() {
+	sGHoughCircle lHoughCircle = (sGHoughCircle){
+		CV_HOUGH_GRADIENT, 2, 100
+	};
+	GStorage()->CreateStore("STORAGE", 0);
+	GImage()->Load("IMAGE", "./data/img/circle.jpg", CV_LOAD_IMAGE_COLOR);
+	GImage()->CreateGray("IMAGE", "GRAY");
+	GImage()->CreateParams("IMAGE", "HOUGHCIRCLE");
+	GImage()->Gray("IMAGE", "GRAY");
+	GImage()->Copy("IMAGE", "HOUGHCIRCLE");
+	GImage()->HoughCircle("GRAY", "STORAGE", lHoughCircle);
+	GImage()->HoughCircleSet("HOUGHCIRCLE", "STORAGE");
+	GStorage()->ShowSeqTotal("STORAGE");
+	GWindow()->Create("IMAGE", CV_WINDOW_AUTOSIZE);
+	GWindow()->Create("GRAY", CV_WINDOW_AUTOSIZE);
+	GWindow()->Create("HOUGHCIRCLE", CV_WINDOW_AUTOSIZE);
+	GImage()->Show("IMAGE", "IMAGE");
+	GImage()->Show("GRAY", "GRAY");
+	GImage()->Show("HOUGHCIRCLE", "HOUGHCIRCLE");
+	GEvent()->Loop();
+	GImage()->Remove("IMAGE");
+	GImage()->Remove("GRAY");
+	GImage()->Remove("HOUGHCIRCLE");
 	GWindow()->RemoveAll();
 }
 //===============================================

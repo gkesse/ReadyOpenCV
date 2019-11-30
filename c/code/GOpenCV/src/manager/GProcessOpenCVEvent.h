@@ -1,18 +1,18 @@
 //===============================================
-#ifndef _GProcessOpenCVTest_
-#define _GProcessOpenCVTest_
+#ifndef _GProcessOpenCVEvent_
+#define _GProcessOpenCVEvent_
 //===============================================
 #include "GProcess.h"
 //===============================================
-typedef struct _GProcessOpenCVTestO GProcessOpenCVTestO;
+typedef struct _GProcessOpenCVEventO GProcessOpenCVEventO;
 //===============================================
-struct _GProcessOpenCVTestO {
+struct _GProcessOpenCVEventO {
     GProcessO* m_parent;
 };
 //===============================================
-GProcessO* GProcessOpenCVTest_New();
-void GProcessOpenCVTest_Delete();
-GProcessO* GProcessOpenCVTest();
+GProcessO* GProcessOpenCVEvent_New();
+void GProcessOpenCVEvent_Delete();
+GProcessO* GProcessOpenCVEvent();
 //===============================================
 #endif
 //===============================================
