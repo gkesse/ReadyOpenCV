@@ -14,7 +14,7 @@ struct _GStorageO {
 	void (*SetSeq)(char* seqName, void* seq);
 	CvMemStorage* (*GetStore)(char* storeName);
 	int (*GetSeqTotal)(char* seqName);
-	void (*ShowSeqTotal)(char* seqName);
+	void (*ShowSeqCircle)(char* seqName);
 	void (*GetSeqCircle)(char* seqName, int index, sGCircle* circle);
 	void (*Clear)(char* storeName);
 	void (*Remove)(char* storeName);

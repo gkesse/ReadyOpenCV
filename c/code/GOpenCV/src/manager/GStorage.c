@@ -10,7 +10,7 @@ static void GStorage_CreateStore(char* storeName, int size);
 static void GStorage_SetSeq(char* seqName, void* seq);
 static CvMemStorage* GStorage_GetStore(char* storeName);
 static int GStorage_GetSeqTotal(char* seqName);
-static void GStorage_ShowSeqTotal(char* seqName);
+static void GStorage_ShowSeqCircle(char* seqName);
 static void GStorage_GetSeqCircle(char* seqName, int index, sGCircle* circle);
 static void GStorage_Clear(char* storeName);
 static void GStorage_Remove(char* storeName);
@@ -30,7 +30,7 @@ GStorageO* GStorage_New() {
 	lObj->SetSeq = GStorage_SetSeq;
 	lObj->GetStore = GStorage_GetStore;
 	lObj->GetSeqTotal = GStorage_GetSeqTotal;
-	lObj->ShowSeqTotal = GStorage_ShowSeqTotal;
+	lObj->ShowSeqCircle = GStorage_ShowSeqCircle;
 	lObj->GetSeqCircle = GStorage_GetSeqCircle;
 	lObj->Clear = GStorage_Clear;
 	lObj->Remove = GStorage_Remove;
@@ -95,7 +95,7 @@ static int GStorage_GetSeqTotal(char* seqName) {
 #endif
 }
 //===============================================
-static void GStorage_ShowSeqTotal(char* seqName) {
+static void GStorage_ShowSeqCircle(char* seqName) {
 #ifdef G_USE_OPENCV_ON
 	GMapO(GStorage, GCHAR_PTR, GVOID_PTR)* lSeqMap = m_GStorageO->m_seqMap;
 	CvSeq* lSeq = lSeqMap->GetData(lSeqMap, seqName, GStorage_MapEqual);
@@ -105,7 +105,7 @@ static void GStorage_ShowSeqTotal(char* seqName) {
 	sGCircle lCircle;
 	for(int i = 0; i < lSeqTotal; i++) {
 		GStorage()->GetSeqCircle(seqName, i, &lCircle);
-		printf("[ GStrorage ] : SeqCircle[%d]: %d ; %d ; %d\n", i, lCircle.center.x, lCircle.center.y, lCircle.radius);
+		printf("[ GStrorage ] : SeqCircle[%d][x ; y ; r]: %d ; %d ; %d\n", i, lCircle.center.x, lCircle.center.y, lCircle.radius);
 	}
 #endif
 }

@@ -507,7 +507,7 @@ static void GOpenCVImage_HoughCircle() {
     GImage()->Copy("IMAGE", "HOUGHCIRCLE");
     GImage()->HoughCircle("GRAY", "STORAGE", lHoughCircle);
     GImage()->HoughCircleSet("HOUGHCIRCLE", "STORAGE");
-    GStorage()->ShowSeqTotal("STORAGE");
+    GStorage()->ShowSeqCircle("STORAGE");
     GWindow()->Create("IMAGE", CV_WINDOW_AUTOSIZE);
     GWindow()->Create("GRAY", CV_WINDOW_AUTOSIZE);
     GWindow()->Create("HOUGHCIRCLE", CV_WINDOW_AUTOSIZE);
