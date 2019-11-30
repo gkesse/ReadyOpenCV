@@ -486,6 +486,7 @@ static void GOpenCVImage_Threshold() {
     GEvent()->Loop();
     GImage()->Remove("IMAGE");
     GImage()->Remove("THRESHOLD");
+    GStorage()->Remove("STORAGE");
     GWindow()->RemoveAll();
 }
 //===============================================

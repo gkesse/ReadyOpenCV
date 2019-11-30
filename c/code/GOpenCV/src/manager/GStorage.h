@@ -16,6 +16,8 @@ struct _GStorageO {
 	int (*GetSeqTotal)(char* seqName);
 	void (*ShowSeqTotal)(char* seqName);
 	void (*GetSeqCircle)(char* seqName, int index, sGCircle* circle);
+	void (*Clear)(char* storeName);
+	void (*Remove)(char* storeName);
 	GMapO(GStorage, GCHAR_PTR, GVOID_PTR)* m_storeMap;
 	GMapO(GStorage, GCHAR_PTR, GVOID_PTR)* m_seqMap;
 };
