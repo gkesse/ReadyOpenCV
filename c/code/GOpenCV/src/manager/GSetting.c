@@ -31,7 +31,7 @@ GSettingO* GSetting() {
 }
 //===============================================
 static void GSetting_Load(char* file) {
-	GFile2()->Exist(file);
+    GFile2()->Exist(file);
     FILE* lFile = fopen(file, "r");
     char lBuffer[100];
 
