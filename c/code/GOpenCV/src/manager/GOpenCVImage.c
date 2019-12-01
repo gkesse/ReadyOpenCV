@@ -611,19 +611,23 @@ static void GOpenCVImage_DFT() {
 	sGDFT lDFT = (sGDFT){
 		CV_DXT_FORWARD, 0
 	};
+	sGDFT lDFTInv = (sGDFT){
+		CV_DXT_INV_SCALE, 0
+	};
 	sGMinMax lMinMax = (sGMinMax){
 		0.0, 0.0
 	};
 
     GImage()->Load("IMAGE", "./data/img/lena.jpg", CV_LOAD_IMAGE_COLOR);
 
-    GImage()->CreateGray("IMAGE", "GRAY");
+    GImage()->CreateImg("IMAGE", "GRAY", IPL_DEPTH_8U, 1);
     GImage()->CreateImg("GRAY", "REAL", IPL_DEPTH_64F, 1);
     GImage()->CreateImg("GRAY", "IMAG", IPL_DEPTH_64F, 1);
     GImage()->CreateImg("GRAY", "COMPLEX", IPL_DEPTH_64F, 2);
     GImage()->CreateImg("GRAY", "FOURIER", IPL_DEPTH_64F, 2);
     GImage()->CreateImg("GRAY", "MAGNITUDE", IPL_DEPTH_64F, 1);
-    GImage()->CreateGray("IMAGE", "DFT");
+    GImage()->CreateImg("IMAGE", "DFT", IPL_DEPTH_8U, 1);
+    GImage()->CreateImg("IMAGE", "DFT_INV", IPL_DEPTH_8U, 1);
 
     GImage()->Gray("IMAGE", "GRAY");
     GImage()->Convert("GRAY", "REAL");
@@ -636,12 +640,19 @@ static void GOpenCVImage_DFT() {
     GImage()->MinMax("MAGNITUDE", &lMinMax);
     GImage()->ConvertScale("MAGNITUDE", "DFT", lMinMax.scale, lMinMax.shift);
 
+    GImage()->DFT("FOURIER", "COMPLEX", lDFTInv);
+    GImage()->Split("COMPLEX", "REAL", "IMAG", "");
+    GImage()->DFTMagnitude("REAL", "IMAG", "MAGNITUDE");
+    GImage()->MinMax("MAGNITUDE", &lMinMax);
+    GImage()->ConvertScale("MAGNITUDE", "DFT_INV", lMinMax.scale, lMinMax.shift);
+
     GWindow()->Create("IMAGE", CV_WINDOW_AUTOSIZE);
     GWindow()->Create("GRAY", CV_WINDOW_AUTOSIZE);
     GWindow()->Create("REAL", CV_WINDOW_AUTOSIZE);
     GWindow()->Create("IMAG", CV_WINDOW_AUTOSIZE);
     GWindow()->Create("MAGNITUDE", CV_WINDOW_AUTOSIZE);
     GWindow()->Create("DFT", CV_WINDOW_AUTOSIZE);
+    GWindow()->Create("DFT_INV", CV_WINDOW_AUTOSIZE);
 
     GImage()->Show("IMAGE", "IMAGE");
     GImage()->Show("GRAY", "GRAY");
@@ -649,6 +660,7 @@ static void GOpenCVImage_DFT() {
     GImage()->Show("IMAG", "IMAG");
     GImage()->Show("MAGNITUDE", "MAGNITUDE");
     GImage()->Show("DFT", "DFT");
+    GImage()->Show("DFT_INV", "DFT_INV");
 
     GEvent()->Loop();
 
