@@ -618,11 +618,11 @@ static void GOpenCVImage_DFT() {
     GImage()->Load("IMAGE", "./data/img/lena.jpg", CV_LOAD_IMAGE_COLOR);
 
     GImage()->CreateGray("IMAGE", "GRAY");
-    GImage()->CreateGrayF("GRAY", "REAL");
-    GImage()->CreateGrayF("GRAY", "IMAG");
-    GImage()->CreateComplex("GRAY", "COMPLEX");
-    GImage()->CreateComplex("GRAY", "FOURIER");
-    GImage()->CreateGrayF("GRAY", "MAGNITUDE");
+    GImage()->CreateImg("GRAY", "REAL", IPL_DEPTH_64F, 1);
+    GImage()->CreateImg("GRAY", "IMAG", IPL_DEPTH_64F, 1);
+    GImage()->CreateImg("GRAY", "COMPLEX", IPL_DEPTH_64F, 2);
+    GImage()->CreateImg("GRAY", "FOURIER", IPL_DEPTH_64F, 2);
+    GImage()->CreateImg("GRAY", "MAGNITUDE", IPL_DEPTH_64F, 1);
     GImage()->CreateGray("IMAGE", "DFT");
 
     GImage()->Gray("IMAGE", "GRAY");
