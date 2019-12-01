@@ -34,6 +34,8 @@ static void GOpenCVImage_Threshold();
 static void GOpenCVImage_HoughCircle();
 static void GOpenCVImage_WarpAffine();
 static void GOpenCVImage_WarpPerspective();
+static void GOpenCVImage_LogPolar();
+static void GOpenCVImage_DFT();
 //===============================================
 #define GDEFINE_TEST_FUNC(GFUNC) {1, #GFUNC, GFUNC}
 #define GDEFINE_TEST_FUNC_LAST {0, 0, 0}
@@ -60,6 +62,8 @@ static sGTestFunc GTEST_FUNC_MAP[] = {
         GDEFINE_TEST_FUNC(GOpenCVImage_HoughCircle),
         GDEFINE_TEST_FUNC(GOpenCVImage_WarpAffine),
         GDEFINE_TEST_FUNC(GOpenCVImage_WarpPerspective),
+        GDEFINE_TEST_FUNC(GOpenCVImage_LogPolar),
+        GDEFINE_TEST_FUNC(GOpenCVImage_DFT),
         GDEFINE_TEST_FUNC_LAST
 };
 //===============================================
@@ -403,7 +407,7 @@ static void GOpenCVImage_Merge() {
     GImage()->CreateGray("IMAGE", "BLUE");
     GImage()->CreateParams("IMAGE", "MERGE");
     GImage()->Split("IMAGE", "RED", "GREEN", "BLUE");
-    GImage()->Merge("MERGE", "RED", "GREEN", "BLUE");
+    GImage()->Merge("RED", "GREEN", "BLUE", "MERGE");
     GWindow()->Create("IMAGE", CV_WINDOW_AUTOSIZE);
     GWindow()->Create("RED", CV_WINDOW_AUTOSIZE);
     GWindow()->Create("GREEN", CV_WINDOW_AUTOSIZE);
@@ -525,12 +529,16 @@ static void GOpenCVImage_WarpAffine() {
 	sGRotate2D lRotate2D = (sGRotate2D){
 		{0.0, 0.0}, {0.5, 0.5}, 45.0, 0.5
 	};
+	sGFillFlag lFillFlag = (sGFillFlag){
+		CV_INTER_LINEAR + CV_WARP_FILL_OUTLIERS,
+		CV_RGB(0, 0, 50)
+	};
     GImage()->Load("IMAGE", "./data/img/lena.jpg", CV_LOAD_IMAGE_COLOR);
     GImage()->CreateParams("IMAGE", "WARP_AFFINE");
     GMatrix()->Create("MATRIX", 2, 3, CV_32FC1);
     GImage()->GetPointF("IMAGE", &lRotate2D.center, lRotate2D.factor);
     GMatrix()->Rotate2D("MATRIX", lRotate2D);
-    GImage()->WarpAffine("IMAGE", "WARP_AFFINE", "MATRIX");
+    GImage()->WarpAffine("IMAGE", "WARP_AFFINE", "MATRIX", lFillFlag);
     GWindow()->Create("IMAGE", CV_WINDOW_AUTOSIZE);
     GWindow()->Create("WARP_AFFINE", CV_WINDOW_AUTOSIZE);
     GImage()->Show("IMAGE", "IMAGE");
@@ -549,12 +557,16 @@ static void GOpenCVImage_WarpPerspective() {
 		{{0.0, 0.0}, {1.0, 0.0}, {0.0, 1.0}, {1.0, 1.0}},
 		{{0.05, 0.33}, {0.9, 0.25}, {0.2, 0.7}, {0.8, 0.9}}
 	};
+	sGFillFlag lFillFlag = (sGFillFlag){
+		CV_INTER_LINEAR + CV_WARP_FILL_OUTLIERS,
+		CV_RGB(0, 0, 50)
+	};
     GImage()->Load("IMAGE", "./data/img/lena.jpg", CV_LOAD_IMAGE_COLOR);
     GImage()->CreateParams("IMAGE", "WARP_PERSPECTIVE");
     GMatrix()->Create("MATRIX", 3, 3, CV_32FC1);
     GImage()->GetQuad("IMAGE", &lQuad);
     GMatrix()->GetPerspective("MATRIX", lQuad);
-    GImage()->WarpPerspective("IMAGE", "WARP_PERSPECTIVE", "MATRIX");
+    GImage()->WarpPerspective("IMAGE", "WARP_PERSPECTIVE", "MATRIX", lFillFlag);
     GWindow()->Create("IMAGE", CV_WINDOW_AUTOSIZE);
     GWindow()->Create("WARP_PERSPECTIVE", CV_WINDOW_AUTOSIZE);
     GImage()->Show("IMAGE", "IMAGE");
@@ -563,6 +575,92 @@ static void GOpenCVImage_WarpPerspective() {
     GImage()->Remove("IMAGE");
     GImage()->Remove("WARP_PERSPECTIVE");
     GMatrix()->Remove("MATRIX");
+    GWindow()->RemoveAll();
+}
+//===============================================
+static void GOpenCVImage_LogPolar() {
+	sGLogPolar lLogPolar = (sGLogPolar){
+		{0.0, 0.0}, {1.0/4, 1.0/2}, 2.0,
+		CV_INTER_LINEAR + CV_WARP_FILL_OUTLIERS
+	};
+	sGLogPolar lLogInverse = (sGLogPolar){
+		{0.0, 0.0}, {1.0/4, 1.0/2}, 2.0,
+		CV_INTER_LINEAR | CV_WARP_INVERSE_MAP
+	};
+    GImage()->Load("IMAGE", "./data/img/lena.jpg", CV_LOAD_IMAGE_COLOR);
+    GImage()->CreateParams("IMAGE", "LOG_POLAR");
+    GImage()->CreateParams("IMAGE", "LOG_INVERSE");
+    GImage()->GetPointF("IMAGE", &lLogPolar.center, lLogPolar.factor);
+    GImage()->GetPointF("IMAGE", &lLogInverse.center, lLogPolar.factor);
+    GImage()->LogPolar("IMAGE", "LOG_POLAR", lLogPolar);
+    GImage()->LogPolar("LOG_POLAR", "LOG_INVERSE", lLogInverse);
+    GWindow()->Create("IMAGE", CV_WINDOW_AUTOSIZE);
+    GWindow()->Create("LOG_POLAR", CV_WINDOW_AUTOSIZE);
+    GWindow()->Create("LOG_INVERSE", CV_WINDOW_AUTOSIZE);
+    GImage()->Show("IMAGE", "IMAGE");
+    GImage()->Show("LOG_POLAR", "LOG_POLAR");
+    GImage()->Show("LOG_INVERSE", "LOG_INVERSE");
+    GEvent()->Loop();
+    GImage()->Remove("IMAGE");
+    GImage()->Remove("LOG_POLAR");
+    GImage()->Remove("LOG_INVERSE");
+    GWindow()->RemoveAll();
+}
+//===============================================
+static void GOpenCVImage_DFT() {
+	sGDFT lDFT = (sGDFT){
+		CV_DXT_FORWARD, 0
+	};
+	sGMinMax lMinMax = (sGMinMax){
+		0.0, 0.0
+	};
+
+    GImage()->Load("IMAGE", "./data/img/lena.jpg", CV_LOAD_IMAGE_COLOR);
+
+    GImage()->CreateGray("IMAGE", "GRAY");
+    GImage()->CreateGrayF("GRAY", "REAL");
+    GImage()->CreateGrayF("GRAY", "IMAG");
+    GImage()->CreateComplex("GRAY", "COMPLEX");
+    GImage()->CreateComplex("GRAY", "FOURIER");
+    GImage()->CreateGrayF("GRAY", "MAGNITUDE");
+    GImage()->CreateGray("IMAGE", "DFT");
+
+    GImage()->Gray("IMAGE", "GRAY");
+    GImage()->Convert("GRAY", "REAL");
+    GImage()->Zero("IMAG");
+    GImage()->Merge("REAL", "IMAG", "", "COMPLEX");
+    GImage()->DFT("COMPLEX", "FOURIER", lDFT);
+    GImage()->Split("FOURIER", "REAL", "IMAG", "");
+    GImage()->DFTMagnitude("REAL", "IMAG", "MAGNITUDE");
+    GImage()->DFTCenter("MAGNITUDE");
+    GImage()->MinMax("MAGNITUDE", &lMinMax);
+    GImage()->ConvertScale("MAGNITUDE", "DFT", lMinMax.scale, lMinMax.shift);
+
+    GWindow()->Create("IMAGE", CV_WINDOW_AUTOSIZE);
+    GWindow()->Create("GRAY", CV_WINDOW_AUTOSIZE);
+    GWindow()->Create("REAL", CV_WINDOW_AUTOSIZE);
+    GWindow()->Create("IMAG", CV_WINDOW_AUTOSIZE);
+    GWindow()->Create("MAGNITUDE", CV_WINDOW_AUTOSIZE);
+    GWindow()->Create("DFT", CV_WINDOW_AUTOSIZE);
+
+    GImage()->Show("IMAGE", "IMAGE");
+    GImage()->Show("GRAY", "GRAY");
+    GImage()->Show("REAL", "REAL");
+    GImage()->Show("IMAG", "IMAG");
+    GImage()->Show("MAGNITUDE", "MAGNITUDE");
+    GImage()->Show("DFT", "DFT");
+
+    GEvent()->Loop();
+
+    GImage()->Remove("IMAGE");
+    GImage()->Remove("GRAY");
+    GImage()->Remove("REAL");
+    GImage()->Remove("IMAG");
+    GImage()->Remove("COMPLEX");
+    GImage()->Remove("FOURIER");
+    GImage()->Remove("MAGNITUDE");
+    GImage()->Remove("DFT");
+
     GWindow()->RemoveAll();
 }
 //===============================================

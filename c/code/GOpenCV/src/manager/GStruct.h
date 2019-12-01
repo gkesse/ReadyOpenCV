@@ -18,6 +18,10 @@ typedef struct _sGRectangle sGRectangle;
 typedef struct _sGCircle sGCircle;
 typedef struct _sGRotate2D sGRotate2D;
 typedef struct _sGQuad sGQuad;
+typedef struct _sGLogPolar sGLogPolar;
+typedef struct _sGFillFlag sGFillFlag;
+typedef struct _sGDFT sGDFT;
+typedef struct _sGMinMax sGMinMax;
 //===============================================
 typedef void (*GTEST_FUNC)();
 //===============================================
@@ -120,6 +124,30 @@ struct _sGQuad {
 	CvPoint2D32f dstQuad[4];
 	CvPoint2D32f srcFactor[4];
 	CvPoint2D32f dstFactor[4];
+};
+//===============================================
+struct _sGLogPolar {
+	CvPoint2D32f center;
+	CvPoint2D32f factor;
+	double M;
+	int flags;
+};
+//===============================================
+struct _sGFillFlag {
+	int flags;
+	CvScalar fill;
+};
+//===============================================
+struct _sGDFT {
+	int flags;
+	int nonZero;
+};
+//===============================================
+struct _sGMinMax {
+	double min;
+	double max;
+	double scale;
+	double shift;
 };
 //===============================================
 #endif
