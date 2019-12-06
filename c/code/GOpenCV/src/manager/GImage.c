@@ -55,6 +55,7 @@ static void GImage_MinMax(char* imgName, sGMinMax* minMax);
 static void GImage_Pow(char* imgName, char* outName, double power);
 static void GImage_Log(char* imgName, char* outName);
 static void GImage_Add(char* imgName, char* srcName, char* outName);
+static void GImage_Convolution(char* imgA, char* imgB, char* imgC);
 static void GImage_Saturate(char* imgName, sGSaturate* saturate);
 static void GImage_SetImage(char* imgName, void* img);
 static void GImage_SetPixelChannel(char* imgName, int x, int y, int channel, uchar data);
@@ -659,6 +660,44 @@ static void GImage_Add(char* imgName, char* srcName, char* outName) {
 	IplImage* lSrc = lImgMap->GetData(lImgMap, srcName, GImage_MapEqual);
 	IplImage* lOut = lImgMap->GetData(lImgMap, outName, GImage_MapEqual);
 	cvAdd(lImg, lSrc, lOut, 0);
+#endif
+}
+//===============================================
+static void GImage_Convolution(char* imgA, char* imgB, char* imgC) {
+#if defined(G_USE_OPENCV_ON)
+	GMapO(GImage, GCHAR_PTR, GVOID_PTR)* lImgMap = m_GImageO->m_imgMap;
+	IplImage* lImgA = lImgMap->GetData(lImgMap, imgA, GImage_MapEqual);
+	IplImage* lImgB = lImgMap->GetData(lImgMap, imgB, GImage_MapEqual);
+	IplImage* lImgC = lImgMap->GetData(lImgMap, imgC, GImage_MapEqual);
+
+    int lDftM = cvGetOptimalDFTSize(lImgA->height + lImgB->height - 1);
+    int lDftN = cvGetOptimalDFTSize(lImgA->width + lImgB->width - 1);
+
+    IplImage* lDftA = cvCreateImage(cvSize(lDftM, lDftN), lImgA->depth, lImgA->nChannels);
+    IplImage* lDftB = cvCreateImage(cvSize(lDftM, lDftN), lImgB->depth, lImgB->nChannels);
+    CvMat lTmp;
+
+    cvGetSubRect(lDftA, &lTmp, cvRect(0, 0, lImgA->width, lImgA->height));
+    cvCopy(lImgA, &lTmp, 0);
+    cvGetSubRect(lDftA, &lTmp, cvRect(lImgA->width, 0, lDftA->width - lImgA->width, lImgA->height));
+    cvZero(&lTmp);
+
+    cvDFT(lDftA, lDftA, CV_DXT_FORWARD, lImgA->height);
+
+    cvGetSubRect(lDftB, &lTmp, cvRect(0, 0, lImgB->width, lImgB->height));
+    cvCopy(lImgB, &lTmp, 0);
+    cvGetSubRect(lDftB, &lTmp, cvRect(lImgB->width, 0, lDftB->width - lImgB->width, lImgB->height));
+    cvZero(&lTmp);
+
+    cvDFT(lDftB, lDftB, CV_DXT_FORWARD, lImgB->height);
+
+    cvMulSpectrums(lDftA, lDftB, lDftA, 0);
+
+    cvDFT(lDftA, lDftA, CV_DXT_FORWARD, lImgC->height);
+    cvGetSubRect(lDftA, &lTmp, cvRect(0, 0, lImgC->width, lImgC->height));
+    cvCopy(&lTmp, lImgC, 0);
+    cvReleaseImage(&lDftA);
+    cvReleaseImage(&lDftB);
 #endif
 }
 //===============================================

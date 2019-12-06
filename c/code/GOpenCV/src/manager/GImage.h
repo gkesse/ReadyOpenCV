@@ -58,6 +58,7 @@ struct _GImageO {
 	void (*Add)(char* imgName, char* srcName, char* outName);
 	void (*Log)(char* imgName, char* outName);
 	void (*Saturate)(char* imgName, sGSaturate* saturate);
+	void (*Convolution)(char* imgA, char* imgB, char* imgC);
 	void (*SetImage)(char* imgName, void* img);
 	void (*SetPixelChannel)(char* imgName, int x, int y, int channel, uchar data);
 	void (*GetSize)(char* imgName, CvSize* size);

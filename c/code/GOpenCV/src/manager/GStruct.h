@@ -21,6 +21,8 @@ typedef struct _sGQuad sGQuad;
 typedef struct _sGLogPolar sGLogPolar;
 typedef struct _sGFillFlag sGFillFlag;
 typedef struct _sGDFT sGDFT;
+typedef struct _sGDFTSize sGDFTSize;
+typedef struct _sGDFTRect sGDFTRect;
 typedef struct _sGMinMax sGMinMax;
 //===============================================
 typedef void (*GTEST_FUNC)();
@@ -141,6 +143,16 @@ struct _sGFillFlag {
 struct _sGDFT {
 	int flags;
 	int nonZero;
+};
+//===============================================
+struct _sGDFTSize {
+	int dftM;
+	int dftN;
+};
+//===============================================
+struct _sGDFTRect {
+	CvRect rect1;
+	CvRect rect2;
 };
 //===============================================
 struct _sGMinMax {

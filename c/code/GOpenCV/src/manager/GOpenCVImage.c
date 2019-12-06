@@ -36,6 +36,7 @@ static void GOpenCVImage_WarpAffine();
 static void GOpenCVImage_WarpPerspective();
 static void GOpenCVImage_LogPolar();
 static void GOpenCVImage_DFT();
+static void GOpenCVImage_Convolution();
 //===============================================
 #define GDEFINE_TEST_FUNC(GFUNC) {1, #GFUNC, GFUNC}
 #define GDEFINE_TEST_FUNC_LAST {0, 0, 0}
@@ -64,6 +65,7 @@ static sGTestFunc GTEST_FUNC_MAP[] = {
         GDEFINE_TEST_FUNC(GOpenCVImage_WarpPerspective),
         GDEFINE_TEST_FUNC(GOpenCVImage_LogPolar),
         GDEFINE_TEST_FUNC(GOpenCVImage_DFT),
+        GDEFINE_TEST_FUNC(GOpenCVImage_Convolution),
         GDEFINE_TEST_FUNC_LAST
 };
 //===============================================
@@ -672,6 +674,27 @@ static void GOpenCVImage_DFT() {
     GImage()->Remove("FOURIER");
     GImage()->Remove("MAGNITUDE");
     GImage()->Remove("DFT");
+
+    GWindow()->RemoveAll();
+}
+//===============================================
+static void GOpenCVImage_Convolution() {
+    GImage()->Load("IMAGE", "./data/img/lena.jpg", CV_LOAD_IMAGE_COLOR);
+
+    GImage()->CreateGray("IMAGE", "GRAY");
+
+    GImage()->Gray("IMAGE", "GRAY");
+
+    GWindow()->Create("IMAGE", CV_WINDOW_AUTOSIZE);
+    GWindow()->Create("GRAY", CV_WINDOW_AUTOSIZE);
+
+    GImage()->Show("IMAGE", "IMAGE");
+    GImage()->Show("GRAY", "GRAY");
+
+    GEvent()->Loop();
+
+    GImage()->Remove("IMAGE");
+    GImage()->Remove("GRAY");
 
     GWindow()->RemoveAll();
 }
