@@ -1,0 +1,56 @@
+/*===============================================*/
+/* styles communs */
+/*===============================================*/
+/* QWidget */
+QWidget {
+    background: transparent;
+    font-family: arial;
+    font-size: 14px;
+    color: white;
+    border: none;
+}
+/*-----------------------------------------------*/
+/* QLabel */
+QLabel {
+    background: gray;
+}
+/*===============================================*/
+/* styles personnalises */
+/*===============================================*/
+/* GWindow */
+QWidget#GWindow {
+    background: navy;
+    min-width: 640px;
+    min-height: 480px;
+}
+/*-----------------------------------------------*/
+/* GTitle */
+QWidget#GTitle {
+    background: navy;
+}
+/* GTitle */
+QWidget#GTitle QLabel {
+    background: transparent;
+}
+/* GTitle */
+QWidget#GTitle QLabel#title {
+    font-weight: normal;
+    font-size: 16px;
+    color: #d6cc52;
+}
+/* GTitle */
+QWidget#GTitle QToolButton#minimize,
+QWidget#GTitle QToolButton#maximize,
+QWidget#GTitle QToolButton#close {
+    padding: 5px;
+}
+/* GTitle */
+QWidget#GTitle QToolButton#minimize:hover,
+QWidget#GTitle QToolButton#maximize:hover {
+    background: #6f88ac;
+}
+/* GTitle */
+QWidget#GTitle QToolButton#close:hover {
+    background: red;
+}
+/*===============================================*/
