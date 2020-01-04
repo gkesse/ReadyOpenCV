@@ -3,7 +3,7 @@
 #include "GSectionDefault.h"
 //===============================================
 GSection::GSection(QWidget* parent) :
-QWidget(parent) {
+QFrame(parent) {
 	setObjectName("GSection");
 }
 //===============================================

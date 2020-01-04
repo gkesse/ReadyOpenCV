@@ -4,10 +4,10 @@
 //===============================================
 #include "GInclude.h"
 //===============================================
-class GMenu : public QWidget {
+class GMenu : public QFrame {
 public:
 	GMenu(QWidget* parent = 0);
-	~GMenu();
+	virtual ~GMenu();
 	static GMenu* Create(QString key);
 };
 //===============================================

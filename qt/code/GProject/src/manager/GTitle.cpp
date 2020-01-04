@@ -3,7 +3,7 @@
 #include "GTitleDefault.h"
 //===============================================
 GTitle::GTitle(QWidget* parent) :
-QWidget(parent) {
+QFrame(parent) {
 	setObjectName("GTitle");
 }
 //===============================================

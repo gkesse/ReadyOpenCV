@@ -3,7 +3,7 @@
 #include "GStatusBarDefault.h"
 //===============================================
 GStatusBar::GStatusBar(QWidget* parent) :
-QWidget(parent) {
+QFrame(parent) {
 	setObjectName("GStatusBar");
 }
 //===============================================

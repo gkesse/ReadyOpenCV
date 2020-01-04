@@ -4,10 +4,10 @@
 //===============================================
 #include "GInclude.h"
 //===============================================
-class GModule : public QWidget {
+class GModule : public QFrame {
 public:
 	GModule(QWidget* parent = 0);
-	~GModule();
+	virtual ~GModule();
 	static GModule* Create(QString key);
 };
 //===============================================

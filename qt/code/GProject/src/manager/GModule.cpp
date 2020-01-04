@@ -4,7 +4,7 @@
 #include "GModuleVideo.h"
 //===============================================
 GModule::GModule(QWidget* parent) :
-QWidget(parent) {
+QFrame(parent) {
 	setObjectName("GModule");
 }
 //===============================================

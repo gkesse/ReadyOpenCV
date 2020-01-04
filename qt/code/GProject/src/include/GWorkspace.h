@@ -4,10 +4,10 @@
 //===============================================
 #include "GInclude.h"
 //===============================================
-class GWorkspace : public QWidget {
+class GWorkspace : public QFrame {
 public:
 	GWorkspace(QWidget* parent = 0);
-	~GWorkspace();
+	virtual ~GWorkspace();
 	static GWorkspace* Create(QString key);
 };
 //===============================================

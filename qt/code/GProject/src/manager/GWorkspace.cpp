@@ -3,7 +3,7 @@
 #include "GWorkspaceDefault.h"
 //===============================================
 GWorkspace::GWorkspace(QWidget* parent) :
-QWidget(parent) {
+QFrame(parent) {
 	setObjectName("GWorkspace");
 }
 //===============================================

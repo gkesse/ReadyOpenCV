@@ -1,14 +1,21 @@
 //===============================================
-#ifndef _GSection_
-#define _GSection_
+#ifndef _GPrint_
+#define _GPrint_
 //===============================================
 #include "GInclude.h"
 //===============================================
-class GSection : public QFrame {
+class GPrint {
+private:
+	GPrint();
+
 public:
-	GSection(QWidget* parent = 0);
-	virtual ~GSection();
-	static GSection* Create(QString key);
+	~GPrint();
+	static GPrint* Instance();
+	void print(QPoint data);
+	void print(QRect data);
+
+private:
+	static GPrint* m_instance;
 };
 //===============================================
 #endif

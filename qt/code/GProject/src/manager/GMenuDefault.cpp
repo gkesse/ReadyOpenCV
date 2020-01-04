@@ -13,9 +13,9 @@ GMenu(parent) {
 	lAddModule->setIcon(GPicto::Instance()->getPicto(fa::plus));
 	lAddModule->setIconSize(QSize(20, 20));
 
-
 	lMainLayout->setMargin(0);
 	lMainLayout->setSpacing(0);
+	lMainLayout->setAlignment(Qt::AlignTop);
 	lMainLayout->addWidget(lAddModule);
 
 	setLayout(lMainLayout);

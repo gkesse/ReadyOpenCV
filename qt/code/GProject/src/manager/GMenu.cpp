@@ -3,7 +3,7 @@
 #include "GMenuDefault.h"
 //===============================================
 GMenu::GMenu(QWidget* parent) :
-QWidget(parent) {
+QFrame(parent) {
 	setObjectName("GMenu");
 }
 //===============================================

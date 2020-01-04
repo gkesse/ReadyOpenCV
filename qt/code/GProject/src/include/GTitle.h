@@ -4,11 +4,24 @@
 //===============================================
 #include "GInclude.h"
 //===============================================
-class GTitle : public QWidget {
+class GTitle : public QFrame {
+	Q_OBJECT
+
 public:
 	GTitle(QWidget* parent = 0);
-	~GTitle();
+	virtual ~GTitle();
 	static GTitle* Create(QString key);
+
+public slots:
+	virtual void slotWindowMaximize(int state) = 0;
+
+signals:
+	void emitWindowPress(QPoint position);
+	void emitWindowMove(QPoint position);
+	void emitWindowMinimize();
+	void emitWindowMaximize();
+	void emitWindowClose();
+	void emitWindowFullScreen();
 };
 //===============================================
 #endif

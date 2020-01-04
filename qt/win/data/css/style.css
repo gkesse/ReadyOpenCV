@@ -10,47 +10,59 @@ QWidget {
     border: none;
 }
 /*-----------------------------------------------*/
-/* QLabel */
-QLabel {
-    background: gray;
+/* QToolTip */
+QToolTip {
+    background: black;
+    border: 1px solid #e9ac6f;
+    font-family: arial;
+    font-size: 14px;
+    color: #e9ac6f;
 }
 /*===============================================*/
 /* styles personnalises */
 /*===============================================*/
 /* GWindow */
 QWidget#GWindow {
-    background: navy;
+    background: #02062e;
     min-width: 640px;
     min-height: 480px;
 }
 /*-----------------------------------------------*/
 /* GTitle */
-QWidget#GTitle {
-    background: navy;
+QFrame#GTitle {
+    background: #536d5a;
 }
-/* GTitle */
-QWidget#GTitle QLabel {
-    background: transparent;
-}
-/* GTitle */
-QWidget#GTitle QLabel#title {
+QFrame#GTitle QLabel#title {
     font-weight: normal;
     font-size: 16px;
-    color: #d6cc52;
+    color: #000080;
 }
-/* GTitle */
-QWidget#GTitle QToolButton#minimize,
-QWidget#GTitle QToolButton#maximize,
-QWidget#GTitle QToolButton#close {
+QFrame#GTitle QToolButton#minimize,
+QFrame#GTitle QToolButton#maximize,
+QFrame#GTitle QToolButton#close {
     padding: 5px;
 }
-/* GTitle */
-QWidget#GTitle QToolButton#minimize:hover,
-QWidget#GTitle QToolButton#maximize:hover {
+QFrame#GTitle QToolButton#minimize:hover,
+QFrame#GTitle QToolButton#maximize:hover {
     background: #6f88ac;
 }
-/* GTitle */
-QWidget#GTitle QToolButton#close:hover {
+QFrame#GTitle QToolButton#close:hover {
     background: red;
+}
+/*-----------------------------------------------*/
+/* GMenu */
+QFrame#GMenu {
+    background: #536d5a;
+}
+QFrame#GMenu QToolButton#add_module {
+    padding: 5px;
+}
+QFrame#GMenu QToolButton#add_module:hover {
+    background: #6f88ac;
+}
+/*-----------------------------------------------*/
+/* GWorkspace */
+QFrame#GWorkspace {
+    background: black;
 }
 /*===============================================*/

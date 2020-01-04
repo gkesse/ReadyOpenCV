@@ -4,10 +4,10 @@
 //===============================================
 #include "GInclude.h"
 //===============================================
-class GStatusBar : public QWidget {
+class GStatusBar : public QFrame {
 public:
 	GStatusBar(QWidget* parent = 0);
-	~GStatusBar();
+	virtual ~GStatusBar();
 	static GStatusBar* Create(QString key);
 };
 //===============================================

@@ -5,7 +5,7 @@ OBJECTS_DIR = build
 MOC_DIR = build
 UI_DIR = build
 RCC_DIR = build
-CONFIG += release
+CONFIG += console release
 QT += widgets
 
 include(../code/GProject/src/GMain.pri)
