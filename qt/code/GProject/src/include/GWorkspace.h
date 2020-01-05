@@ -5,6 +5,8 @@
 #include "GInclude.h"
 //===============================================
 class GWorkspace : public QFrame {
+	Q_OBJECT
+
 public:
 	GWorkspace(QWidget* parent = 0);
 	virtual ~GWorkspace();

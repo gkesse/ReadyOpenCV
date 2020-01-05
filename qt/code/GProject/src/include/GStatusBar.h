@@ -5,6 +5,8 @@
 #include "GInclude.h"
 //===============================================
 class GStatusBar : public QFrame {
+	Q_OBJECT
+
 public:
 	GStatusBar(QWidget* parent = 0);
 	virtual ~GStatusBar();

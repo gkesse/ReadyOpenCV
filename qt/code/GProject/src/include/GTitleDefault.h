@@ -15,7 +15,8 @@ protected:
 	void mouseDoubleClickEvent(QMouseEvent *event);
 
 public slots:
-	void slotWindowMaximize(int state);
+	void slotWindowMaximize(int oldState, int newState);
+	void slotWindowFullScreen(int oldState, int newState);
 
 private:
 	QToolButton* m_maximize;

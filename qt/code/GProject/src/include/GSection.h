@@ -5,6 +5,8 @@
 #include "GInclude.h"
 //===============================================
 class GSection : public QFrame {
+	Q_OBJECT
+
 public:
 	GSection(QWidget* parent = 0);
 	virtual ~GSection();

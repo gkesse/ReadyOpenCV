@@ -20,7 +20,8 @@ public slots:
 	virtual void slotWindowFullScreen() = 0;
 
 signals:
-	void emitWindowMaximize(int state);
+	void emitWindowMaximize(int oldState, int newState);
+	void emitWindowFullScreen(int oldState, int newState);
 };
 //===============================================
 #endif

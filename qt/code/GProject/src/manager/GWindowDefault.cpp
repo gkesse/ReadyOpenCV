@@ -37,7 +37,8 @@ GWindow(parent) {
 	connect(lTitle, SIGNAL(emitWindowMaximize()), this, SLOT(slotWindowMaximize()));
 	connect(lTitle, SIGNAL(emitWindowClose()), this, SLOT(close()));
 	connect(lTitle, SIGNAL(emitWindowFullScreen()), this, SLOT(slotWindowFullScreen()));
-	connect(this, SIGNAL(emitWindowMaximize(int)), lTitle, SLOT(slotWindowMaximize(int)));
+	connect(this, SIGNAL(emitWindowMaximize(int, int)), lTitle, SLOT(slotWindowMaximize(int, int)));
+	connect(this, SIGNAL(emitWindowFullScreen(int, int)), lTitle, SLOT(slotWindowFullScreen(int, int)));
 }
 //===============================================
 GWindowDefault::~GWindowDefault() {
@@ -62,10 +63,13 @@ void GWindowDefault::slotWindowMaximize() {
 	if(lWindowState == Qt::WindowMaximized) {
 		showNormal();
 	}
+	else if(lWindowState == Qt::WindowFullScreen) {
+		showNormal();
+	}
 	else {
 		showMaximized();
 	}
-	emit emitWindowMaximize(lWindowState);
+	emit emitWindowMaximize(lWindowState, windowState());
 }
 //===============================================
 void GWindowDefault::slotWindowFullScreen() {
@@ -76,5 +80,6 @@ void GWindowDefault::slotWindowFullScreen() {
 	else {
 		showFullScreen();
 	}
+	emit emitWindowFullScreen(lWindowState, windowState());
 }
 //===============================================

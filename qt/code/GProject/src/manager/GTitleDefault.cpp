@@ -77,9 +77,26 @@ void GTitleDefault::mouseDoubleClickEvent(QMouseEvent *event) {
 	QWidget::mouseDoubleClickEvent(event);
 }
 //===============================================
-void GTitleDefault::slotWindowMaximize(int state) {
-	if(state == Qt::WindowMaximized) {
+void GTitleDefault::slotWindowMaximize(int oldState, int newState) {
+	if(oldState == Qt::WindowMaximized) {
 		m_maximize->setIcon(GPicto::Instance()->getPicto(fa::windowmaximize));
+	}
+	else if(oldState == Qt::WindowFullScreen) {
+		m_maximize->setIcon(GPicto::Instance()->getPicto(fa::windowmaximize));
+	}
+	else {
+		m_maximize->setIcon(GPicto::Instance()->getPicto(fa::windowrestore));
+	}
+}
+//===============================================
+void GTitleDefault::slotWindowFullScreen(int oldState, int newState) {
+	if(oldState == Qt::WindowFullScreen) {
+		if(newState == Qt::WindowMaximized) {
+			m_maximize->setIcon(GPicto::Instance()->getPicto(fa::windowrestore));
+		}
+		else {
+			m_maximize->setIcon(GPicto::Instance()->getPicto(fa::windowmaximize));
+		}
 	}
 	else {
 		m_maximize->setIcon(GPicto::Instance()->getPicto(fa::windowrestore));

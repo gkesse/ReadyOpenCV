@@ -60,6 +60,10 @@ QFrame#GMenu QToolButton#add_module {
 QFrame#GMenu QToolButton#add_module:hover {
     background: #6f88ac;
 }
+QFrame#GMenu QMenu#add_menu {
+    background: #02062e;
+    color: #6f88ac;
+}
 /*-----------------------------------------------*/
 /* GWorkspace */
 QFrame#GWorkspace {

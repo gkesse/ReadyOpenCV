@@ -5,10 +5,16 @@
 #include "GInclude.h"
 //===============================================
 class GMenu : public QFrame {
+	Q_OBJECT
+
 public:
 	GMenu(QWidget* parent = 0);
 	virtual ~GMenu();
 	static GMenu* Create(QString key);
+
+public slots:
+	virtual void slotAddModuleMenuOpen() = 0;
+	virtual void slotAddModuleMenuSelect(QAction* action) = 0;
 };
 //===============================================
 #endif
