@@ -18,6 +18,11 @@ GPrint* GPrint::Instance() {
 	return m_instance;
 }
 //===============================================
+void GPrint::print(QString data) {
+	cout << "QString: ";
+	cout << data.toStdString() << "\n";
+}
+//===============================================
 void GPrint::print(QPoint data) {
 	cout << "QPoint: ";
 	cout << "x: " << data.x() << " ; ";

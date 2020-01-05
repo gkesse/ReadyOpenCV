@@ -3,6 +3,8 @@
 #include "GTitle.h"
 #include "GMenu.h"
 #include "GWorkspace.h"
+#include "GSection.h"
+#include "GStatusBar.h"
 #include "GPrint.h"
 //===============================================
 GWindowDefault::GWindowDefault(QWidget* parent) :
@@ -13,8 +15,8 @@ GWindow(parent) {
 	GTitle* lTitle = GTitle::Create("DEFAULT");
 	GMenu* lMenu = GMenu::Create("DEFAULT");
 	GWorkspace* lWorkspace = GWorkspace::Create("DEFAULT");
-	QLabel* lSection = new QLabel("Section");
-	QLabel* lStatusBar = new QLabel("StatusBar");
+	GSection* lSection = GSection::Create("DEFAULT");
+	GStatusBar* lStatusBar = GStatusBar::Create("DEFAULT");
 
 	lCenterLayout->setMargin(0);
 	lCenterLayout->setSpacing(0);

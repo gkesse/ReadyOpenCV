@@ -1,6 +1,7 @@
 //===============================================
 #include "GMenuDefault.h"
 #include "GPicto.h"
+#include "GPrint.h"
 //===============================================
 GMenuDefault::GMenuDefault(QWidget* parent) :
 GMenu(parent) {
@@ -22,6 +23,7 @@ GMenu(parent) {
 
 	m_addModuleMenu = new QMenu(this);
 	m_addModuleMenu->setObjectName("add_menu");
+	m_addModuleMenu->setCursor(Qt::PointingHandCursor);
 
 	QAction* lAction;
 
@@ -30,6 +32,12 @@ GMenu(parent) {
 	lAction->setIcon(GPicto::Instance()->getPicto(fa::pictureo));
 	m_addModuleMenu->addAction(lAction);
 	m_moduleMap[lAction] = "IMAGE";
+
+	lAction = new QAction(this);
+	lAction->setText(tr("Video"));
+	lAction->setIcon(GPicto::Instance()->getPicto(fa::videocamera));
+	m_addModuleMenu->addAction(lAction);
+	m_moduleMap[lAction] = "VIDEO";
 
 	connect(lAddModule, SIGNAL(clicked()), this, SLOT(slotAddModuleMenuOpen()));
 	connect(m_addModuleMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotAddModuleMenuSelect(QAction*)));
@@ -45,6 +53,7 @@ void GMenuDefault::slotAddModuleMenuOpen() {
 }
 //===============================================
 void GMenuDefault::slotAddModuleMenuSelect(QAction* action) {
-
+	QString lKey = m_moduleMap[action];
+	GPrint::Instance()->print(lKey);
 }
 //===============================================

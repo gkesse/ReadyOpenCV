@@ -1,19 +1,31 @@
 //===============================================
 #include "GSectionDefault.h"
+#include "GModule.h"
 #include "GPicto.h"
 //===============================================
 GSectionDefault::GSectionDefault(QWidget* parent) :
 GSection(parent) {
 	QVBoxLayout* lMainLayout = new QVBoxLayout;
 
-	QLabel* lModule = new QLabel("Module");
+	GModule* lModule;
+
+	lModule = GModule::Create("VIDEO");
+	lMainLayout->addWidget(lModule);
+
+	lModule = GModule::Create("IMAGE");
+	lMainLayout->addWidget(lModule);
+
+	lModule = GModule::Create("VIDEO");
+	lMainLayout->addWidget(lModule);
+
+	lModule = GModule::Create("IMAGE");
+	lMainLayout->addWidget(lModule);
 
 	lMainLayout->setMargin(0);
 	lMainLayout->setSpacing(0);
 	lMainLayout->setAlignment(Qt::AlignTop);
-	lMainLayout->addWidget(lModule);
 
-	//setLayout(lMainLayout);
+	setLayout(lMainLayout);
 }
 //===============================================
 GSectionDefault::~GSectionDefault() {

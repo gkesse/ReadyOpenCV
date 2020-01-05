@@ -3,7 +3,7 @@
 /*===============================================*/
 /* QWidget */
 QWidget {
-    background: transparent;
+    background-color: transparent;
     font-family: arial;
     font-size: 14px;
     color: white;
@@ -12,25 +12,38 @@ QWidget {
 /*-----------------------------------------------*/
 /* QToolTip */
 QToolTip {
-    background: black;
-    border: 1px solid #e9ac6f;
+    background-color: #4d4d4d;
+    border: 1px solid #4d4d4d;
     font-family: arial;
     font-size: 14px;
-    color: #e9ac6f;
+    color: #ffaaaa;
+}
+/*-----------------------------------------------*/
+/* QMenu */
+QMenu {
+    background-color: #02062e;
+    border: 1px solid #aaddaa;
+    min-width: 100px;
+}
+QMenu::item {
+    background-color: transparent;
+}
+QMenu::item:selected { 
+    background-color: #4e516d;
 }
 /*===============================================*/
 /* styles personnalises */
 /*===============================================*/
 /* GWindow */
 QWidget#GWindow {
-    background: #02062e;
+    background-color: #02062e;
     min-width: 640px;
     min-height: 480px;
 }
 /*-----------------------------------------------*/
 /* GTitle */
 QFrame#GTitle {
-    background: #536d5a;
+    background-color: #536d5a;
 }
 QFrame#GTitle QLabel#title {
     font-weight: normal;
@@ -44,29 +57,43 @@ QFrame#GTitle QToolButton#close {
 }
 QFrame#GTitle QToolButton#minimize:hover,
 QFrame#GTitle QToolButton#maximize:hover {
-    background: #6f88ac;
+    background-color: #87998c;
 }
 QFrame#GTitle QToolButton#close:hover {
-    background: red;
+    background-color: #ff0000;
 }
 /*-----------------------------------------------*/
 /* GMenu */
 QFrame#GMenu {
-    background: #536d5a;
+    background-color: #536d5a;
 }
 QFrame#GMenu QToolButton#add_module {
     padding: 5px;
 }
 QFrame#GMenu QToolButton#add_module:hover {
-    background: #6f88ac;
-}
-QFrame#GMenu QMenu#add_menu {
-    background: #02062e;
-    color: #6f88ac;
+    background-color: #87998c;
 }
 /*-----------------------------------------------*/
 /* GWorkspace */
 QFrame#GWorkspace {
-    background: black;
+    background-color: #000000;
+}
+/*-----------------------------------------------*/
+/* GSection */
+QFrame#GSection {
+    background-color: #536d5a;
+}
+/*-----------------------------------------------*/
+/* GStatusBar */
+QFrame#GStatusBar {
+    background-color: #536d5a;
+}
+/*-----------------------------------------------*/
+/* GModule */
+QFrame#GModule {
+    background-color: #020b4f;
+    border: 5px solid #536d5a;
+    min-width: 50px;
+    min-height: 50px;
 }
 /*===============================================*/

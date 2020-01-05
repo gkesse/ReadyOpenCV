@@ -11,6 +11,7 @@ private:
 public:
 	~GPrint();
 	static GPrint* Instance();
+	void print(QString data);
 	void print(QPoint data);
 	void print(QRect data);
 

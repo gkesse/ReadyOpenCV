@@ -78,6 +78,7 @@ void GTitleDefault::mouseDoubleClickEvent(QMouseEvent *event) {
 }
 //===============================================
 void GTitleDefault::slotWindowMaximize(int oldState, int newState) {
+	Q_UNUSED(newState)
 	if(oldState == Qt::WindowMaximized) {
 		m_maximize->setIcon(GPicto::Instance()->getPicto(fa::windowmaximize));
 	}
