@@ -31,6 +31,45 @@ QMenu::item {
 QMenu::item:selected { 
     background-color: #4e516d;
 }
+/*-----------------------------------------------*/
+/* QScrollBar */
+QScrollBar:vertical {
+    border: none;
+    background: #4e516d;
+    width: 15px;
+    margin: 22px 0 22px 0;
+}
+QScrollBar::handle:vertical {
+    background: #02062e;
+    min-height: 20px;
+}
+QScrollBar::add-line:vertical {
+    border: none;
+    background: #02062e;
+    height: 20px;
+    subcontrol-position: bottom;
+    subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:vertical {
+    border: none;
+    background: #02062e;
+    height: 20px;
+    subcontrol-position: top;
+    subcontrol-origin: margin;
+}
+QScrollBar::up-arrow:vertical, 
+QScrollBar::down-arrow:vertical {
+    background: #4e516d;
+    border-radius: 3px;
+    width: 6px;
+    height: 6px;
+}
+
+QScrollBar::add-page:vertical, 
+QScrollBar::sub-page:vertical {
+    background: none;
+}
 /*===============================================*/
 /* styles personnalises */
 /*===============================================*/
@@ -82,6 +121,7 @@ QFrame#GWorkspace {
 /* GSection */
 QFrame#GSection {
     background-color: #536d5a;
+    padding: 0px 5px 0px 0px;
 }
 /*-----------------------------------------------*/
 /* GStatusBar */
