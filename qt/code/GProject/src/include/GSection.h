@@ -11,6 +11,14 @@ public:
 	GSection(QWidget* parent = 0);
 	virtual ~GSection();
 	static GSection* Create(QString key);
+
+public slots:
+	virtual void slotAddModuleMenuSelect(QString module);
+	virtual void slotAddModuleMenuTimer();
+
+
+signals:
+	void emitWindowAdjustSize();
 };
 //===============================================
 #endif

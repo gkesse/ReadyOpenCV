@@ -13,11 +13,12 @@ public:
 	static GWindow* Create(QString key);
 
 public slots:
-	virtual void slotWindowPress(QPoint position) = 0;
-	virtual void slotWindowMove(QPoint position) = 0;
-	virtual void slotWindowMinimize() = 0;
-	virtual void slotWindowMaximize() = 0;
-	virtual void slotWindowFullScreen() = 0;
+	virtual void slotWindowPress(QPoint position);
+	virtual void slotWindowMove(QPoint position);
+	virtual void slotWindowMinimize();
+	virtual void slotWindowMaximize();
+	virtual void slotWindowFullScreen();
+	virtual void slotWindowAdjustSize();
 
 signals:
 	void emitWindowMaximize(int oldState, int newState);

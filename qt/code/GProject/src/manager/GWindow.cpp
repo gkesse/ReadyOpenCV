@@ -16,3 +16,10 @@ GWindow* GWindow::Create(QString key) {
 	return new GWindowDefault;
 }
 //===============================================
+void GWindow::slotWindowPress(QPoint position) {}
+void GWindow::slotWindowMove(QPoint position) {}
+void GWindow::slotWindowMinimize() {}
+void GWindow::slotWindowMaximize() {}
+void GWindow::slotWindowFullScreen() {}
+void GWindow::slotWindowAdjustSize() {}
+//===============================================

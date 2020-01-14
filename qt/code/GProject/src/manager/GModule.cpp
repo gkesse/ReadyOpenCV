@@ -18,3 +18,5 @@ GModule* GModule::Create(QString key) {
 	return new GModuleImage;
 }
 //===============================================
+void GModule::slotModuleMenuSelect(QAction* action) {}
+//===============================================

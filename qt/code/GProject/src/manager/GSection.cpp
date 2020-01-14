@@ -16,3 +16,6 @@ GSection* GSection::Create(QString key) {
 	return new GSectionDefault;
 }
 //===============================================
+void GSection::slotAddModuleMenuSelect(QString module) {}
+void GSection::slotAddModuleMenuTimer() {}
+//===============================================

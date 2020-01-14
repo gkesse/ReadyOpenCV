@@ -53,7 +53,7 @@ void GMenuDefault::slotAddModuleMenuOpen() {
 }
 //===============================================
 void GMenuDefault::slotAddModuleMenuSelect(QAction* action) {
-	QString lKey = m_moduleMap[action];
-	GPrint::Instance()->print(lKey);
+	QString lModule = m_moduleMap[action];
+	emit emitAddModuleMenuSelect(lModule);
 }
 //===============================================

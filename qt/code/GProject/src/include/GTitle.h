@@ -13,8 +13,8 @@ public:
 	static GTitle* Create(QString key);
 
 public slots:
-	virtual void slotWindowMaximize(int oldState, int newState) = 0;
-	virtual void slotWindowFullScreen(int oldState, int newState) = 0;
+	virtual void slotWindowMaximize(int oldState, int newState);
+	virtual void slotWindowFullScreen(int oldState, int newState);
 
 signals:
 	void emitWindowPress(QPoint position);

@@ -39,6 +39,8 @@ GWindow(parent) {
 	connect(lTitle, SIGNAL(emitWindowMaximize()), this, SLOT(slotWindowMaximize()));
 	connect(lTitle, SIGNAL(emitWindowClose()), this, SLOT(close()));
 	connect(lTitle, SIGNAL(emitWindowFullScreen()), this, SLOT(slotWindowFullScreen()));
+	connect(lMenu, SIGNAL(emitAddModuleMenuSelect(QString)), lSection, SLOT(slotAddModuleMenuSelect(QString)));
+	connect(lSection, SIGNAL(emitWindowAdjustSize()), this, SLOT(slotWindowAdjustSize()));
 	connect(this, SIGNAL(emitWindowMaximize(int, int)), lTitle, SLOT(slotWindowMaximize(int, int)));
 	connect(this, SIGNAL(emitWindowFullScreen(int, int)), lTitle, SLOT(slotWindowFullScreen(int, int)));
 }
@@ -83,5 +85,9 @@ void GWindowDefault::slotWindowFullScreen() {
 		showFullScreen();
 	}
 	emit emitWindowFullScreen(lWindowState, windowState());
+}
+//===============================================
+void GWindowDefault::slotWindowAdjustSize() {
+	adjustSize();
 }
 //===============================================

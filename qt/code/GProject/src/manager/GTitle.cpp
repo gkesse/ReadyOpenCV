@@ -16,3 +16,6 @@ GTitle* GTitle::Create(QString key) {
 	return new GTitleDefault;
 }
 //===============================================
+void GTitle::slotWindowMaximize(int oldState, int newState) {}
+void GTitle::slotWindowFullScreen(int oldState, int newState) {}
+//===============================================

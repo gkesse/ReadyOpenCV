@@ -13,8 +13,11 @@ public:
 	static GMenu* Create(QString key);
 
 public slots:
-	virtual void slotAddModuleMenuOpen() = 0;
-	virtual void slotAddModuleMenuSelect(QAction* action) = 0;
+	virtual void slotAddModuleMenuOpen();
+	virtual void slotAddModuleMenuSelect(QAction* action);
+
+signals:
+	void emitAddModuleMenuSelect(QString module);
 };
 //===============================================
 #endif

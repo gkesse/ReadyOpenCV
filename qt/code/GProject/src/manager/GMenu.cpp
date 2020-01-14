@@ -16,3 +16,6 @@ GMenu* GMenu::Create(QString key) {
 	return new GMenuDefault;
 }
 //===============================================
+void GMenu::slotAddModuleMenuOpen() {}
+void GMenu::slotAddModuleMenuSelect(QAction* action) {}
+//===============================================

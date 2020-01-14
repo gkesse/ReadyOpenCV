@@ -15,6 +15,7 @@ public slots:
 	void slotWindowMinimize();
 	void slotWindowMaximize();
 	void slotWindowFullScreen();
+	void slotWindowAdjustSize();
 
 private:
 	QPoint m_pressPosition;
