@@ -24,4 +24,7 @@ SOURCES += \
     $$PWD/GDialogImageOpen.cpp \
     $$PWD/GRow.cpp \
     $$PWD/GRowDefault.cpp \
+    $$PWD/GButtonMap.cpp \
+    $$PWD/GButtonMapOkCancel.cpp \
+
     

@@ -15,6 +15,10 @@ public:
 public slots:
 	virtual void slotWindowPress(QPoint position);
 	virtual void slotWindowMove(QPoint position);
+
+protected:
+	QVBoxLayout* m_frameLayout;
+	QHBoxLayout* m_buttonMapLayout;
 };
 //===============================================
 #endif

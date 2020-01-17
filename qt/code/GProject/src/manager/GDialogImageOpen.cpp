@@ -1,30 +1,28 @@
 //===============================================
 #include "GDialogImageOpen.h"
 #include "GTitle.h"
+#include "GButtonMap.h"
 //===============================================
 GDialogImageOpen::GDialogImageOpen(QWidget* parent) :
 GDialog(parent) {
-	QHBoxLayout* lMainLayout = new QHBoxLayout;
-
 	GTitle* lTitle = GTitle::Create("DIALOG");
+	GButtonMap* lButtonMap = GButtonMap::Create("OK_CANCEL");
 
-	lMainLayout->setMargin(0);
-	lMainLayout->setSpacing(0);
-	lMainLayout->setAlignment(Qt::AlignTop);
-	lMainLayout->addWidget(lTitle);
+	m_frameLayout->addWidget(lTitle);
+	m_buttonMapLayout->addWidget(lButtonMap);
 
-	setLayout(lMainLayout);
-
-	//setWindowFlags(Qt::FramelessWindowHint | Qt::WindowSystemMenuHint);
+	setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
 
 	connect(lTitle, SIGNAL(emitWindowPress(QPoint)), this, SLOT(slotWindowPress(QPoint)));
 	connect(lTitle, SIGNAL(emitWindowMove(QPoint)), this, SLOT(slotWindowMove(QPoint)));
-	connect(lTitle, SIGNAL(emitWindowClose()), this, SLOT(close()));
+	connect(lTitle, SIGNAL(emitWindowClose()), this, SLOT(reject()));
+	connect(lButtonMap, SIGNAL(emitWindowAccept()), this, SLOT(accept()));
+	connect(lButtonMap, SIGNAL(emitWindowReject()), this, SLOT(reject()));
 
 	connect(this, SIGNAL(windowTitleChanged(QString)), lTitle, SLOT(slotWindowTitleChange(QString)));
 	connect(this, SIGNAL(windowIconChanged(QIcon)), lTitle, SLOT(slotWindowIconChange(QIcon)));
 
-	setWindowTitle(tr("OpenCV | ReadyDev"));
+	setWindowTitle(tr("Ouvrir une image | ReadyDev"));
 	if(parent != 0) setWindowIcon(parent->windowIcon());
 }
 //===============================================

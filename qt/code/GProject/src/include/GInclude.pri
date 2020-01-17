@@ -28,4 +28,6 @@ HEADERS += \
     $$PWD/GDialogImageOpen.h \
     $$PWD/GRow.h \
     $$PWD/GRowDefault.h \
+    $$PWD/GButtonMap.h \
+    $$PWD/GButtonMapOkCancel.h \
     

@@ -12,11 +12,16 @@ QWidget {
 /*===============================================*/
 /* style personnalise */
 /*===============================================*/
+/* GButtonMap */
+QFrame#GButtonMap {
+    padding: 5px;
+}
+/*-----------------------------------------------*/
 /* GDialog */
-QDialog#GDialog {
+QFrame#GDialog {
     background-color: #020b4f;
     min-width: 400px;
-    padding: 10px;
+    min-height: 200px;
 }
 /*-----------------------------------------------*/
 /* GLabel */
@@ -64,6 +69,17 @@ QFrame#GModule {
     border: 5px solid #536d5a;
     min-width: 50px;
     min-height: 50px;
+}
+/*-----------------------------------------------*/
+/* QPushButton */
+QPushButton {
+    background-color: #536d5a;
+    min-width: 50px;
+    padding: 5px 10px;
+    margin: 5px;
+}
+QPushButton:hover {
+    background-color: #87998c;
 }
 /*-----------------------------------------------*/
 /* GRow */
