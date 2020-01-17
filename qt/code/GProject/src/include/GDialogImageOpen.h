@@ -1,21 +1,17 @@
 //===============================================
-#ifndef _GWindowDefault_
-#define _GWindowDefault_
+#ifndef _GDialogImageOpen_
+#define _GDialogImageOpen_
 //===============================================
-#include "GWindow.h"
+#include "GDialog.h"
 //===============================================
-class GWindowDefault : public GWindow {
+class GDialogImageOpen : public GDialog {
 public:
-	GWindowDefault(QWidget* parent = 0);
-	~GWindowDefault();
+	GDialogImageOpen(QWidget* parent = 0);
+	~GDialogImageOpen();
 
 public slots:
 	void slotWindowPress(QPoint position);
 	void slotWindowMove(QPoint position);
-	void slotWindowMinimize();
-	void slotWindowMaximize();
-	void slotWindowFullScreen();
-	void slotModuleImageAction(QString action);
 
 private:
 	QPoint m_pressPosition;

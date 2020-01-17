@@ -1,22 +1,18 @@
 //===============================================
-#ifndef _GModule_
-#define _GModule_
+#ifndef _GImageOpen_
+#define _GImageOpen_
 //===============================================
 #include "GInclude.h"
 //===============================================
-class GModule : public QFrame {
+class GImageOpen : public QDialog {
 	Q_OBJECT
 
 public:
-	GModule(QWidget* parent = 0);
-	virtual ~GModule();
-	static GModule* Create(QString key);
+	GImageOpen(QWidget* parent = 0);
+	~GImageOpen();
 
-public slots:
-	virtual void slotModuleMenuSelect(QAction* action);
-
-signals:
-	void emitModuleImageAction(QString action);
+private:
+	QLineEdit* m_filenameEdit;
 };
 //===============================================
 #endif

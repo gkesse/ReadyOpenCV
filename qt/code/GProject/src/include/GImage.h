@@ -1,22 +1,22 @@
 //===============================================
-#ifndef _GModule_
-#define _GModule_
+#ifndef _GImage_
+#define _GImage_
 //===============================================
 #include "GInclude.h"
 //===============================================
-class GModule : public QFrame {
-	Q_OBJECT
+class GImage {
+private:
+	GImage();
 
 public:
-	GModule(QWidget* parent = 0);
-	virtual ~GModule();
-	static GModule* Create(QString key);
+	~GImage();
+	static GImage* Instance();
+	void setParent(QWidget* parent);
+	void open();
 
-public slots:
-	virtual void slotModuleMenuSelect(QAction* action);
-
-signals:
-	void emitModuleImageAction(QString action);
+private:
+	static GImage* m_instance;
+	QWidget* m_parent;
 };
 //===============================================
 #endif

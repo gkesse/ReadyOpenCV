@@ -5,6 +5,8 @@
 #include "GWorkspace.h"
 #include "GSection.h"
 #include "GStatusBar.h"
+#include "GDialog.h"
+#include "GPicto.h"
 #include "GPrint.h"
 //===============================================
 GWindowDefault::GWindowDefault(QWidget* parent) :
@@ -31,6 +33,7 @@ GWindow(parent) {
 	lMainLayout->addWidget(lStatusBar);
 
 	setLayout(lMainLayout);
+
 	setWindowFlags(Qt::FramelessWindowHint | Qt::WindowSystemMenuHint);
 
 	connect(lTitle, SIGNAL(emitWindowPress(QPoint)), this, SLOT(slotWindowPress(QPoint)));
@@ -40,9 +43,17 @@ GWindow(parent) {
 	connect(lTitle, SIGNAL(emitWindowClose()), this, SLOT(close()));
 	connect(lTitle, SIGNAL(emitWindowFullScreen()), this, SLOT(slotWindowFullScreen()));
 	connect(lMenu, SIGNAL(emitAddModuleMenuSelect(QString)), lSection, SLOT(slotAddModuleMenuSelect(QString)));
-	connect(lSection, SIGNAL(emitWindowAdjustSize()), this, SLOT(slotWindowAdjustSize()));
+
+	connect(lSection, SIGNAL(emitModuleImageAction(QString)), this, SLOT(slotModuleImageAction(QString)));
+
+	connect(this, SIGNAL(windowTitleChanged(QString)), lTitle, SLOT(slotWindowTitleChange(QString)));
+	connect(this, SIGNAL(windowIconChanged(QIcon)), lTitle, SLOT(slotWindowIconChange(QIcon)));
 	connect(this, SIGNAL(emitWindowMaximize(int, int)), lTitle, SLOT(slotWindowMaximize(int, int)));
 	connect(this, SIGNAL(emitWindowFullScreen(int, int)), lTitle, SLOT(slotWindowFullScreen(int, int)));
+
+	setWindowTitle(tr("OpenCV | ReadyDev"));
+	GPicto::Instance()->setColor("navy");
+	setWindowIcon(GPicto::Instance()->getPicto(fa::snowflakeo));
 }
 //===============================================
 GWindowDefault::~GWindowDefault() {
@@ -87,7 +98,9 @@ void GWindowDefault::slotWindowFullScreen() {
 	emit emitWindowFullScreen(lWindowState, windowState());
 }
 //===============================================
-void GWindowDefault::slotWindowAdjustSize() {
-	adjustSize();
+void GWindowDefault::slotModuleImageAction(QString action) {
+	GDialog* lImageOpen = GDialog::Create("IMAGE_OPEN", this);
+	lImageOpen->exec();
+	delete lImageOpen;
 }
 //===============================================

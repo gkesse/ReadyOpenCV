@@ -8,7 +8,7 @@ GMenu(parent) {
 	QVBoxLayout* lMainLayout = new QVBoxLayout;
 
 	QToolButton* lAddModule = new QToolButton;
-	lAddModule->setObjectName("add_module");
+	lAddModule->setObjectName("GToolButton");
 	lAddModule->setToolTip(tr("Ajouter un module"));
 	lAddModule->setCursor(Qt::PointingHandCursor);
 	lAddModule->setIcon(GPicto::Instance()->getPicto(fa::plus));
@@ -22,7 +22,6 @@ GMenu(parent) {
 	setLayout(lMainLayout);
 
 	m_addModuleMenu = new QMenu(this);
-	m_addModuleMenu->setObjectName("add_menu");
 	m_addModuleMenu->setCursor(Qt::PointingHandCursor);
 
 	QAction* lAction;

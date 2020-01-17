@@ -1,22 +1,20 @@
 //===============================================
-#ifndef _GModule_
-#define _GModule_
+#ifndef _GRow_
+#define _GRow_
 //===============================================
 #include "GInclude.h"
 //===============================================
-class GModule : public QFrame {
+class GRow : public QFrame {
 	Q_OBJECT
 
 public:
-	GModule(QWidget* parent = 0);
-	virtual ~GModule();
-	static GModule* Create(QString key);
+	GRow(QWidget* parent = 0);
+	virtual ~GRow();
+	static GRow* Create(QString key);
 
-public slots:
-	virtual void slotModuleMenuSelect(QAction* action);
-
-signals:
-	void emitModuleImageAction(QString action);
+public:
+	virtual void setLabelText(QString text);
+	virtual QString getFieldText();
 };
 //===============================================
 #endif

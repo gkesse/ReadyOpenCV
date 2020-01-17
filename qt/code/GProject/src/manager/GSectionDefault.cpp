@@ -47,6 +47,7 @@ GSectionDefault::~GSectionDefault() {
 void GSectionDefault::slotAddModuleMenuSelect(QString module) {
 	GModule* lModule = GModule::Create(module);
 	m_scrollLayout->addWidget(lModule);
+	connect(lModule, SIGNAL(emitModuleImageAction(QString)), this, SIGNAL(emitModuleImageAction(QString)));
 }
 //===============================================
 void GSectionDefault::slotAddModuleMenuTimer() {

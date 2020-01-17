@@ -16,9 +16,8 @@ public slots:
 	virtual void slotAddModuleMenuSelect(QString module);
 	virtual void slotAddModuleMenuTimer();
 
-
 signals:
-	void emitWindowAdjustSize();
+	void emitModuleImageAction(QString action);
 };
 //===============================================
 #endif

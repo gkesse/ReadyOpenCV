@@ -1,6 +1,7 @@
 //===============================================
 #include "GModuleImage.h"
 #include "GPicto.h"
+#include "GImage.h"
 #include "GPrint.h"
 //===============================================
 GModuleImage::GModuleImage(QWidget* parent) :
@@ -21,13 +22,20 @@ GModule(parent) {
 	setToolTip(tr("Module Image"));
 
 	m_moduleMenu = new QMenu(this);
+	m_moduleMenu->setCursor(Qt::PointingHandCursor);
 
 	QAction* lAction;
 
 	lAction = new QAction(this);
-	m_actionMap[lAction] = "OPEN_IMAGE";
+	m_actionMap[lAction] = "IMAGE_OPEN";
 	lAction->setText(tr("Ouvrir une image"));
 	lAction->setIcon(GPicto::Instance()->getPicto(fa::folderopen));
+	m_moduleMenu->addAction(lAction);
+
+	lAction = new QAction(this);
+	m_actionMap[lAction] = "IMAGE_SAVE";
+	lAction->setText(tr("Enregistrer une image"));
+	lAction->setIcon(GPicto::Instance()->getPicto(fa::save));
 	m_moduleMenu->addAction(lAction);
 
 	connect(m_moduleMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotModuleMenuSelect(QAction*)));
@@ -47,6 +55,6 @@ void GModuleImage::mousePressEvent(QMouseEvent *event) {
 //===============================================
 void GModuleImage::slotModuleMenuSelect(QAction* action) {
 	QString lAction = m_actionMap[action];
-	GPrint::Instance()->print(lAction);
+	emit emitModuleImageAction(lAction);
 }
 //===============================================

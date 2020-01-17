@@ -3,7 +3,7 @@
 #include "GWindowDefault.h"
 //===============================================
 GWindow::GWindow(QWidget* parent) :
-QWidget(parent) {
+QFrame(parent) {
 	setObjectName("GWindow");
 }
 //===============================================
@@ -21,5 +21,5 @@ void GWindow::slotWindowMove(QPoint position) {}
 void GWindow::slotWindowMinimize() {}
 void GWindow::slotWindowMaximize() {}
 void GWindow::slotWindowFullScreen() {}
-void GWindow::slotWindowAdjustSize() {}
+void GWindow::slotModuleImageAction(QString action) {}
 //===============================================

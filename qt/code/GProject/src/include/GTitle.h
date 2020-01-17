@@ -13,6 +13,8 @@ public:
 	static GTitle* Create(QString key);
 
 public slots:
+	virtual void slotWindowTitleChange(QString title);
+	virtual void slotWindowIconChange(QIcon icon);
 	virtual void slotWindowMaximize(int oldState, int newState);
 	virtual void slotWindowFullScreen(int oldState, int newState);
 

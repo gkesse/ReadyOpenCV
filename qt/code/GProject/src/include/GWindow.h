@@ -4,7 +4,7 @@
 //===============================================
 #include "GInclude.h"
 //===============================================
-class GWindow : public QWidget {
+class GWindow : public QFrame {
 	Q_OBJECT
 
 public:
@@ -18,7 +18,7 @@ public slots:
 	virtual void slotWindowMinimize();
 	virtual void slotWindowMaximize();
 	virtual void slotWindowFullScreen();
-	virtual void slotWindowAdjustSize();
+	virtual void slotModuleImageAction(QString action);
 
 signals:
 	void emitWindowMaximize(int oldState, int newState);
