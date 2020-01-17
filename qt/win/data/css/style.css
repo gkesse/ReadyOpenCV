@@ -40,8 +40,8 @@ QLabel#GLabel2 {
 /*-----------------------------------------------*/
 /* GLineEdit */
 QLineEdit#GLineEdit {
-    background-color: #dddddd;
-    padding: 0px 5px 0px 5px;
+    background-color: #eeeeee;
+    padding: 2px 5px 2px 5px;
     color: navy;
 }
 /*-----------------------------------------------*/
@@ -86,6 +86,7 @@ QPushButton:hover {
 QFrame#GRow {
     background-color: transparent;
     border: 2px solid #536d5a;
+    margin: 10px;
 }
 /* QScrollBar */
 QScrollBar:vertical {

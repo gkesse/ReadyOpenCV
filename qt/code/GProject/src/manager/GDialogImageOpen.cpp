@@ -2,13 +2,18 @@
 #include "GDialogImageOpen.h"
 #include "GTitle.h"
 #include "GButtonMap.h"
+#include "GRow.h"
 //===============================================
 GDialogImageOpen::GDialogImageOpen(QWidget* parent) :
 GDialog(parent) {
 	GTitle* lTitle = GTitle::Create("DIALOG");
+
+	GRow* lPath = GRow::Create("DEFAULT");
+	lPath->setLabelText(tr("Chemin:"));
 	GButtonMap* lButtonMap = GButtonMap::Create("OK_CANCEL");
 
 	m_frameLayout->addWidget(lTitle);
+	m_frameLayout->addWidget(lPath);
 	m_buttonMapLayout->addWidget(lButtonMap);
 
 	setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);

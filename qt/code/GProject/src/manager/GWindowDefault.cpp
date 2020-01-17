@@ -100,7 +100,15 @@ void GWindowDefault::slotWindowFullScreen() {
 //===============================================
 void GWindowDefault::slotModuleImageAction(QString action) {
 	GDialog* lImageOpen = GDialog::Create("IMAGE_OPEN", this);
-	lImageOpen->exec();
+	int lOk = lImageOpen->exec();
+
+	if(lOk == QDialog::Accepted) {
+		GPrint::Instance()->print("QDialog::Accepted");
+	}
+	else if(lOk == QDialog::Rejected) {
+		GPrint::Instance()->print("QDialog::Rejected");
+	}
+
 	delete lImageOpen;
 }
 //===============================================
