@@ -17,5 +17,5 @@ GMenu* GMenu::Create(QString key) {
 }
 //===============================================
 void GMenu::slotAddModuleMenuOpen() {}
-void GMenu::slotAddModuleMenuSelect(QAction* action) {}
+void GMenu::slotAddModuleMenuSelect(QAction*) {}
 //===============================================

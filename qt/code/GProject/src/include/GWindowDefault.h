@@ -9,6 +9,10 @@ public:
 	GWindowDefault(QWidget* parent = 0);
 	~GWindowDefault();
 
+protected:
+	void paintEvent(QPaintEvent *event);
+	void resizeEvent(QResizeEvent *event);
+
 public slots:
 	void slotWindowPress(QPoint position);
 	void slotWindowMove(QPoint position);
@@ -19,6 +23,8 @@ public slots:
 
 private:
 	QPoint m_pressPosition;
+	QSizeGrip* m_sizeGrip;
+	QPixmap* m_shape;
 };
 //===============================================
 #endif

@@ -17,6 +17,7 @@ GDialog(parent) {
 	m_buttonMapLayout->addWidget(lButtonMap);
 
 	setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
+	setSizeGripEnabled(true);
 
 	connect(lTitle, SIGNAL(emitWindowPress(QPoint)), this, SLOT(slotWindowPress(QPoint)));
 	connect(lTitle, SIGNAL(emitWindowMove(QPoint)), this, SLOT(slotWindowMove(QPoint)));

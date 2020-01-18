@@ -18,8 +18,8 @@ GTitle* GTitle::Create(QString key) {
 	return new GTitleDefault;
 }
 //===============================================
-void GTitle::slotWindowTitleChange(QString title) {}
-void GTitle::slotWindowIconChange(QIcon icon) {}
-void GTitle::slotWindowMaximize(int oldState, int newState) {}
-void GTitle::slotWindowFullScreen(int oldState, int newState) {}
+void GTitle::slotWindowTitleChange(QString) {}
+void GTitle::slotWindowIconChange(QIcon) {}
+void GTitle::slotWindowMaximize(int, int) {}
+void GTitle::slotWindowFullScreen(int, int) {}
 //===============================================

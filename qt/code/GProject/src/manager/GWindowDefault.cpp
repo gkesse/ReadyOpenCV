@@ -34,7 +34,11 @@ GWindow(parent) {
 
 	setLayout(lMainLayout);
 
-	setWindowFlags(Qt::FramelessWindowHint | Qt::WindowSystemMenuHint);
+	setWindowFlags(Qt::FramelessWindowHint | Qt::Window);
+	setAttribute(Qt::WA_TranslucentBackground);
+
+	m_sizeGrip = new QSizeGrip(this);
+	m_shape = 0;
 
 	connect(lTitle, SIGNAL(emitWindowPress(QPoint)), this, SLOT(slotWindowPress(QPoint)));
 	connect(lTitle, SIGNAL(emitWindowMove(QPoint)), this, SLOT(slotWindowMove(QPoint)));
@@ -57,7 +61,47 @@ GWindow(parent) {
 }
 //===============================================
 GWindowDefault::~GWindowDefault() {
+	delete m_shape;
+}
+//===============================================
+void GWindowDefault::paintEvent(QPaintEvent *event) {
+	if(m_shape != 0) {
+		QPainter lPainter(this);
+		lPainter.drawPixmap(0, 0, *m_shape);
+	}
+}
+//===============================================
+void GWindowDefault::resizeEvent(QResizeEvent *event) {
+	int lSizeGrip = 10;
+	m_sizeGrip->setGeometry(width() - lSizeGrip, height() - lSizeGrip, lSizeGrip, lSizeGrip);
 
+	delete m_shape;
+	m_shape = new QPixmap(size());
+	m_shape->fill(Qt::transparent);
+	QPainter lPainter(m_shape);
+
+	QPolygon lShape;
+	lShape
+	<< QPoint(0, 16)
+	<< QPoint(16, 0)
+	<< QPoint(width(), 0)
+	<< QPoint(width(), height())
+	<< QPoint(0, height());
+	lPainter.setPen(Qt::NoPen);
+	lPainter.setBrush(QBrush("#536d5a"));
+	lPainter.drawPolygon(lShape);
+
+	QPolygon lEdge;
+	int lMargin = 2;
+	lEdge
+	<< QPoint(lMargin, 16)
+	<< QPoint(16, lMargin)
+	<< QPoint(width() - lMargin , lMargin)
+	<< QPoint(width() - lMargin, height() - lMargin)
+	<< QPoint(lMargin, height() - lMargin);
+	lPainter.setPen(QPen(Qt::transparent));
+	lPainter.setBrush(Qt::NoBrush);
+	lPainter.drawPolygon(lEdge);
 }
 //===============================================
 void GWindowDefault::slotWindowPress(QPoint position) {

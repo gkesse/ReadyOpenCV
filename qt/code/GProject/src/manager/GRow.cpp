@@ -16,6 +16,6 @@ GRow* GRow::Create(QString key) {
 	return new GRowDefault;
 }
 //===============================================
-void GRow::setLabelText(QString text) {}
+void GRow::setLabelText(QString) {}
 QString GRow::getFieldText() {return "";}
 //===============================================

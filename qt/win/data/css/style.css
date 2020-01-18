@@ -61,6 +61,7 @@ QMenu::item:selected {
 /* GMenu */
 QFrame#GMenu {
     background-color: #536d5a;
+    margin: 3px;
 }
 /*-----------------------------------------------*/
 /* GModule */
@@ -113,11 +114,15 @@ QScrollBar::sub-line:vertical {
     subcontrol-position: top;
     subcontrol-origin: margin;
 }
-QScrollBar::up-arrow:vertical, 
+QScrollBar::up-arrow:vertical {
+    image: url(data/img/arrow_up.png);
+    min-width: 4px;
+    min-height: 4px;
+}
 QScrollBar::down-arrow:vertical {
-    background: #4e516d;
-    width: 4px;
-    height: 4px;
+    image: url(data/img/arrow_down.png);
+    min-width: 4px;
+    min-height: 4px;
 }
 QScrollBar::add-page:vertical, 
 QScrollBar::sub-page:vertical {
@@ -128,16 +133,26 @@ QScrollBar::sub-page:vertical {
 QFrame#GSection {
     background-color: #536d5a;
     padding: 0px 5px 0px 0px;
+    margin: 3px;
+}
+/*-----------------------------------------------*/
+/* QSizeGrip */
+QSizeGrip {
+    image: url(data/img/sizegrip.png);
+    min-width: 10px;
+    min-height: 10px;
 }
 /*-----------------------------------------------*/
 /* GStatusBar */
 QFrame#GStatusBar {
     background-color: #536d5a;
+    margin: 3px;
 }
 /*-----------------------------------------------*/
 /* GTitle */
 QFrame#GTitle {
-    background-color: #536d5a;
+    background-color: transparent;
+    margin: 3px;
 }
 /*-----------------------------------------------*/
 /* GToolButton */
