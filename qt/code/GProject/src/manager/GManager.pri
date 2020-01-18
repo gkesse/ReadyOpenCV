@@ -1,11 +1,14 @@
 SOURCES += \
+    $$PWD/GManager.cpp \
     $$PWD/GStyle.cpp \
     $$PWD/GPicto.cpp \
     $$PWD/GPrint.cpp \
     $$PWD/GImage.cpp \
-    $$PWD/GImageOpen.cpp \
     $$PWD/GWindow.cpp \
     $$PWD/GWindowDefault.cpp \
+    $$PWD/GWorkspaceItem.cpp \
+    $$PWD/GWorkspaceItemImage.cpp \
+    $$PWD/GWorkspaceItemVideo.cpp \
     $$PWD/GTitle.cpp \
     $$PWD/GTitleDefault.cpp \
     $$PWD/GTitleDialog.cpp \
@@ -24,6 +27,7 @@ SOURCES += \
     $$PWD/GDialogImageOpen.cpp \
     $$PWD/GRow.cpp \
     $$PWD/GRowDefault.cpp \
+    $$PWD/GRowBrowser.cpp \
     $$PWD/GButtonMap.cpp \
     $$PWD/GButtonMapOkCancel.cpp \
 

@@ -1,18 +1,13 @@
 //===============================================
-#ifndef _GImageOpen_
-#define _GImageOpen_
+#ifndef _GWorkspaceItemVideo_
+#define _GWorkspaceItemVideo_
 //===============================================
-#include "GInclude.h"
+#include "GWorkspaceItem.h"
 //===============================================
-class GImageOpen : public QDialog {
-	Q_OBJECT
-
+class GWorkspaceItemVideo : public GWorkspaceItem {
 public:
-	GImageOpen(QWidget* parent = 0);
-	~GImageOpen();
-
-private:
-	QLineEdit* m_filenameEdit;
+	GWorkspaceItemVideo(QWidget* parent = 0);
+	~GWorkspaceItemVideo();
 };
 //===============================================
 #endif

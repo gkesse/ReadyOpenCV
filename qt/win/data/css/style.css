@@ -17,9 +17,16 @@ QFrame#GButtonMap {
     padding: 5px;
 }
 /*-----------------------------------------------*/
+/* QDialog */
+QDialog {
+    background-color: #020b4f;
+    color: orange
+}
+/*-----------------------------------------------*/
 /* GDialog */
 QFrame#GDialog {
     background-color: #020b4f;
+    border: 2px solid #536d5a;
     min-width: 400px;
     min-height: 200px;
 }
@@ -85,9 +92,10 @@ QPushButton:hover {
 /*-----------------------------------------------*/
 /* GRow */
 QFrame#GRow {
-    background-color: transparent;
+    background-color: #536d5a;
     border: 2px solid #536d5a;
     margin: 10px;
+    spacing: 10px;
 }
 /* QScrollBar */
 QScrollBar:vertical {
@@ -160,20 +168,35 @@ QFrame#GTitle2 {
     background-color: #536d5a;
 }
 /*-----------------------------------------------*/
+/* QToolButton */
+QToolButton#GToolButton {
+    padding: 5px;
+}
+QToolButton:hover { 
+    background-color: #87998c;
+}
+QToolButton:pressed { 
+    background-color: transparent;
+}
+/*-----------------------------------------------*/
 /* GToolButton */
 QToolButton#GToolButton {
     padding: 5px;
 }
-QToolButton#GToolButton:hover { 
-    background-color: #87998c;
-}
 /*-----------------------------------------------*/
 /* GToolButton2 */
-QToolButton#GToolButton2 {
-    padding: 5px;
-}
 QToolButton#GToolButton2:hover {
     background-color: #ff0000;
+}
+/*-----------------------------------------------*/
+/* GToolButton3 */
+QToolButton#GToolButton3 {
+    padding: 0px 5px;
+}
+/*-----------------------------------------------*/
+/* GToolButton4 */
+QToolButton#GToolButton4:hover {
+    background-color: transparent;
 }
 /*-----------------------------------------------*/
 /* QToolTip */

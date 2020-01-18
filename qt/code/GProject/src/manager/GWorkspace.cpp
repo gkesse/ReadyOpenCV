@@ -16,3 +16,5 @@ GWorkspace* GWorkspace::Create(QString key) {
 	return new GWorkspaceDefault;
 }
 //===============================================
+void GWorkspace::slotAddModuleMenuSelect(QString) {}
+//===============================================

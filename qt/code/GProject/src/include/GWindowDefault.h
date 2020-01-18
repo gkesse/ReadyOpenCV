@@ -19,6 +19,7 @@ public slots:
 	void slotWindowMinimize();
 	void slotWindowMaximize();
 	void slotWindowFullScreen();
+	void slotModuleMax();
 	void slotModuleImageAction(QString action);
 
 private:

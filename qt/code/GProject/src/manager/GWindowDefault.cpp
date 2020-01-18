@@ -7,7 +7,8 @@
 #include "GStatusBar.h"
 #include "GDialog.h"
 #include "GPicto.h"
-#include "GPrint.h"
+#include "GImage.h"
+#include "GManager.h"
 //===============================================
 GWindowDefault::GWindowDefault(QWidget* parent) :
 GWindow(parent) {
@@ -19,6 +20,7 @@ GWindow(parent) {
 	GWorkspace* lWorkspace = GWorkspace::Create("DEFAULT");
 	GSection* lSection = GSection::Create("DEFAULT");
 	GStatusBar* lStatusBar = GStatusBar::Create("DEFAULT");
+	GManager* lManager = GManager::Instance();
 
 	lCenterLayout->setMargin(0);
 	lCenterLayout->setSpacing(0);
@@ -46,9 +48,14 @@ GWindow(parent) {
 	connect(lTitle, SIGNAL(emitWindowMaximize()), this, SLOT(slotWindowMaximize()));
 	connect(lTitle, SIGNAL(emitWindowClose()), this, SLOT(close()));
 	connect(lTitle, SIGNAL(emitWindowFullScreen()), this, SLOT(slotWindowFullScreen()));
-	connect(lMenu, SIGNAL(emitAddModuleMenuSelect(QString)), lSection, SLOT(slotAddModuleMenuSelect(QString)));
+
+	connect(lMenu, SIGNAL(emitAddModuleMenuSelect(QString)), lWorkspace, SLOT(slotAddModuleMenuSelect(QString)));
+
+	connect(lWorkspace, SIGNAL(emitAddModuleMenuSelect(QString)), lSection, SLOT(slotAddModuleMenuSelect(QString)));
 
 	connect(lSection, SIGNAL(emitModuleImageAction(QString)), this, SLOT(slotModuleImageAction(QString)));
+
+	connect(lManager, SIGNAL(emitModuleMax()), this, SLOT(slotModuleMax()));
 
 	connect(this, SIGNAL(windowTitleChanged(QString)), lTitle, SLOT(slotWindowTitleChange(QString)));
 	connect(this, SIGNAL(windowIconChanged(QIcon)), lTitle, SLOT(slotWindowIconChange(QIcon)));
@@ -142,17 +149,11 @@ void GWindowDefault::slotWindowFullScreen() {
 	emit emitWindowFullScreen(lWindowState, windowState());
 }
 //===============================================
+void GWindowDefault::slotModuleMax() {
+	GManager::Instance()->infoModuleMax(this);
+}
+//===============================================
 void GWindowDefault::slotModuleImageAction(QString action) {
-	GDialog* lImageOpen = GDialog::Create("IMAGE_OPEN", this);
-	int lOk = lImageOpen->exec();
-
-	if(lOk == QDialog::Accepted) {
-		GPrint::Instance()->print("QDialog::Accepted");
-	}
-	else if(lOk == QDialog::Rejected) {
-		GPrint::Instance()->print("QDialog::Rejected");
-	}
-
-	delete lImageOpen;
+	if(action == "IMAGE_OPEN") GImage::Instance()->open(this);
 }
 //===============================================

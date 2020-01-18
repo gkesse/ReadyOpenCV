@@ -1,23 +1,15 @@
 //===============================================
-#ifndef _GImage_
-#define _GImage_
+#ifndef _GDefine_
+#define _GDefine_
 //===============================================
-#include "GInclude.h"
+#define GBUFFER_INTEGER 32
+#define GBUFFER_FLOAT 	64
+#define GBUFFER_LONG 	128
+#define GBUFFER_STRING 	256
+#define GBUFFER_LINE 	512
+#define GBUFFER_DATA 	1024
 //===============================================
-class GImage : public QWidget {
-	Q_OBJECT
-
-private:
-	GImage(QWidget* parent = 0);
-
-public:
-	~GImage();
-	static GImage* Instance();
-	void open(QWidget* parent);
-
-private:
-	static GImage* m_instance;
-};
+#define GMAX_MODULE		3
 //===============================================
 #endif
 //===============================================

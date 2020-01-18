@@ -15,6 +15,12 @@ public:
 public:
 	virtual void setLabelText(QString text);
 	virtual QString getFieldText();
+
+public slots:
+	virtual void slotWindowBrowser();
+
+signals:
+	void emitWindowBrowser();
 };
 //===============================================
 #endif

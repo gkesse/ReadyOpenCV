@@ -3,11 +3,13 @@ INCLUDEPATH += \
 
 HEADERS += \
     $$PWD/GInclude.h \
+    $$PWD/GStruct.h \
+    $$PWD/GDefine.h \
+    $$PWD/GManager.h \
     $$PWD/GStyle.h \
     $$PWD/GPicto.h \
     $$PWD/GPrint.h \
     $$PWD/GImage.h \
-    $$PWD/GImageOpen.h \
     $$PWD/GWindow.h \
     $$PWD/GWindowDefault.h \
     $$PWD/GTitle.h \
@@ -17,6 +19,9 @@ HEADERS += \
     $$PWD/GMenuDefault.h \
     $$PWD/GWorkspace.h \
     $$PWD/GWorkspaceDefault.h \
+    $$PWD/GWorkspaceItem.h \
+    $$PWD/GWorkspaceItemImage.h \
+    $$PWD/GWorkspaceItemVideo.h \
     $$PWD/GSection.h \
     $$PWD/GSectionDefault.h \
     $$PWD/GStatusBar.h \
@@ -28,6 +33,7 @@ HEADERS += \
     $$PWD/GDialogImageOpen.h \
     $$PWD/GRow.h \
     $$PWD/GRowDefault.h \
+    $$PWD/GRowBrowser.h \
     $$PWD/GButtonMap.h \
     $$PWD/GButtonMapOkCancel.h \
     

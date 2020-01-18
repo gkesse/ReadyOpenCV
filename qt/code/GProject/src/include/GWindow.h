@@ -18,6 +18,7 @@ public slots:
 	virtual void slotWindowMinimize();
 	virtual void slotWindowMaximize();
 	virtual void slotWindowFullScreen();
+	virtual void slotModuleMax();
 	virtual void slotModuleImageAction(QString action);
 
 signals:

@@ -8,6 +8,7 @@ GTitle(parent) {
 	QHBoxLayout* lMainLayout = new QHBoxLayout;
 
 	m_icon = new QToolButton;
+	m_icon->setObjectName("GToolButton4");
 	m_icon->setCursor(Qt::ArrowCursor);
 	m_icon->setIconSize(QSize(30, 30));
 

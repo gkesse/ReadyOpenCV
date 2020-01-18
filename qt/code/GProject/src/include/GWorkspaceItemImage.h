@@ -1,22 +1,13 @@
 //===============================================
-#ifndef _GImage_
-#define _GImage_
+#ifndef _GWorkspaceItemImage_
+#define _GWorkspaceItemImage_
 //===============================================
-#include "GInclude.h"
+#include "GWorkspaceItem.h"
 //===============================================
-class GImage : public QWidget {
-	Q_OBJECT
-
-private:
-	GImage(QWidget* parent = 0);
-
+class GWorkspaceItemImage : public GWorkspaceItem {
 public:
-	~GImage();
-	static GImage* Instance();
-	void open(QWidget* parent);
-
-private:
-	static GImage* m_instance;
+	GWorkspaceItemImage(QWidget* parent = 0);
+	~GWorkspaceItemImage();
 };
 //===============================================
 #endif

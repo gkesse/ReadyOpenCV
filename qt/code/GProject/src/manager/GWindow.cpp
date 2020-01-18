@@ -21,5 +21,6 @@ void GWindow::slotWindowMove(QPoint) {}
 void GWindow::slotWindowMinimize() {}
 void GWindow::slotWindowMaximize() {}
 void GWindow::slotWindowFullScreen() {}
+void GWindow::slotModuleMax() {};
 void GWindow::slotModuleImageAction(QString) {}
 //===============================================

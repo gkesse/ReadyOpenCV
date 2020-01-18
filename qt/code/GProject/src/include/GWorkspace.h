@@ -11,6 +11,12 @@ public:
 	GWorkspace(QWidget* parent = 0);
 	virtual ~GWorkspace();
 	static GWorkspace* Create(QString key);
+
+public slots:
+	virtual void slotAddModuleMenuSelect(QString module);
+
+signals:
+	void emitAddModuleMenuSelect(QString module);
 };
 //===============================================
 #endif

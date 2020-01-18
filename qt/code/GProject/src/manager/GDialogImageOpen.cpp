@@ -8,7 +8,7 @@ GDialogImageOpen::GDialogImageOpen(QWidget* parent) :
 GDialog(parent) {
 	GTitle* lTitle = GTitle::Create("DIALOG");
 
-	GRow* lPath = GRow::Create("DEFAULT");
+	GRow* lPath = GRow::Create("BROWSER");
 	lPath->setLabelText(tr("Chemin:"));
 	GButtonMap* lButtonMap = GButtonMap::Create("OK_CANCEL");
 

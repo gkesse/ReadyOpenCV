@@ -1,10 +1,11 @@
 //===============================================
 #include "GImage.h"
-#include "GImageOpen.h"
+#include "GManager.h"
 //===============================================
 GImage* GImage::m_instance = 0;
 //===============================================
-GImage::GImage() {
+GImage::GImage(QWidget* parent) :
+QWidget(parent) {
 
 }
 //===============================================
@@ -19,14 +20,16 @@ GImage* GImage::Instance() {
 	return m_instance;
 }
 //===============================================
-void GImage::setParent(QWidget* parent) {
-	m_parent = parent;
-}
-//===============================================
-	void GImage::open() {
-	GImageOpen* lImageOpen = new GImageOpen(m_parent);
-	lImageOpen->setWindowModality(Qt::WindowModal);
-	lImageOpen->show();
-	//delete lImageOpen;
+void GImage::open(QWidget* parent) {
+	QString lFilename = QFileDialog::getOpenFileName(
+			parent,
+			"Ouvrir une image | ReadyDev",
+			QDir::currentPath(),
+			"Image files (*.png *.jpg *.jpeg *.bmp)");
+
+	if(lFilename != "") {
+		GManager::Instance()->setImage(lFilename.toStdString().c_str());
+		GManager::Instance()->print();
+	}
 }
 //===============================================
