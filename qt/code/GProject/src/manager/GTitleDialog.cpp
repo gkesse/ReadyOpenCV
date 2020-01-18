@@ -5,6 +5,7 @@
 //===============================================
 GTitleDialog::GTitleDialog(QWidget* parent) :
 GTitle(parent) {
+	setObjectName("GTitle2");
 	QHBoxLayout* lMainLayout = new QHBoxLayout;
 
 	m_icon = new QToolButton;

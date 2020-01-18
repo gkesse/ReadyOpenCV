@@ -155,6 +155,11 @@ QFrame#GTitle {
     margin: 3px;
 }
 /*-----------------------------------------------*/
+/* GTitle */
+QFrame#GTitle2 {
+    background-color: #536d5a;
+}
+/*-----------------------------------------------*/
 /* GToolButton */
 QToolButton#GToolButton {
     padding: 5px;
