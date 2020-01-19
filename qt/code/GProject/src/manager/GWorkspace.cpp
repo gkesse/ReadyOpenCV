@@ -19,13 +19,9 @@ GWorkspace* GWorkspace::Create(QString key) {
 	return new GWorkspaceDefault;
 }
 //===============================================
-void GWorkspace::slotAddModuleMenuSelect(QString module) {
-	if(GManager::Instance()->checkModuleMax() == true) return;
-	GManager::Instance()->incrementModuleCount();
-	int lIndex = GManager::Instance()->incrementModuleIndex();
+void GWorkspace::slotAddModuleMenuSelect(QString module, int index) {
 	GWorkspaceItem* lWorkspace = GWorkspaceItem::Create(module);
-	lWorkspace->setTitle(lIndex);
+	lWorkspace->setTitle(index);
 	m_workspace->addWidget(lWorkspace);
-	emit emitAddModuleMenuSelect(module, lIndex);
 }
 //===============================================

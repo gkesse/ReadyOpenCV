@@ -1,6 +1,7 @@
 //===============================================
 #include "GSection.h"
 #include "GSectionDefault.h"
+#include "GManager.h"
 //===============================================
 GSection::GSection(QWidget* parent) :
 QFrame(parent) {
@@ -29,15 +30,19 @@ bool GSection::eventFilter(QObject *object, QEvent *event) {
 	return QWidget::eventFilter(object, event);
 }
 //===============================================
-void GSection::slotAddModuleMenuSelect(QString module, int index) {
+void GSection::slotAddModuleMenuSelect(QString module) {
+	if(GManager::Instance()->checkModuleMax() == true) return;
+	GManager::Instance()->incrementModuleCount();
+	int lIndex = GManager::Instance()->incrementModuleIndex();
 	GModule* lModule = GModule::Create(module);
-	lModule->setIndex(index);
-	lModule->setTitle(index);
+	lModule->setIndex(lIndex);
+	lModule->setTitle(lIndex);
 	m_scrollLayout->addWidget(lModule);
 	m_moduleMap.append(lModule);
 	connect(lModule, SIGNAL(emitModuleMenuAction(QString)), this, SIGNAL(emitModuleMenuAction(QString)));
 	connect(lModule, SIGNAL(emitModuleCurrent(GModule*)), this, SLOT(slotModuleCurrent(GModule*)));
 	connect(lModule, SIGNAL(emitModuleCurrent(int)), this, SIGNAL(emitModuleCurrent(int)));
+	emit emitAddModuleMenuSelect(module, lIndex);
 }
 //===============================================
 void GSection::slotAddModuleMenuTimer() {

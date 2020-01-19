@@ -17,11 +17,12 @@ protected:
 	bool eventFilter(QObject *object, QEvent *event);
 
 public slots:
-	virtual void slotAddModuleMenuSelect(QString module, int index);
+	virtual void slotAddModuleMenuSelect(QString module);
 	virtual void slotAddModuleMenuTimer();
 	virtual void slotModuleCurrent(GModule* module);
 
 signals:
+	void emitAddModuleMenuSelect(QString module, int index);
 	void emitModuleMenuAction(QString action);
 	void emitModuleCurrent(int index);
 

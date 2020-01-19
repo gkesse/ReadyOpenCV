@@ -13,10 +13,9 @@ public:
 	static GWorkspace* Create(QString key);
 
 public slots:
-	virtual void slotAddModuleMenuSelect(QString module);
+	virtual void slotAddModuleMenuSelect(QString module, int index);
 
 signals:
-	void emitAddModuleMenuSelect(QString module, int index);
 	void emitModuleCurrent(int index);
 
 protected:
