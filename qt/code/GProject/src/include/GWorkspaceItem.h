@@ -11,6 +11,12 @@ public:
 	GWorkspaceItem(QWidget* parent = 0);
 	virtual ~GWorkspaceItem();
 	static GWorkspaceItem* Create(QString key);
+
+public:
+	void setTitle(int index);
+
+protected:
+	QLabel* m_workspace;
 };
 //===============================================
 #endif

@@ -24,6 +24,7 @@ void GWorkspace::slotAddModuleMenuSelect(QString module) {
 	GManager::Instance()->incrementModuleCount();
 	int lIndex = GManager::Instance()->incrementModuleIndex();
 	GWorkspaceItem* lWorkspace = GWorkspaceItem::Create(module);
+	lWorkspace->setTitle(lIndex);
 	m_workspace->addWidget(lWorkspace);
 	emit emitAddModuleMenuSelect(module, lIndex);
 }

@@ -37,7 +37,7 @@ void GModule::setIndex(int index) {
 //===============================================
 void GModule::setTitle(int index) {
 	QString lTitle = tr("%1 %2").arg(m_title->text()).arg(index);
-	m_title->setText(lTitle);
+	setToolTip(lTitle);
 }
 //===============================================
 int GModule::getIndex() {

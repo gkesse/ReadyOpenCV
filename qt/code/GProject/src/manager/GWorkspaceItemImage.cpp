@@ -6,12 +6,12 @@ GWorkspaceItemImage::GWorkspaceItemImage(QWidget* parent) :
 GWorkspaceItem(parent) {
 	QVBoxLayout* lMainLayout = new QVBoxLayout;
 
-	QLabel* lWorkspace = new QLabel(tr("Image"));
-	lWorkspace->setAlignment(Qt::AlignCenter);
+	m_workspace = new QLabel(tr("Image"));
+	m_workspace->setAlignment(Qt::AlignCenter);
 
 	lMainLayout->setMargin(0);
 	lMainLayout->setSpacing(0);
-	lMainLayout->addWidget(lWorkspace);
+	lMainLayout->addWidget(m_workspace);
 
 	setLayout(lMainLayout);
 }
