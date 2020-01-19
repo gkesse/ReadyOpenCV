@@ -19,6 +19,7 @@ public slots:
 protected:
 	QVBoxLayout* m_frameLayout;
 	QHBoxLayout* m_buttonMapLayout;
+	QPoint m_pressPosition;
 };
 //===============================================
 #endif

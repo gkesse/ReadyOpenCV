@@ -1,7 +1,6 @@
 //===============================================
 #include "GTitleDefault.h"
 #include "GPicto.h"
-#include "GPrint.h"
 //===============================================
 GTitleDefault::GTitleDefault(QWidget* parent) :
 GTitle(parent) {
@@ -50,63 +49,5 @@ GTitle(parent) {
 //===============================================
 GTitleDefault::~GTitleDefault() {
 
-}
-//===============================================
-void GTitleDefault::mousePressEvent(QMouseEvent *event) {
-	if(event->button() == Qt::LeftButton) {
-		QPoint lPressPosition = event->globalPos();
-		emit emitWindowPress(lPressPosition);
-	}
-	QWidget::mousePressEvent(event);
-}
-//===============================================
-void GTitleDefault::mouseMoveEvent(QMouseEvent *event) {
-	if(event->buttons() & Qt::LeftButton) {
-		QPoint lMovePosition = event->globalPos();
-		emit emitWindowMove(lMovePosition);
-	}
-	QWidget::mouseMoveEvent(event);
-}
-//===============================================
-void GTitleDefault::mouseDoubleClickEvent(QMouseEvent *event) {
-	if(event->button() == Qt::LeftButton) {
-		emit emitWindowFullScreen();
-	}
-	QWidget::mouseDoubleClickEvent(event);
-}
-//===============================================
-void GTitleDefault::slotWindowTitleChange(QString title) {
-	m_title->setText(title);
-}
-//===============================================
-void GTitleDefault::slotWindowIconChange(QIcon icon) {
-	m_icon->setIcon(icon);
-}
-//===============================================
-void GTitleDefault::slotWindowMaximize(int oldState, int newState) {
-	Q_UNUSED(newState)
-			if(oldState == Qt::WindowMaximized) {
-				m_maximize->setIcon(GPicto::Instance()->getPicto(fa::windowmaximize));
-			}
-			else if(oldState == Qt::WindowFullScreen) {
-				m_maximize->setIcon(GPicto::Instance()->getPicto(fa::windowmaximize));
-			}
-			else {
-				m_maximize->setIcon(GPicto::Instance()->getPicto(fa::windowrestore));
-			}
-}
-//===============================================
-void GTitleDefault::slotWindowFullScreen(int oldState, int newState) {
-	if(oldState == Qt::WindowFullScreen) {
-		if(newState == Qt::WindowMaximized) {
-			m_maximize->setIcon(GPicto::Instance()->getPicto(fa::windowrestore));
-		}
-		else {
-			m_maximize->setIcon(GPicto::Instance()->getPicto(fa::windowmaximize));
-		}
-	}
-	else {
-		m_maximize->setIcon(GPicto::Instance()->getPicto(fa::windowrestore));
-	}
 }
 //===============================================

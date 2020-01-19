@@ -1,6 +1,5 @@
 //===============================================
 #include "GWorkspaceDefault.h"
-#include "GWorkspaceItem.h"
 #include "GManager.h"
 #include "GPicto.h"
 //===============================================
@@ -18,19 +17,11 @@ GWorkspace(parent) {
 	lMainLayout->addWidget(m_workspace);
 
 	setLayout(lMainLayout);
+
+	connect(this, SIGNAL(emitModuleCurrent(int)), m_workspace, SLOT(setCurrentIndex(int)));
 }
 //===============================================
 GWorkspaceDefault::~GWorkspaceDefault() {
 
-}
-//===============================================
-void GWorkspaceDefault::slotAddModuleMenuSelect(QString module) {
-	if(GManager::Instance()->checkModuleMax() == true) return;
-	GManager::Instance()->incrementModuleCount();
-	int lIndex = GManager::Instance()->incrementModuleIndex();
-	GWorkspaceItem* lWorkspace = GWorkspaceItem::Create(module);
-	m_workspace->addWidget(lWorkspace);
-	m_workspace->setCurrentIndex(lIndex);
-	emit emitAddModuleMenuSelect(module);
 }
 //===============================================

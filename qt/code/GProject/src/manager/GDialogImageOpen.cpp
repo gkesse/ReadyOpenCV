@@ -36,12 +36,3 @@ GDialogImageOpen::~GDialogImageOpen() {
 
 }
 //===============================================
-void GDialogImageOpen::slotWindowPress(QPoint position) {
-	m_pressPosition = position - frameGeometry().topLeft();
-}
-//===============================================
-void GDialogImageOpen::slotWindowMove(QPoint position) {
-	QPoint lMovePosition = position - m_pressPosition;
-	move(lMovePosition);
-}
-//===============================================

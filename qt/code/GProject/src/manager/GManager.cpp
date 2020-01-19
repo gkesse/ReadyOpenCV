@@ -8,7 +8,7 @@ GManager::GManager() {
 	mg->module = new sGModule;
 	mg->module->index = 0;
 	mg->module->count = 0;
-	mg->module->max = GMAX_MODULE;
+	mg->module->max = G_MODULE_MAX;
 	mg->image = new sGImage;
 }
 //===============================================
@@ -51,6 +51,19 @@ int GManager::incrementModuleCount() {
 int GManager::incrementModuleIndex() {
 	mg->module->index++;
 	return mg->module->index;
+}
+//===============================================
+void GManager::openImage(QWidget* parent) {
+	QString lFilename = QFileDialog::getOpenFileName(
+			parent,
+			"Ouvrir une image | ReadyDev",
+			QDir::currentPath(),
+			"Image files (*.png *.jpg *.jpeg *.bmp)");
+
+	if(lFilename != "") {
+		GManager::Instance()->setImage(lFilename.toStdString().c_str());
+		GManager::Instance()->print();
+	}
 }
 //===============================================
 void GManager::setImage(QString fullname) {

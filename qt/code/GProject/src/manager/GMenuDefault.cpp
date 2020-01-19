@@ -1,7 +1,6 @@
 //===============================================
 #include "GMenuDefault.h"
 #include "GPicto.h"
-#include "GPrint.h"
 //===============================================
 GMenuDefault::GMenuDefault(QWidget* parent) :
 GMenu(parent) {
@@ -44,15 +43,5 @@ GMenu(parent) {
 //===============================================
 GMenuDefault::~GMenuDefault() {
 
-}
-//===============================================
-void GMenuDefault::slotAddModuleMenuOpen() {
-	QPoint lCursorPos = QCursor::pos();
-	m_addModuleMenu->exec(lCursorPos);
-}
-//===============================================
-void GMenuDefault::slotAddModuleMenuSelect(QAction* action) {
-	QString lModule = m_moduleMap[action];
-	emit emitAddModuleMenuSelect(lModule);
 }
 //===============================================

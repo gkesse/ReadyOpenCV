@@ -49,6 +49,12 @@ GDialog* GDialog::Create(QString key, QWidget* parent) {
 	return new GDialogImageOpen;
 }
 //===============================================
-void GDialog::slotWindowPress(QPoint position) {}
-void GDialog::slotWindowMove(QPoint position) {}
+void GDialog::slotWindowPress(QPoint position) {
+	m_pressPosition = position - frameGeometry().topLeft();
+}
+//===============================================
+void GDialog::slotWindowMove(QPoint position) {
+	QPoint lMovePosition = position - m_pressPosition;
+	move(lMovePosition);
+}
 //===============================================

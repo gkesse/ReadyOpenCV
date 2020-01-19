@@ -18,6 +18,10 @@ public slots:
 
 signals:
 	void emitAddModuleMenuSelect(QString module);
+
+protected:
+	QMenu* m_addModuleMenu;
+	QMap<QAction*, QString> m_moduleMap;
 };
 //===============================================
 #endif

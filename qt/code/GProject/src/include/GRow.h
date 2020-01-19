@@ -21,6 +21,11 @@ public slots:
 
 signals:
 	void emitWindowBrowser();
+
+protected:
+	QLabel* m_label;
+	QLineEdit* m_field;
+	QToolButton* m_browser;
 };
 //===============================================
 #endif

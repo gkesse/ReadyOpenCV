@@ -12,6 +12,11 @@ public:
 	virtual ~GTitle();
 	static GTitle* Create(QString key);
 
+protected:
+	void mousePressEvent(QMouseEvent *event);
+	void mouseMoveEvent(QMouseEvent *event);
+	void mouseDoubleClickEvent(QMouseEvent *event);
+
 public slots:
 	virtual void slotWindowTitleChange(QString title);
 	virtual void slotWindowIconChange(QIcon icon);
@@ -25,6 +30,11 @@ signals:
 	void emitWindowMaximize();
 	void emitWindowClose();
 	void emitWindowFullScreen();
+
+protected:
+	QToolButton* m_icon;
+	QLabel* m_title;
+	QToolButton* m_maximize;
 };
 //===============================================
 #endif

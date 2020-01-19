@@ -44,27 +44,3 @@ GSectionDefault::~GSectionDefault() {
 
 }
 //===============================================
-void GSectionDefault::slotAddModuleMenuSelect(QString module) {
-	GModule* lModule = GModule::Create(module);
-	m_scrollLayout->addWidget(lModule);
-	connect(lModule, SIGNAL(emitModuleImageAction(QString)), this, SIGNAL(emitModuleImageAction(QString)));
-}
-//===============================================
-void GSectionDefault::slotAddModuleMenuTimer() {
-	int lWidth = 0;
-	lWidth += m_scrollWidget->sizeHint().width();
-	if(m_scrollArea->verticalScrollBar()->isVisible() == true) {
-		lWidth += m_scrollArea->verticalScrollBar()->sizeHint().width();
-	}
-	m_scrollArea->setMinimumWidth(lWidth);
-}
-//===============================================
-bool GSectionDefault::eventFilter(QObject *object, QEvent *event) {
-	if (event->type() == QEvent::Resize) {
-		if(object == m_scrollWidget || object == m_scrollArea->verticalScrollBar()) {
-			m_timer->start();
-		}
-	}
-	return QWidget::eventFilter(object, event);
-}
-//===============================================

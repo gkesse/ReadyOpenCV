@@ -9,7 +9,6 @@ HEADERS += \
     $$PWD/GStyle.h \
     $$PWD/GPicto.h \
     $$PWD/GPrint.h \
-    $$PWD/GImage.h \
     $$PWD/GWindow.h \
     $$PWD/GWindowDefault.h \
     $$PWD/GTitle.h \

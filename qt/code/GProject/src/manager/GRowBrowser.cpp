@@ -14,7 +14,6 @@ GRow(parent) {
 	m_field->setObjectName("GLineEdit");
 
 	m_browser = new QToolButton;
-	m_browser->setObjectName("GToolButton3");
 	m_browser->setCursor(Qt::PointingHandCursor);
 	m_browser->setIcon(GPicto::Instance()->getPicto(fa::folderopen));
 	m_browser->setIconSize(QSize(23, 23));
@@ -34,17 +33,5 @@ GRow(parent) {
 //===============================================
 GRowBrowser::~GRowBrowser() {
 
-}
-//===============================================
-void GRowBrowser::setLabelText(QString text) {
-	m_label->setText(text);
-}
-//===============================================
-QString GRowBrowser::getFieldText() {
-	return m_field->text();
-}
-//===============================================
-void GRowBrowser::slotWindowBrowser() {
-	GPrint::Instance()->print("GRowBrowser::slotWindowBrowser");
 }
 //===============================================

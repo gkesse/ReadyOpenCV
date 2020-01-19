@@ -5,6 +5,7 @@
 GMenu::GMenu(QWidget* parent) :
 QFrame(parent) {
 	setObjectName("GMenu");
+	m_addModuleMenu = 0;
 }
 //===============================================
 GMenu::~GMenu() {
@@ -16,6 +17,13 @@ GMenu* GMenu::Create(QString key) {
 	return new GMenuDefault;
 }
 //===============================================
-void GMenu::slotAddModuleMenuOpen() {}
-void GMenu::slotAddModuleMenuSelect(QAction*) {}
+void GMenu::slotAddModuleMenuOpen() {
+	QPoint lCursorPos = QCursor::pos();
+	m_addModuleMenu->exec(lCursorPos);
+}
+//===============================================
+void GMenu::slotAddModuleMenuSelect(QAction* action) {
+	QString lModule = m_moduleMap[action];
+	emit emitAddModuleMenuSelect(lModule);
+}
 //===============================================

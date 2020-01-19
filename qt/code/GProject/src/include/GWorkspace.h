@@ -16,7 +16,11 @@ public slots:
 	virtual void slotAddModuleMenuSelect(QString module);
 
 signals:
-	void emitAddModuleMenuSelect(QString module);
+	void emitAddModuleMenuSelect(QString module, int index);
+	void emitModuleCurrent(int index);
+
+protected:
+	QStackedWidget* m_workspace;
 };
 //===============================================
 #endif

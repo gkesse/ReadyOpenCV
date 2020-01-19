@@ -17,6 +17,7 @@ public:
 	void infoModuleMax(QWidget* parent);
 	int incrementModuleCount();
 	int incrementModuleIndex();
+	void openImage(QWidget* parent);
 	void setImage(QString fullname);
 	void print();
 

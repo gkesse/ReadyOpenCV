@@ -17,6 +17,38 @@ QFrame#GButtonMap {
     padding: 5px;
 }
 /*-----------------------------------------------*/
+/* QCheckBox */
+QCheckBox {
+    spacing: 0px;
+}
+QCheckBox::indicator {
+    border: none;
+    min-width: 14px;
+    min-height: 14px;
+}
+QCheckBox::indicator::unchecked {
+    background-color: #4e516d;
+}
+QCheckBox::indicator:unchecked:hover {
+    background-color: #4e516d;
+}
+QCheckBox::indicator:unchecked:pressed {
+    background-color: #4e516d;
+    image: url(data/img/check.png);
+}
+QCheckBox::indicator::checked {
+    background-color: transparent;
+    image: url(data/img/check.png);
+}
+QCheckBox::indicator:checked:hover {
+    background-color: transparent;
+    image: url(data/img/check.png);
+}
+QCheckBox::indicator:checked:pressed {
+    background-color: transparent;
+    image: url(data/img/check.png);
+}
+/*-----------------------------------------------*/
 /* QDialog */
 QDialog {
     background-color: #020b4f;
@@ -77,6 +109,15 @@ QFrame#GModule {
     border: 5px solid #536d5a;
     min-width: 50px;
     min-height: 50px;
+}
+QFrame#GModule[status="CHECK"] {
+    background-color: #37b46b;
+}
+QFrame#GModule[status="CURRENT"] {
+    background-color: red;
+}
+QFrame#GModule[status="CURRENT_CHECK"] {
+    background-color: orange;
 }
 /*-----------------------------------------------*/
 /* QPushButton */
@@ -169,7 +210,7 @@ QFrame#GTitle2 {
 }
 /*-----------------------------------------------*/
 /* QToolButton */
-QToolButton#GToolButton {
+QToolButton {
     padding: 5px;
 }
 QToolButton:hover { 
@@ -195,6 +236,9 @@ QToolButton#GToolButton3 {
 }
 /*-----------------------------------------------*/
 /* GToolButton4 */
+QToolButton#GToolButton4 {
+    padding: 0px;
+}
 QToolButton#GToolButton4:hover {
     background-color: transparent;
 }

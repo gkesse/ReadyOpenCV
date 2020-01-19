@@ -3,7 +3,6 @@ SOURCES += \
     $$PWD/GStyle.cpp \
     $$PWD/GPicto.cpp \
     $$PWD/GPrint.cpp \
-    $$PWD/GImage.cpp \
     $$PWD/GWindow.cpp \
     $$PWD/GWindowDefault.cpp \
     $$PWD/GWorkspaceItem.cpp \
