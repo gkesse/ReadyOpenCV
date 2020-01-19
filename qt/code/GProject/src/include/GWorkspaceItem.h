@@ -13,7 +13,8 @@ public:
 	static GWorkspaceItem* Create(QString key);
 
 public:
-	void setTitle(int index);
+	virtual void setTitle(int index);
+	virtual void setImage(QString filename);
 
 protected:
 	QLabel* m_workspace;

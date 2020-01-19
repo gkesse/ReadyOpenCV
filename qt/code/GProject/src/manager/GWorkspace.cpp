@@ -25,3 +25,11 @@ void GWorkspace::slotAddModuleMenuSelect(QString module, int index) {
 	m_workspace->addWidget(lWorkspace);
 }
 //===============================================
+void GWorkspace::slotImageOpen(QString filename, GModule* module) {
+	int lIndex = module->getIndex();
+	GWorkspaceItem* lWorkspace = qobject_cast<GWorkspaceItem*>(m_workspace->widget(lIndex));
+	lWorkspace->setImage(filename);
+	m_workspace->setCurrentIndex(lIndex);
+	emit emitModuleCurrent(module);
+}
+//===============================================

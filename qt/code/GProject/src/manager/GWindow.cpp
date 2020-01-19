@@ -102,7 +102,7 @@ void GWindow::slotModuleMax() {
 	GManager::Instance()->infoModuleMax(this);
 }
 //===============================================
-void GWindow::slotModuleMenuAction(QString action) {
-	if(action == "IMAGE_OPEN") GManager::Instance()->openImage(this);
+void GWindow::slotModuleMenuAction(QString action, GModule* module) {
+	if(action == "IMAGE_OPEN") GManager::Instance()->openImage(this, module);
 }
 //===============================================

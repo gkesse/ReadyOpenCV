@@ -84,6 +84,6 @@ void GModule::slotModuleSetting() {
 //===============================================
 void GModule::slotModuleMenuSelect(QAction* action) {
 	QString lAction = m_actionMap[action];
-	emit emitModuleMenuAction(lAction);
+	emit emitModuleMenuAction(lAction, this);
 }
 //===============================================

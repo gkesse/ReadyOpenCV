@@ -3,6 +3,7 @@
 #define _GWindow_
 //===============================================
 #include "GInclude.h"
+#include "GModule.h"
 //===============================================
 class GWindow : public QFrame {
 	Q_OBJECT
@@ -23,7 +24,7 @@ public slots:
 	virtual void slotWindowMaximize();
 	virtual void slotWindowFullScreen();
 	virtual void slotModuleMax();
-	virtual void slotModuleMenuAction(QString action);
+	virtual void slotModuleMenuAction(QString action, GModule* module);
 
 signals:
 	void emitWindowMaximize(int oldState, int newState);

@@ -3,6 +3,7 @@
 #define _GWorkspace_
 //===============================================
 #include "GInclude.h"
+#include "GModule.h"
 //===============================================
 class GWorkspace : public QFrame {
 	Q_OBJECT
@@ -14,9 +15,11 @@ public:
 
 public slots:
 	virtual void slotAddModuleMenuSelect(QString module, int index);
+	virtual void slotImageOpen(QString filename, GModule* module);
 
 signals:
 	void emitModuleCurrent(int index);
+	void emitModuleCurrent(GModule* module);
 
 protected:
 	QStackedWidget* m_workspace;

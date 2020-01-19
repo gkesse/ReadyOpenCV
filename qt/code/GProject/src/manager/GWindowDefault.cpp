@@ -47,10 +47,13 @@ GWindow(parent) {
 	connect(lMenu, SIGNAL(emitAddModuleMenuSelect(QString)), lSection, SLOT(slotAddModuleMenuSelect(QString)));
 
 	connect(lSection, SIGNAL(emitAddModuleMenuSelect(QString, int)), lWorkspace, SLOT(slotAddModuleMenuSelect(QString, int)));
-	connect(lSection, SIGNAL(emitModuleMenuAction(QString)), this, SLOT(slotModuleMenuAction(QString)));
+	connect(lSection, SIGNAL(emitModuleMenuAction(QString, GModule*)), this, SLOT(slotModuleMenuAction(QString, GModule*)));
 	connect(lSection, SIGNAL(emitModuleCurrent(int)), lWorkspace, SIGNAL(emitModuleCurrent(int)));
 
+	connect(lWorkspace, SIGNAL(emitModuleCurrent(GModule*)), lSection, SLOT(slotModuleCurrent(GModule*)));
+
 	connect(lManager, SIGNAL(emitModuleMax()), this, SLOT(slotModuleMax()));
+	connect(lManager, SIGNAL(emitImageOpen(QString, GModule*)), lWorkspace, SLOT(slotImageOpen(QString, GModule*)));
 
 	connect(this, SIGNAL(windowTitleChanged(QString)), lTitle, SLOT(slotWindowTitleChange(QString)));
 	connect(this, SIGNAL(windowIconChanged(QIcon)), lTitle, SLOT(slotWindowIconChange(QIcon)));

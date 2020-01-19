@@ -24,3 +24,7 @@ void GWorkspaceItem::setTitle(int index) {
 	m_workspace->setText(lTitle);
 }
 //===============================================
+void GWorkspaceItem::setImage(QString filename) {
+	m_workspace->setPixmap(QPixmap(filename));
+}
+//===============================================

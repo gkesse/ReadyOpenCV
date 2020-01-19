@@ -5,6 +5,8 @@ GManager* GManager::m_instance = 0;
 //===============================================
 GManager::GManager() {
 	mg = new sGManager;
+	mg->commun = new sGCommon;
+	mg->commun->current_path = QDir::currentPath();
 	mg->module = new sGModule;
 	mg->module->index = 0;
 	mg->module->count = 0;
@@ -53,15 +55,16 @@ int GManager::incrementModuleIndex() {
 	return mg->module->index;
 }
 //===============================================
-void GManager::openImage(QWidget* parent) {
+void GManager::openImage(QWidget* parent, GModule* module) {
 	QString lFilename = QFileDialog::getOpenFileName(
 			parent,
 			"Ouvrir une image | ReadyDev",
-			QDir::currentPath(),
+			mg->commun->current_path,
 			"Image files (*.png *.jpg *.jpeg *.bmp)");
 
 	if(lFilename != "") {
 		GManager::Instance()->setImage(lFilename.toStdString().c_str());
+		emit emitImageOpen(lFilename, module);
 		GManager::Instance()->print();
 	}
 }
@@ -74,11 +77,20 @@ void GManager::setImage(QString fullname) {
 	lImage->filename = lFileInfo.fileName();
 	lImage->fullname = lFileInfo.absoluteFilePath();
 	mg->image->list.append(lImage);
+	mg->commun->current_path = lImage->path;
 }
 //===============================================
 void GManager::print() {
 	cout << "[sGManager]\n";
+	cout << "-------------------------------------------------\n";
+	cout << "[sGManager][sGModule]\n";
+	cout << "-------------------------------------------------\n";
+	cout << "index" << " : " << mg->module->index << "\n";
+	cout << "count" << " : " << mg->module->count << "\n";
+	cout << "max" << " : " << mg->module->max << "\n";
+	cout << "-------------------------------------------------\n";
 	cout << "[sGManager][sGImage]\n";
+	cout << "-------------------------------------------------\n";
 	for(int i = 0; i < mg->image->list.size(); i++) {
 		sGImageItem* lImage = mg->image->list.at(i);
 		cout << "path" << " : " << lImage->path.toStdString() << "\n";

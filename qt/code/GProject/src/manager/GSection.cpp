@@ -39,7 +39,7 @@ void GSection::slotAddModuleMenuSelect(QString module) {
 	lModule->setTitle(lIndex);
 	m_scrollLayout->addWidget(lModule);
 	m_moduleMap.append(lModule);
-	connect(lModule, SIGNAL(emitModuleMenuAction(QString)), this, SIGNAL(emitModuleMenuAction(QString)));
+	connect(lModule, SIGNAL(emitModuleMenuAction(QString, GModule*)), this, SIGNAL(emitModuleMenuAction(QString, GModule*)));
 	connect(lModule, SIGNAL(emitModuleCurrent(GModule*)), this, SLOT(slotModuleCurrent(GModule*)));
 	connect(lModule, SIGNAL(emitModuleCurrent(int)), this, SIGNAL(emitModuleCurrent(int)));
 	emit emitAddModuleMenuSelect(module, lIndex);

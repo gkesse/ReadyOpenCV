@@ -23,7 +23,7 @@ public slots:
 
 signals:
 	void emitAddModuleMenuSelect(QString module, int index);
-	void emitModuleMenuAction(QString action);
+	void emitModuleMenuAction(QString action, GModule* module);
 	void emitModuleCurrent(int index);
 
 protected:
