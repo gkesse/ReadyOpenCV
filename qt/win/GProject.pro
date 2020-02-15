@@ -5,7 +5,8 @@ OBJECTS_DIR = build
 MOC_DIR = build
 UI_DIR = build
 RCC_DIR = build
-CONFIG += console release
+CONFIG += console release c++11
 QT += widgets
+RESOURCES += resources.qrc
 
 include(../code/GProject/src/GMain.pri)

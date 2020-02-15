@@ -2,11 +2,14 @@
 #include "GWorkspaceItem.h"
 #include "GWorkspaceItemImage.h"
 #include "GWorkspaceItemVideo.h"
+#include "GImage.h"
 //===============================================
 GWorkspaceItem::GWorkspaceItem(QWidget* parent) :
 QFrame(parent) {
 	setObjectName("GWorkspaceItem");
 	m_workspace = 0;
+	m_scrollArea = 0;
+	m_image = 0;
 }
 //===============================================
 GWorkspaceItem::~GWorkspaceItem() {
@@ -24,7 +27,14 @@ void GWorkspaceItem::setTitle(int index) {
 	m_workspace->setText(lTitle);
 }
 //===============================================
-void GWorkspaceItem::setImage(QString filename) {
-	m_workspace->setPixmap(QPixmap(filename));
+void GWorkspaceItem::setImage(int index, QString action) {
+	delete m_image;
+	m_image = GImage::Instance()->convertImage(index, action);
+	m_workspace->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+	m_workspace->setScaledContents(true);
+	m_workspace->setPixmap(QPixmap::fromImage(*m_image));
+	m_workspace->adjustSize();
+	m_scrollArea->setWidgetResizable(false);
+	GImage::Instance()->deleteQImage();
 }
 //===============================================

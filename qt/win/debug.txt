@@ -1,0 +1,1 @@
+15/02/2020 20:18:15 | GDebug::test() | key: value

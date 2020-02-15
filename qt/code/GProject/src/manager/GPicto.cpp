@@ -36,4 +36,5 @@ QIcon GPicto::getPicto(QString picto) {
     m_picto->setDefaultOption("color-active", m_color);
     m_color = "white";
     return m_picto->icon(picto);
-}//===============================================
+}
+//===============================================

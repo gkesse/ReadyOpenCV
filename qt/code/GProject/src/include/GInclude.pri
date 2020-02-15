@@ -3,9 +3,12 @@ INCLUDEPATH += \
 
 HEADERS += \
     $$PWD/GInclude.h \
-    $$PWD/GStruct.h \
+    $$PWD/GDebug.h \
     $$PWD/GDefine.h \
+    $$PWD/GEnum.h \
     $$PWD/GManager.h \
+    $$PWD/GImage.h \
+    $$PWD/GSerialize.h \
     $$PWD/GStyle.h \
     $$PWD/GPicto.h \
     $$PWD/GPrint.h \
@@ -35,4 +38,4 @@ HEADERS += \
     $$PWD/GRowBrowser.h \
     $$PWD/GButtonMap.h \
     $$PWD/GButtonMapOkCancel.h \
-    
+        

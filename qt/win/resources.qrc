@@ -1,0 +1,9 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource prefix="/img">
+        <file alias="vision.png">data/img/vision.png</file>
+    </qresource>
+    <qresource prefix="/css">
+        <file alias="style.css">data/css/style.css</file>
+    </qresource>
+</RCC>

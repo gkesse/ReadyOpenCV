@@ -15,11 +15,10 @@ public:
 
 public slots:
 	virtual void slotAddModuleMenuSelect(QString module, int index);
-	virtual void slotImageOpen(QString filename, GModule* module);
+	virtual void slotImageOpen(int index, QString action);
 
 signals:
 	void emitModuleCurrent(int index);
-	void emitModuleCurrent(GModule* module);
 
 protected:
 	QStackedWidget* m_workspace;

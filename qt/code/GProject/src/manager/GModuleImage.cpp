@@ -52,6 +52,18 @@ GModule(parent) {
 	lAction->setIcon(GPicto::Instance()->getPicto(fa::save));
 	m_moduleMenu->addAction(lAction);
 
+	lAction = new QAction(this);
+	m_actionMap[lAction] = "IMAGE_GRAY";
+	lAction->setText(tr("Convertir une image en niveau de gris"));
+	lAction->setIcon(GPicto::Instance()->getPicto(fa::paste));
+	m_moduleMenu->addAction(lAction);
+
+	lAction = new QAction(this);
+	m_actionMap[lAction] = "IMAGE_CONVERT";
+	lAction->setText(tr("Convertir une image"));
+	lAction->setIcon(GPicto::Instance()->getPicto(fa::save));
+	m_moduleMenu->addAction(lAction);
+
 	connect(m_moduleMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotModuleMenuSelect(QAction*)));
 
 	setPropertyData("status", "UNCHECK");

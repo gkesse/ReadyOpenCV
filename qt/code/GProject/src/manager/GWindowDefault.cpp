@@ -6,6 +6,7 @@
 #include "GSection.h"
 #include "GStatusBar.h"
 #include "GPicto.h"
+#include "GImage.h"
 #include "GManager.h"
 //===============================================
 GWindowDefault::GWindowDefault(QWidget* parent) :
@@ -18,6 +19,7 @@ GWindow(parent) {
 	GWorkspace* lWorkspace = GWorkspace::Create("DEFAULT");
 	GSection* lSection = GSection::Create("DEFAULT");
 	GStatusBar* lStatusBar = GStatusBar::Create("DEFAULT");
+	GImage* lImage = GImage::Instance();
 	GManager* lManager = GManager::Instance();
 
 	lCenterLayout->setMargin(0);
@@ -35,7 +37,6 @@ GWindow(parent) {
 	setLayout(lMainLayout);
 
 	setWindowFlags(Qt::FramelessWindowHint | Qt::Window);
-	setAttribute(Qt::WA_TranslucentBackground);
 
 	connect(lTitle, SIGNAL(emitWindowPress(QPoint)), this, SLOT(slotWindowPress(QPoint)));
 	connect(lTitle, SIGNAL(emitWindowMove(QPoint)), this, SLOT(slotWindowMove(QPoint)));
@@ -45,15 +46,16 @@ GWindow(parent) {
 	connect(lTitle, SIGNAL(emitWindowFullScreen()), this, SLOT(slotWindowFullScreen()));
 
 	connect(lMenu, SIGNAL(emitAddModuleMenuSelect(QString)), lSection, SLOT(slotAddModuleMenuSelect(QString)));
+	connect(lMenu, SIGNAL(emitSettingMenuSelect(QString)), this, SLOT(slotSettingMenuSelect(QString)));
 
 	connect(lSection, SIGNAL(emitAddModuleMenuSelect(QString, int)), lWorkspace, SLOT(slotAddModuleMenuSelect(QString, int)));
-	connect(lSection, SIGNAL(emitModuleMenuAction(QString, GModule*)), this, SLOT(slotModuleMenuAction(QString, GModule*)));
+	connect(lSection, SIGNAL(emitModuleMenuAction(QString, int)), this, SLOT(slotModuleMenuAction(QString, int)));
 	connect(lSection, SIGNAL(emitModuleCurrent(int)), lWorkspace, SIGNAL(emitModuleCurrent(int)));
 
-	connect(lWorkspace, SIGNAL(emitModuleCurrent(GModule*)), lSection, SLOT(slotModuleCurrent(GModule*)));
+	connect(lWorkspace, SIGNAL(emitModuleCurrent(int)), lSection, SLOT(slotModuleCurrent(int)));
 
+	connect(lImage, SIGNAL(emitImageOpen(int, QString)), lWorkspace, SLOT(slotImageOpen(int, QString)));
 	connect(lManager, SIGNAL(emitModuleMax()), this, SLOT(slotModuleMax()));
-	connect(lManager, SIGNAL(emitImageOpen(QString, GModule*)), lWorkspace, SLOT(slotImageOpen(QString, GModule*)));
 
 	connect(this, SIGNAL(windowTitleChanged(QString)), lTitle, SLOT(slotWindowTitleChange(QString)));
 	connect(this, SIGNAL(windowIconChanged(QIcon)), lTitle, SLOT(slotWindowIconChange(QIcon)));
@@ -61,13 +63,15 @@ GWindow(parent) {
 	connect(this, SIGNAL(emitWindowFullScreen(int, int)), lTitle, SLOT(slotWindowFullScreen(int, int)));
 
 	setWindowTitle(tr("OpenCV | ReadyDev"));
-	GPicto::Instance()->setColor("navy");
+	GPicto::Instance()->setColor("orange");
 	setWindowIcon(GPicto::Instance()->getPicto(fa::snowflakeo));
 
 	m_sizeGrip = new QSizeGrip(this);
+
+	m_pixmapBg.load(":/img/vision.png");
 }
 //===============================================
 GWindowDefault::~GWindowDefault() {
-
+	GManager::Instance()->save();
 }
 //===============================================

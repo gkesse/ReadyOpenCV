@@ -14,14 +14,19 @@ public:
 
 public slots:
 	virtual void slotAddModuleMenuOpen();
+	virtual void slotSettingMenuOpen();
 	virtual void slotAddModuleMenuSelect(QAction* action);
+	virtual void slotSettingMenuSelect(QAction* action);
 
 signals:
 	void emitAddModuleMenuSelect(QString module);
+	void emitSettingMenuSelect(QString module);
 
 protected:
 	QMenu* m_addModuleMenu;
+	QMenu* m_settingMenu;
 	QMap<QAction*, QString> m_moduleMap;
+	QMap<QAction*, QString> m_settingMap;
 };
 //===============================================
 #endif

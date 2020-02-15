@@ -202,6 +202,7 @@ Makefile: GProject.pro C:/Qt/Qt5.8.0/5.8/mingw53_32/mkspecs/win32-g++/qmake.conf
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/mkspecs/features/default_pre.prf \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/mkspecs/features/win32/default_pre.prf \
 		../../../../Compressed/QtAwesome-master/QtAwesome-master/QtAwesome/GQtAwesome.pri \
+		../../../ReadyLib/dev/opencv/c/2.4.13.6/GOpenCV.pri \
 		../code/GProject/src/include/GInclude.pri \
 		../code/GProject/src/manager/GManager.pri \
 		../code/GProject/src/GMain.pri \
@@ -371,6 +372,7 @@ C:/Qt/Qt5.8.0/5.8/mingw53_32/mkspecs/features/toolchain.prf:
 C:/Qt/Qt5.8.0/5.8/mingw53_32/mkspecs/features/default_pre.prf:
 C:/Qt/Qt5.8.0/5.8/mingw53_32/mkspecs/features/win32/default_pre.prf:
 ../../../../Compressed/QtAwesome-master/QtAwesome-master/QtAwesome/GQtAwesome.pri:
+../../../ReadyLib/dev/opencv/c/2.4.13.6/GOpenCV.pri:
 ../code/GProject/src/include/GInclude.pri:
 ../code/GProject/src/manager/GManager.pri:
 ../code/GProject/src/GMain.pri:

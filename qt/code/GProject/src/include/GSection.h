@@ -19,11 +19,11 @@ protected:
 public slots:
 	virtual void slotAddModuleMenuSelect(QString module);
 	virtual void slotAddModuleMenuTimer();
-	virtual void slotModuleCurrent(GModule* module);
+	virtual void slotModuleCurrent(int index);
 
 signals:
 	void emitAddModuleMenuSelect(QString module, int index);
-	void emitModuleMenuAction(QString action, GModule* module);
+	void emitModuleMenuAction(QString action, int index);
 	void emitModuleCurrent(int index);
 
 protected:

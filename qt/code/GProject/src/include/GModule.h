@@ -27,8 +27,7 @@ public slots:
 	virtual void slotModuleMenuSelect(QAction* action);
 
 signals:
-	void emitModuleMenuAction(QString action, GModule* module);
-	void emitModuleCurrent(GModule* module);
+	void emitModuleMenuAction(QString action, int index);
 	void emitModuleCurrent(int index);
 
 protected:

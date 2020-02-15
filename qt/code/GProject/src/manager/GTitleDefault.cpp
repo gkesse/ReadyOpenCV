@@ -7,12 +7,12 @@ GTitle(parent) {
 	QHBoxLayout* lMainLayout = new QHBoxLayout;
 
 	m_icon = new QToolButton;
-	m_icon->setObjectName("GToolButton4");
+	m_icon->setObjectName("GIcon");
 	m_icon->setCursor(Qt::ArrowCursor);
 	m_icon->setIconSize(QSize(30, 30));
 
 	m_title = new QLabel(tr("TITRE"));
-	m_title->setObjectName("GLabel");
+	m_title->setObjectName("GTitle2");
 
 	QToolButton* lMinimize = new QToolButton;
 	lMinimize->setObjectName("GToolButton");

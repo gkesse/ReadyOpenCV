@@ -20,16 +20,15 @@ GWorkspace* GWorkspace::Create(QString key) {
 }
 //===============================================
 void GWorkspace::slotAddModuleMenuSelect(QString module, int index) {
-	GWorkspaceItem* lWorkspace = GWorkspaceItem::Create(module);
-	lWorkspace->setTitle(index);
-	m_workspace->addWidget(lWorkspace);
+	GWorkspaceItem* lWorkspaceItem = GWorkspaceItem::Create(module);
+	lWorkspaceItem->setTitle(index);
+	m_workspace->addWidget(lWorkspaceItem);
 }
 //===============================================
-void GWorkspace::slotImageOpen(QString filename, GModule* module) {
-	int lIndex = module->getIndex();
-	GWorkspaceItem* lWorkspace = qobject_cast<GWorkspaceItem*>(m_workspace->widget(lIndex));
-	lWorkspace->setImage(filename);
-	m_workspace->setCurrentIndex(lIndex);
-	emit emitModuleCurrent(module);
+void GWorkspace::slotImageOpen(int index, QString action) {
+	GWorkspaceItem* lWorkspaceItem = qobject_cast<GWorkspaceItem*>(m_workspace->widget(index));
+	lWorkspaceItem->setImage(index, action);
+	m_workspace->setCurrentIndex(index);
+	emit emitModuleCurrent(index);
 }
 //===============================================

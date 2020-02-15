@@ -19,6 +19,7 @@ struct _sGManager {
 };
 //===============================================
 struct _sGCommon {
+	QString setting_path;
 	QString current_path;
 };
 //===============================================
@@ -29,17 +30,23 @@ struct _sGModule {
 };
 //===============================================
 struct _sGImage {
-	int index;
 	int count;
 	QList<sGImageItem*> list;
 };
 //===============================================
 struct _sGVideo {
-	int index;
 	int count;
+	QList<sGVideoItem*> list;
 };
 //===============================================
 struct _sGImageItem {
+	int index;
+	QString path;
+	QString filename;
+	QString fullname;
+};
+//===============================================
+struct _sGVideoItem {
 	QString path;
 	QString filename;
 	QString fullname;

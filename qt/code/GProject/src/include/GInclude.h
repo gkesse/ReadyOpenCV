@@ -4,14 +4,19 @@
 //===============================================
 #if defined(__WIN32)
 //===============================================
-#include <iostream>
-//===============================================
 #include <QtWidgets>
 #include <QtAwesome.h>
+//===============================================
+#include <opencv2/imgproc/imgproc_c.h>
+#include <opencv2/highgui/highgui_c.h>
+//===============================================
+#include <iostream>
+#include <ctime>
 //===============================================
 using namespace std;
 //===============================================
 #include "GDefine.h"
+#include "GEnum.h"
 #include "GStruct.h"
 //===============================================
 #endif

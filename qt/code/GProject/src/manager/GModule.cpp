@@ -19,7 +19,6 @@ void GModule::mousePressEvent(QMouseEvent *event) {
 	if(event->button() == Qt::LeftButton) {
 		if(m_propertyMap["status"] == "CURRENT") return;
 		if(m_propertyMap["status"] == "CURRENT_CHECK") return;
-		emit emitModuleCurrent(this);
 		emit emitModuleCurrent(m_index);
 	}
 	QWidget::mousePressEvent(event);
@@ -84,6 +83,6 @@ void GModule::slotModuleSetting() {
 //===============================================
 void GModule::slotModuleMenuSelect(QAction* action) {
 	QString lAction = m_actionMap[action];
-	emit emitModuleMenuAction(lAction, this);
+	emit emitModuleMenuAction(lAction, m_index);
 }
 //===============================================

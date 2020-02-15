@@ -16,6 +16,7 @@ public:
 protected:
 	void paintEvent(QPaintEvent *event);
 	void resizeEvent(QResizeEvent *event);
+	void closeEvent(QCloseEvent *event);
 
 public slots:
 	virtual void slotWindowPress(QPoint position);
@@ -24,7 +25,8 @@ public slots:
 	virtual void slotWindowMaximize();
 	virtual void slotWindowFullScreen();
 	virtual void slotModuleMax();
-	virtual void slotModuleMenuAction(QString action, GModule* module);
+	virtual void slotModuleMenuAction(QString action, int index);
+	virtual void slotSettingMenuSelect(QString action);
 
 signals:
 	void emitWindowMaximize(int oldState, int newState);
@@ -33,7 +35,7 @@ signals:
 protected:
 	QPoint m_pressPosition;
 	QSizeGrip* m_sizeGrip;
-	QPixmap* m_shape;
+	QPixmap m_pixmapBg;
 };
 //===============================================
 #endif

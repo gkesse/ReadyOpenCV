@@ -14,10 +14,12 @@ public:
 
 public:
 	virtual void setTitle(int index);
-	virtual void setImage(QString filename);
+	virtual void setImage(int index, QString action);
 
 protected:
 	QLabel* m_workspace;
+	QScrollArea* m_scrollArea;
+	QImage* m_image;
 };
 //===============================================
 #endif

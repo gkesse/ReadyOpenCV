@@ -1,17 +1,26 @@
 //===============================================
 #include "GManager.h"
+#include "GSerialize.h"
 //===============================================
 GManager* GManager::m_instance = 0;
 //===============================================
 GManager::GManager() {
 	mg = new sGManager;
+	// commun
 	mg->commun = new sGCommon;
+	mg->commun->setting_path = G_SETTING_PATH;
 	mg->commun->current_path = QDir::currentPath();
+	// module
 	mg->module = new sGModule;
 	mg->module->index = 0;
 	mg->module->count = 0;
 	mg->module->max = G_MODULE_MAX;
+	// image
 	mg->image = new sGImage;
+	// video
+	mg->video = new sGVideo;
+	// load
+	load();
 }
 //===============================================
 GManager::~GManager() {
@@ -25,7 +34,11 @@ GManager* GManager::Instance() {
 	return m_instance;
 }
 //===============================================
-bool GManager::checkModuleMax() {
+QString GManager::getCurrentPath() {
+	return mg->commun->current_path;
+}
+//===============================================
+	bool GManager::checkModuleMax() {
 	bool lMax = false;
 	if(mg->module->count >= mg->module->max) {
 		lMax = true;
@@ -39,10 +52,7 @@ void GManager::infoModuleMax(QWidget* parent) {
 	QString lMessage = tr(""
 			"Vous avez atteint le <b style='color:yellow'>nombre maximun</b> de module.<br/>"
 			"Vous ne pouvez plus rajouter de module.");
-
-	int lOk = QMessageBox::warning(
-			parent, lTitle, lMessage,
-			QMessageBox::Ok);
+	QMessageBox::warning(parent, lTitle, lMessage, QMessageBox::Ok);
 }
 //===============================================
 int GManager::incrementModuleCount() {
@@ -55,47 +65,59 @@ int GManager::incrementModuleIndex() {
 	return mg->module->index;
 }
 //===============================================
-void GManager::openImage(QWidget* parent, GModule* module) {
-	QString lFilename = QFileDialog::getOpenFileName(
-			parent,
-			"Ouvrir une image | ReadyDev",
-			mg->commun->current_path,
-			"Image files (*.png *.jpg *.jpeg *.bmp)");
-
-	if(lFilename != "") {
-		GManager::Instance()->setImage(lFilename.toStdString().c_str());
-		emit emitImageOpen(lFilename, module);
-		GManager::Instance()->print();
+QString GManager::getActionId(int index, QString action) {
+	QString lActionId = QString("%1_%2").arg(index).arg(action);
+	return lActionId;
+}
+//===============================================
+sGImageItem* GManager::checkImage(int index) {
+	sGImageItem* lImageItem = 0;
+	for(int i = 0; i < mg->image->list.size(); i++) {
+		lImageItem = mg->image->list.at(i);
+		int lIndex = lImageItem->index;
+		if(lIndex == index) return lImageItem;
+	}
+	return 0;
+}
+//===============================================
+void GManager::save() {
+	QFile lFile(mg->commun->setting_path);
+	if(lFile.open(QIODevice::WriteOnly))	{
+		QDataStream lOut(&lFile);
+		lOut << *mg;
+		lFile.close();
 	}
 }
 //===============================================
-void GManager::setImage(QString fullname) {
-	QFileInfo lFileInfo(fullname);
-	QDir lDir = lFileInfo.absoluteDir();
-	sGImageItem* lImage = new sGImageItem;
-	lImage->path = lDir.absolutePath();
-	lImage->filename = lFileInfo.fileName();
-	lImage->fullname = lFileInfo.absoluteFilePath();
-	mg->image->list.append(lImage);
-	mg->commun->current_path = lImage->path;
+void GManager::load() {
+	QFile lFile(mg->commun->setting_path);
+	if(lFile.open(QIODevice::ReadOnly))	{
+		QDataStream lIn(&lFile);
+		lIn >> mg;
+		lFile.close();
+	}
 }
 //===============================================
 void GManager::print() {
+	cout << "-------------------------------------------------\n";
 	cout << "[sGManager]\n";
 	cout << "-------------------------------------------------\n";
-	cout << "[sGManager][sGModule]\n";
+	cout << G_VAR_NAME(mg->commun->current_path) << " : " << mg->commun->current_path.toStdString() << "\n";
+	cout << G_VAR_NAME(mg->commun->setting_path) << " : " << mg->commun->setting_path.toStdString() << "\n";
 	cout << "-------------------------------------------------\n";
-	cout << "index" << " : " << mg->module->index << "\n";
-	cout << "count" << " : " << mg->module->count << "\n";
-	cout << "max" << " : " << mg->module->max << "\n";
+	cout << G_VAR_NAME(mg->module->count) << " : " << mg->module->count << "\n";
+	cout << G_VAR_NAME(mg->module->index) << " : " << mg->module->index << "\n";
+	cout << G_VAR_NAME(mg->module->max) << " : " << mg->module->max << "\n";
 	cout << "-------------------------------------------------\n";
-	cout << "[sGManager][sGImage]\n";
-	cout << "-------------------------------------------------\n";
+	cout << G_VAR_NAME(mg->image->count) << " : " << mg->image->count << "\n";
+	cout << "\n";
 	for(int i = 0; i < mg->image->list.size(); i++) {
-		sGImageItem* lImage = mg->image->list.at(i);
-		cout << "path" << " : " << lImage->path.toStdString() << "\n";
-		cout << "filename" << " : " << lImage->filename.toStdString() << "\n";
-		cout << "fullname" << " : " << lImage->fullname.toStdString() << "\n";
+		sGImageItem* lImageItem = mg->image->list.at(i);
+		if(i != 0) {cout << "\n";}
+		cout << "mg->image->list.at(" << i <<")->path" << " : " << lImageItem->path.toStdString() << "\n";
+		cout << "mg->image->list.at(" << i <<")->filename" << " : " << lImageItem->filename.toStdString() << "\n";
+		cout << "mg->image->list.at(" << i <<")->fullname" << " : " << lImageItem->fullname.toStdString() << "\n";
+		cout << "mg->image->list.at(" << i <<")->index" << " : " << lImageItem->index << "\n";
 	}
 }
 //===============================================

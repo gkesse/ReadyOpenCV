@@ -39,8 +39,8 @@ void GSection::slotAddModuleMenuSelect(QString module) {
 	lModule->setTitle(lIndex);
 	m_scrollLayout->addWidget(lModule);
 	m_moduleMap.append(lModule);
-	connect(lModule, SIGNAL(emitModuleMenuAction(QString, GModule*)), this, SIGNAL(emitModuleMenuAction(QString, GModule*)));
-	connect(lModule, SIGNAL(emitModuleCurrent(GModule*)), this, SLOT(slotModuleCurrent(GModule*)));
+	connect(lModule, SIGNAL(emitModuleMenuAction(QString, int)), this, SIGNAL(emitModuleMenuAction(QString, int)));
+	connect(lModule, SIGNAL(emitModuleCurrent(int)), this, SLOT(slotModuleCurrent(int)));
 	connect(lModule, SIGNAL(emitModuleCurrent(int)), this, SIGNAL(emitModuleCurrent(int)));
 	emit emitAddModuleMenuSelect(module, lIndex);
 }
@@ -54,11 +54,13 @@ void GSection::slotAddModuleMenuTimer() {
 	m_scrollArea->setMinimumWidth(lWidth);
 }
 //===============================================
-void GSection::slotModuleCurrent(GModule* module) {
+void GSection::slotModuleCurrent(int index) {
 	for(int i = 0; i < m_moduleMap.size(); i++) {
 		GModule* lModule = m_moduleMap.at(i);
 		lModule->initCurrentStatus();
+		if(index == lModule->getIndex()) {
+			lModule->setCurrentStatus();
+		}
 	}
-	module->setCurrentStatus();
 }
 //===============================================

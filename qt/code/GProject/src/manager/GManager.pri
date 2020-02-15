@@ -1,5 +1,9 @@
 SOURCES += \
     $$PWD/GManager.cpp \
+    $$PWD/GDebug.cpp \
+    $$PWD/GEnum.cpp \
+    $$PWD/GImage.cpp \
+    $$PWD/GSerialize.cpp \
     $$PWD/GStyle.cpp \
     $$PWD/GPicto.cpp \
     $$PWD/GPrint.cpp \
@@ -29,5 +33,8 @@ SOURCES += \
     $$PWD/GRowBrowser.cpp \
     $$PWD/GButtonMap.cpp \
     $$PWD/GButtonMapOkCancel.cpp \
+
+LIBS += \
+    -lopencv_core2413 -lopencv_highgui2413 -lopencv_imgproc2413 \
 
     
