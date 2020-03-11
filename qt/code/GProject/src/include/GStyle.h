@@ -15,6 +15,9 @@ public:
 
 private:
 	static GStyle* m_instance;
+
+private:
+	const char* __CLASSNAME__;
 };
 //===============================================
 #endif

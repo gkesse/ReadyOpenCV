@@ -1,12 +1,13 @@
 //===============================================
 #include "GImage.h"
+#include "GDialog.h"
 #include "GManager.h"
+#include "GDebug.h"
 //===============================================
 GImage* GImage::m_instance = 0;
 //===============================================
 GImage::GImage() {
-	m_QImage = 0;
-	m_QImageLast = 0;
+	__CLASSNAME__ = __FUNCTION__;
 }
 //===============================================
 GImage::~GImage() {
@@ -21,6 +22,7 @@ GImage* GImage::Instance() {
 }
 //===============================================
 void GImage::openImage(QWidget* parent, int index, QString action) {
+	GDebug::Instance()->write("%s::%s()", __CLASSNAME__, __FUNCTION__);
 	QString lCurrentPath = GManager::Instance()->getCurrentPath();
 	QString lFilename = QFileDialog::getOpenFileName(
 			parent,
@@ -36,31 +38,88 @@ void GImage::openImage(QWidget* parent, int index, QString action) {
 	}
 }
 //===============================================
-void GImage::loadImage(QString filename, int index, QString action) {
-	QString lActionId = GManager::Instance()->getActionId(index, action);
-	IplImage* lImg = cvLoadImage(filename.toStdString().c_str(), CV_LOAD_IMAGE_COLOR);
-	if(lImg == 0) {cout << "Erreur chargement image\n"; return;}
-	m_imgMap[lActionId] = lImg;
+void GImage::convertImage(QWidget* parent, int index, QString action) {
+	GDebug::Instance()->write("%s::%s()", __CLASSNAME__, __FUNCTION__);
+	GDialog* lDialog = GDialog::Create("IMAGE_CONVERT", parent);
+	int lOk = lDialog->exec();
+	if(lOk == QDialog::Accepted) {
+		QString lConvertType = lDialog->getConvertType();
+		if(lConvertType != "") {
+			QString lOpenId = GManager::Instance()->getActionId(index, "IMAGE_OPEN");
+			if(m_imgMap.contains(lOpenId) == true ) {
+				convertImage(index, action, lConvertType);
+				emit emitImageOpen(index, action);
+			}
+		}
+	}
+	delete lDialog;
 }
 //===============================================
-QImage* GImage::convertImage(int index, QString action) {
-	QString lActionId = GManager::Instance()->getActionId(index, action);
+QImage GImage::convertImage(int index, QString action) {
+	GDebug::Instance()->write("%s::%s()", __CLASSNAME__, __FUNCTION__);
+	int lIndex = GManager::Instance()->getImageIndex();
+	QString lActionId = GManager::Instance()->getActionId(index, action, lIndex);
 	IplImage* lImg = m_imgMap[lActionId];
-	if(lImg == 0) {cout << "Erreur conversion image\n"; return 0;}
-	m_QImageLast = m_QImage;
-	m_QImage = cvCreateImage(cvGetSize(lImg), lImg->depth, lImg->nChannels);
-	int lFormatCv = CV_BGR2RGB;
 	QImage::Format lFormatQt = QImage::Format_RGB888;
 	if(lImg->nChannels == 1) {
-		lFormatCv = CV_BGR2GRAY;
 		lFormatQt = QImage::Format_Indexed8;
 	}
-	cvCvtColor(lImg, m_QImage, lFormatCv);
-	QImage* lQImage = new QImage((const uchar*)(m_QImage->imageData), m_QImage->width, m_QImage->height, m_QImage->widthStep, lFormatQt);
+	QImage lQImage = QImage((const uchar*)lImg->imageData, lImg->width, lImg->height, lFormatQt);
+	if(lImg->nChannels == 3) lQImage = lQImage.rgbSwapped();
 	return lQImage;
 }
 //===============================================
-void GImage::deleteQImage() {
-	cvReleaseImage(&m_QImageLast);
+QImage GImage::convertImage(QString actionId) {
+	GDebug::Instance()->write("%s::%s()", __CLASSNAME__, __FUNCTION__);
+	IplImage* lImg = m_imgMap[actionId];
+	QImage::Format lFormatQt = QImage::Format_RGB888;
+	if(lImg->nChannels == 1) {
+		lFormatQt = QImage::Format_Indexed8;
+	}
+	QImage lQImage = QImage((const uchar*)lImg->imageData, lImg->width, lImg->height, lFormatQt);
+	if(lImg->nChannels == 3) lQImage = lQImage.rgbSwapped();
+	return lQImage;
+}
+//===============================================
+void GImage::convertImage(int index, QString action, QString convertType) {
+	GDebug::Instance()->write("%s::%s()", __CLASSNAME__, __FUNCTION__);
+	QString lOpenId = GManager::Instance()->getActionId(index, "IMAGE_OPEN");
+	QString lConvertId= GManager::Instance()->getActionId(index, action);
+	IplImage* lImg = m_imgMap[lOpenId];
+	int lChannels = 3;
+	if(convertType.contains("2GRAY")) lChannels = 1;
+	IplImage* lOut = cvCreateImage(cvGetSize(lImg), lImg->depth, lChannels);
+	int lFormatCv = GEnum::Instance()->getConvertId(convertType);
+	cvCvtColor(lImg, lOut, lFormatCv);
+	m_imgMap[lConvertId] = lOut;
+}
+//===============================================
+void GImage::convertImageGray() {
+	GDebug::Instance()->write("%s::%s()", __CLASSNAME__, __FUNCTION__);
+	IplImage* lImg = m_imgMap[m_imageId];
+	IplImage* lTmp = cvCreateImage(cvGetSize(lImg), lImg->depth, 1);
+	cvCvtColor(lImg, lTmp, CV_BGR2GRAY);
+	cvReleaseImage(&lImg);
+	m_imgMap[m_imageId] = lTmp;
+	emit emitImageOpen(m_imageId);
+}
+//===============================================
+void GImage::loadImage(QString filename, int index, QString action) {
+	GDebug::Instance()->write("%s::%s()", __CLASSNAME__, __FUNCTION__);
+	int lIndex = GManager::Instance()->incrementImageIndex();
+	QString lActionId = GManager::Instance()->getActionId(index, action, lIndex);
+	IplImage* lImg = cvLoadImage(filename.toStdString().c_str(), CV_LOAD_IMAGE_COLOR);
+	m_imgMap[lActionId] = lImg;
+}
+//===============================================
+void GImage::removeImage(QString actionId) {
+	GDebug::Instance()->write("%s::%s()", __CLASSNAME__, __FUNCTION__);
+	IplImage* lImg = m_imgMap[actionId];
+	cvReleaseImage(&lImg);
+}
+//===============================================
+void GImage::setImageId(QString imageId) {
+	GDebug::Instance()->write("%s::%s()", __CLASSNAME__, __FUNCTION__);
+	m_imageId = imageId;
 }
 //===============================================

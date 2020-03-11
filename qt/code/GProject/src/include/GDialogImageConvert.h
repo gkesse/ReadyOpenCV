@@ -1,17 +1,13 @@
 //===============================================
-#ifndef _GMenuDefault_
-#define _GMenuDefault_
+#ifndef _GDialogImageConvert_
+#define _GDialogImageConvert_
 //===============================================
-#include "GMenu.h"
+#include "GDialog.h"
 //===============================================
-class GMenuDefault : public GMenu {
+class GDialogImageConvert : public GDialog {
 public:
-	GMenuDefault(QWidget* parent = 0);
-	~GMenuDefault();
-
-private:
-	void createAddModuleMenu();
-	void createSettingMenu();
+	GDialogImageConvert(QWidget* parent = 0);
+	~GDialogImageConvert();
 
 private:
 	const char* __CLASSNAME__;

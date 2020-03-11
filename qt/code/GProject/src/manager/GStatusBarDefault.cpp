@@ -4,6 +4,7 @@
 //===============================================
 GStatusBarDefault::GStatusBarDefault(QWidget* parent) :
 GStatusBar(parent) {
+	__CLASSNAME__ = __FUNCTION__;
 	QHBoxLayout* lMainLayout = new QHBoxLayout;
 
 	QLabel* lStatusBar = new QLabel("StatusBar");

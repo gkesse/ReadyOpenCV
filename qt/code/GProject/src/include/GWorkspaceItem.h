@@ -8,18 +8,35 @@ class GWorkspaceItem : public QFrame {
 	Q_OBJECT
 
 public:
-	GWorkspaceItem(QWidget* parent = 0);
+	GWorkspaceItem(QString key, QWidget* parent = 0);
 	virtual ~GWorkspaceItem();
 	static GWorkspaceItem* Create(QString key);
 
 public:
 	virtual void setTitle(int index);
-	virtual void setImage(int index, QString action);
+	virtual void addImageTab(int moduleIndex, QString moduleAction);
+	virtual void setImage(int moduleIndex, QString moduleAction);
+	virtual void setImage(QString actionId);
+	virtual void setActionId();
+
+public slots:
+	virtual void slotTabCloseRequest(int index);
+	virtual void slotTabCurrentChange(int index);
 
 protected:
-	QLabel* m_workspace;
-	QScrollArea* m_scrollArea;
-	QImage* m_image;
+	QStackedWidget* m_stackedWidget;
+	QString m_moduleName;
+	int m_moduleIndex;
+	QString m_moduleType;
+	QLabel* m_workspaceEmpty;
+	QTabWidget* m_tabWidget;
+	int m_tabIndex;
+	QLabel* m_workspaceData;
+	QLabel* m_WorkspaceDataCurrent;
+	QMap<QScrollArea*, QString> m_actionMap;
+
+private:
+	const char* __CLASSNAME__;
 };
 //===============================================
 #endif

@@ -1,1 +1,8 @@
-15/02/2020 20:18:15 | GDebug::test() | key: value
+11/03/2020 09:35:13 | main()
+11/03/2020 09:35:13 | GStyle::load()
+11/03/2020 09:35:13 | GManager::load()
+11/03/2020 09:35:13 | GTitle::slotWindowTitleChange()
+11/03/2020 09:35:13 | GTitle::slotWindowIconChange()
+11/03/2020 09:35:16 | GSection::slotAddModuleMenuTimer()
+11/03/2020 09:35:25 | GWindow::closeEvent()
+11/03/2020 09:35:25 | GManager::save()

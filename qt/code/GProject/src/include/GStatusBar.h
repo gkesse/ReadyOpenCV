@@ -11,6 +11,9 @@ public:
 	GStatusBar(QWidget* parent = 0);
 	virtual ~GStatusBar();
 	static GStatusBar* Create(QString key);
+
+private:
+	const char* __CLASSNAME__;
 };
 //===============================================
 #endif

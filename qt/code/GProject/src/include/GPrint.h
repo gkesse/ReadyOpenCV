@@ -21,6 +21,9 @@ private:
 
 private:
 	static GPrint* m_instance;
+
+private:
+	const char* __CLASSNAME__;
 };
 //===============================================
 #endif

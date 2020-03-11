@@ -22,6 +22,9 @@ private:
 	QToolButton* m_icon;
 	QLabel* m_title;
 	QToolButton* m_help;
+
+private:
+	const char* __CLASSNAME__;
 };
 //===============================================
 #endif

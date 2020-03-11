@@ -35,6 +35,9 @@ protected:
 	QToolButton* m_icon;
 	QLabel* m_title;
 	QToolButton* m_maximize;
+
+private:
+	const char* __CLASSNAME__;
 };
 //===============================================
 #endif

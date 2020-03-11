@@ -1,17 +1,24 @@
 //===============================================
-#ifndef _GMenuDefault_
-#define _GMenuDefault_
+#ifndef _GSetting_
+#define _GSetting_
 //===============================================
-#include "GMenu.h"
+#include "GInclude.h"
 //===============================================
-class GMenuDefault : public GMenu {
+class GSetting {
+private:
+	GSetting();
+
 public:
-	GMenuDefault(QWidget* parent = 0);
-	~GMenuDefault();
+	~GSetting();
+	static GSetting* Instance();
+	void load();
+	void save();
+	void test();
 
 private:
-	void createAddModuleMenu();
-	void createSettingMenu();
+	static GSetting* m_instance;
+	QString m_filename;
+	QSettings* m_setting;
 
 private:
 	const char* __CLASSNAME__;

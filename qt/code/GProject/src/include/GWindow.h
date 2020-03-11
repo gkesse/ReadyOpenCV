@@ -36,6 +36,9 @@ protected:
 	QPoint m_pressPosition;
 	QSizeGrip* m_sizeGrip;
 	QPixmap m_pixmapBg;
+
+private:
+	const char* __CLASSNAME__;
 };
 //===============================================
 #endif

@@ -19,6 +19,9 @@ private:
 	static GPicto* m_instance;
 	QtAwesome* m_picto;
 	QColor m_color;
+
+private:
+	const char* __CLASSNAME__;
 };
 //===============================================
 #endif

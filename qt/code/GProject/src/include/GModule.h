@@ -16,6 +16,7 @@ public:
 	int getIndex();
 	void initCurrentStatus();
 	void setCurrentStatus();
+	void setModuleIndex(int moduleIndex);
 	void setPropertyData(QString key, QString value);
 
 protected:
@@ -34,8 +35,12 @@ protected:
 	int m_index;
 	QLabel* m_title;
 	QMenu* m_moduleMenu;
+	QLabel* m_moduleIndex;
 	QMap<QAction*, QString> m_actionMap;
 	QMap<QString, QString> m_propertyMap;
+
+private:
+	const char* __CLASSNAME__;
 };
 //===============================================
 #endif

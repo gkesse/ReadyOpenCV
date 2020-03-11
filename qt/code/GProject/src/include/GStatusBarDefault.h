@@ -8,6 +8,9 @@ class GStatusBarDefault : public GStatusBar {
 public:
 	GStatusBarDefault(QWidget* parent = 0);
 	~GStatusBarDefault();
+
+private:
+	const char* __CLASSNAME__;
 };
 //===============================================
 #endif

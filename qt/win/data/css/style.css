@@ -34,19 +34,19 @@ QCheckBox::indicator:unchecked:hover {
 }
 QCheckBox::indicator:unchecked:pressed {
     background-color: #4e516d;
-    image: url(data/img/check.png);
+    image: url(:/img/check.png);
 }
 QCheckBox::indicator::checked {
     background-color: transparent;
-    image: url(data/img/check.png);
+    image: url(:/img/check.png);
 }
 QCheckBox::indicator:checked:hover {
     background-color: transparent;
-    image: url(data/img/check.png);
+    image: url(:/img/check.png);
 }
 QCheckBox::indicator:checked:pressed {
     background-color: transparent;
-    image: url(data/img/check.png);
+    image: url(:/img/check.png);
 }
 /*-----------------------------------------------*/
 /* GIcon */
@@ -60,15 +60,53 @@ QToolButton#GIcon:pressed {
     background-color: transparent;
 }
 /*-----------------------------------------------*/
+/* QComboBox */
+QComboBox {
+    padding: 2px 5px;
+}
+QComboBox:editable {
+    background-color: #02062e;
+}
+QComboBox:!editable, 
+QComboBox::drop-down:editable {
+    background-color: #02062e;
+}
+QComboBox:!editable:on, 
+QComboBox::drop-down:editable:on {
+    background-color: #02062e;
+}
+QComboBox:on { 
+    /*padding-top: 0px;
+    padding-left: 0px;*/
+}
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 20px;
+    border-left-width: 2px;
+    border-left-color: #536d5a;
+    border-left-style: solid; 
+}
+QComboBox::down-arrow {
+    image: url(:/img/arrow_down.png);
+}
+QComboBox::down-arrow:on {
+    /*top: 1px;
+    left: 1px;*/
+}
+QComboBox QAbstractItemView {
+    border: 2px solid #536d5a;
+    selection-background-color: transparent;
+}
+/*-----------------------------------------------*/
 /* QDialog */
 QDialog {
-    background-color: #020b4f;
-    color: orange
+    background-color: #02062e;
 }
 /*-----------------------------------------------*/
 /* GDialog */
 QFrame#GDialog {
-    background-color: #020b4f;
+    background-color: #02062e;
     border: 2px solid #536d5a;
     min-width: 400px;
     min-height: 200px;
@@ -84,8 +122,14 @@ QLabel#GLabel {
 /* GLabel2 */
 QLabel#GLabel2 {
     background-color: #536d5a;
-    color: orange;
+    color: black;
     min-width: 100px;
+    padding-left: 5px;
+}
+/*-----------------------------------------------*/
+/* GLabel3 */
+QLabel#GLabel3 {
+    font-size: 12px;
 }
 /*-----------------------------------------------*/
 /* GLineEdit */
@@ -93,6 +137,32 @@ QLineEdit#GLineEdit {
     background-color: #eeeeee;
     padding: 2px 5px 2px 5px;
     color: navy;
+}
+/*-----------------------------------------------*/
+/* QListView */
+QListView {
+    show-decoration-selected: 1; 
+    border: none;
+    outline: 0px;
+}
+QListView::item {
+    padding: 2px 5px;
+    border: none;
+}
+QListView::item:alternate {
+    background-color: transparent;
+}
+QListView::item:selected {
+    border: none;
+}
+QListView::item:selected:!active {
+    background-color: transparent;
+}
+QListView::item:selected:active {
+    background-color: #4e516d;
+}
+QListView::item:hover {
+    background-color: transparent;
 }
 /*-----------------------------------------------*/
 /* QMenu */
@@ -154,7 +224,7 @@ QFrame#GRow {
 QScrollBar:vertical {
     border: 1px solid #4e516d;
     background-color: #4e516d;
-    width: 15px;
+    width: 20px;
     margin: 22px 0 22px 0;
 }
 QScrollBar::handle:vertical {
@@ -176,12 +246,12 @@ QScrollBar::sub-line:vertical {
     subcontrol-origin: margin;
 }
 QScrollBar::up-arrow:vertical {
-    image: url(data/img/arrow_up.png);
+    image: url(:/img/arrow_up.png);
     min-width: 4px;
     min-height: 4px;
 }
 QScrollBar::down-arrow:vertical {
-    image: url(data/img/arrow_down.png);
+    image: url(:/img/arrow_down.png);
     min-width: 4px;
     min-height: 4px;
 }
@@ -194,11 +264,11 @@ QScrollBar::sub-page:vertical {
 QScrollBar:horizontal {
     border: 1px solid #4e516d;
     background-color: #4e516d;
-    height: 15px;
+    height: 20px;
     margin: 0px 22px 0 22px;
 }
 QScrollBar::handle:horizontal {
-    background: #02062e;
+    background-color: #02062e;
     min-width: 20px;
 }
 QScrollBar::add-line:horizontal {
@@ -216,12 +286,12 @@ QScrollBar::sub-line:horizontal {
     subcontrol-origin: margin;
 }
 QScrollBar::left-arrow:horizontal {
-    image: url(data/img/arrow_left.png);
+    image: url(:/img/arrow_left.png);
     min-width: 4px;
     min-height: 4px;
 }
 QScrollBar::right-arrow:horizontal {
-    image: url(data/img/arrow_right.png);
+    image: url(:/img/arrow_right.png);
     min-width: 4px;
     min-height: 4px;
 }
@@ -238,7 +308,7 @@ QFrame#GSection {
 /*-----------------------------------------------*/
 /* QSizeGrip */
 QSizeGrip {
-    image: url(data/img/sizegrip.png);
+    image: url(:/img/sizegrip.png);
     min-width: 10px;
     min-height: 10px;
 }
@@ -246,6 +316,36 @@ QSizeGrip {
 /* GStatusBar */
 QFrame#GStatusBar {
     background-color: transparent;
+}
+/*-----------------------------------------------*/
+QTabWidget::pane {
+    border-top: 2px solid red;
+}
+QTabWidget::tab-bar {
+    left: 5px;
+}
+QTabBar::tab {
+    background-color: #4e516d;
+    border: 1px solid #aaaacc;
+    border-bottom-color: #4e516d;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    min-width: 8px;
+    padding: 2px;
+}
+QTabBar::tab:hover {
+    background-color: #81625b;
+}
+QTabBar::tab:selected {
+    background-color: #020b4f;
+    border-color: #aaddaa;
+    border-bottom-color: #020b4f;
+}
+QTabBar::tab:!selected {
+    margin-top: 2px; 
+}
+QTabWidget::pane {
+    border-top: 1px solid #aaddaa;
 }
 /*-----------------------------------------------*/
 /* GTitle */
@@ -256,7 +356,7 @@ QFrame#GTitle {
 /* GTitle */
 QFrame#GTitle2 {
     background-color: transparent;
-    color: orange;
+    color: orange; 
 }
 /*-----------------------------------------------*/
 /* QToolButton */
@@ -305,7 +405,7 @@ QToolTip {
 /* GWindow */
 QFrame#GWindow {
     background-color: #02062e;
-    border-image: url(data/img/vision.png);
+    border-image: url(:/img/vision.png);
     background-repeat: repeat-xy;
     background-position: center;
     background-attachment: fixed;
@@ -317,6 +417,6 @@ QFrame#GWindow {
 QFrame#GWorkspace {
     background-color: transparent;
     border: 10px solid transparent;
-    border-image: url("data/img/border.png") 30 round;
+    border-image: url(":/img/border.png") 30 round;
 }
 /*===============================================*/

@@ -14,14 +14,15 @@ public:
 	void clear();
 	void getCurrentDate();
 	void write(const char* format, ...);
-	void writeClass(const char* moduleName, const char* funcName, const char* format, ...);
-	void test();
+	void write(int format, ...);
 
 private:
-	const char* __CLASSNAME__;
 	static GDebug* m_instance;
 	string m_filename;
 	char m_date[G_BUFFER_STRING];
+
+private:
+	const char* __CLASSNAME__;
 };
 //===============================================
 #endif

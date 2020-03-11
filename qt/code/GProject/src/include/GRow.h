@@ -13,8 +13,12 @@ public:
 	static GRow* Create(QString key);
 
 public:
-	virtual void setLabelText(QString text);
-	virtual QString getFieldText();
+	virtual void setTextLabel(QString text);
+	virtual QString getTextLineEdit();
+	virtual void clearComboBox();
+	virtual void addDataComboBox(QString text);
+	virtual void addDataComboBox(QStringList text);
+	virtual QString getDataComboBox();
 
 public slots:
 	virtual void slotWindowBrowser();
@@ -24,8 +28,12 @@ signals:
 
 protected:
 	QLabel* m_label;
-	QLineEdit* m_field;
+	QLineEdit* m_lineEdit;
 	QToolButton* m_browser;
+	QComboBox* m_comboBox;
+
+private:
+	const char* __CLASSNAME__;
 };
 //===============================================
 #endif

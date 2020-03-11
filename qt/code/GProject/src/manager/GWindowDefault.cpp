@@ -8,9 +8,11 @@
 #include "GPicto.h"
 #include "GImage.h"
 #include "GManager.h"
+#include "GDebug.h"
 //===============================================
 GWindowDefault::GWindowDefault(QWidget* parent) :
 GWindow(parent) {
+	__CLASSNAME__ = __FUNCTION__;
 	QVBoxLayout* lMainLayout = new QVBoxLayout;
 	QHBoxLayout* lCenterLayout = new QHBoxLayout;
 
@@ -55,6 +57,8 @@ GWindow(parent) {
 	connect(lWorkspace, SIGNAL(emitModuleCurrent(int)), lSection, SLOT(slotModuleCurrent(int)));
 
 	connect(lImage, SIGNAL(emitImageOpen(int, QString)), lWorkspace, SLOT(slotImageOpen(int, QString)));
+	connect(lImage, SIGNAL(emitImageOpen(QString)), lWorkspace, SLOT(slotSetImage(QString)));
+
 	connect(lManager, SIGNAL(emitModuleMax()), this, SLOT(slotModuleMax()));
 
 	connect(this, SIGNAL(windowTitleChanged(QString)), lTitle, SLOT(slotWindowTitleChange(QString)));
@@ -62,7 +66,7 @@ GWindow(parent) {
 	connect(this, SIGNAL(emitWindowMaximize(int, int)), lTitle, SLOT(slotWindowMaximize(int, int)));
 	connect(this, SIGNAL(emitWindowFullScreen(int, int)), lTitle, SLOT(slotWindowFullScreen(int, int)));
 
-	setWindowTitle(tr("OpenCV | ReadyDev"));
+	setWindowTitle(tr("Qt | ReadyDev"));
 	GPicto::Instance()->setColor("orange");
 	setWindowIcon(GPicto::Instance()->getPicto(fa::snowflakeo));
 

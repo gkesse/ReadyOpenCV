@@ -16,12 +16,18 @@ public:
 public slots:
 	virtual void slotAddModuleMenuSelect(QString module, int index);
 	virtual void slotImageOpen(int index, QString action);
+	virtual void slotSetImage(QString actionId);
+	virtual void slotSetModuleIndex(int moduleIndex);
 
 signals:
 	void emitModuleCurrent(int index);
 
 protected:
 	QStackedWidget* m_workspace;
+	int m_moduleIndex;
+
+private:
+	const char* __CLASSNAME__;
 };
 //===============================================
 #endif

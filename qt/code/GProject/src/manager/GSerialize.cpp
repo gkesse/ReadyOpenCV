@@ -1,5 +1,6 @@
 //===============================================
 #include "GSerialize.h"
+#include "GDebug.h"
 //===============================================
 QDataStream &operator<<(QDataStream& out, sGManager& data) {
 	out << *(data.commun);

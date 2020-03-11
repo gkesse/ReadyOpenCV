@@ -3,9 +3,11 @@
 #include "GModule.h"
 #include "GPicto.h"
 #include "GPrint.h"
+#include "GDebug.h"
 //===============================================
 GSectionDefault::GSectionDefault(QWidget* parent) :
 GSection(parent) {
+	__CLASSNAME__ = __FUNCTION__;
 	QVBoxLayout* lMainLayout = new QVBoxLayout;
 
 	m_scrollArea = new QScrollArea;

@@ -8,6 +8,9 @@ class GModuleVideo : public GModule {
 public:
 	GModuleVideo(QWidget* parent = 0);
 	~GModuleVideo();
+
+private:
+	const char* __CLASSNAME__;
 };
 //===============================================
 #endif

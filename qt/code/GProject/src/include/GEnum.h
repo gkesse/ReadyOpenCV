@@ -4,6 +4,12 @@
 //===============================================
 #include "GInclude.h"
 //===============================================
+typedef struct _sGEnum {
+	int onFlag;
+	int id;
+	const char* name;
+} sGEnum;
+//===============================================
 class GEnum {
 private:
 	GEnum();
@@ -11,27 +17,18 @@ private:
 public:
 	~GEnum();
 	static GEnum* Instance();
-	const char* getName(int id);
-	int getId(const char* name);
+	const char* getName(int id, sGEnum* GENUM_MAP);
+	int getId(const char* name, sGEnum* GENUM_MAP);
+	QStringList getNameList(sGEnum* GENUM_MAP);
+	QStringList getConvertNameList();
+	int getConvertId(QString name);
 
 private:
 	static GEnum* m_instance;
+
+private:
+	const char* __CLASSNAME__;
 };
-//===============================================
-typedef enum _eGEnum {
-	G_UNKNOWN,
-	G_IMAGE_OPEN,
-	G_IMAGE_SAVE,
-	G_VIDEO_OPEN,
-	G_VIDEO_SAVE,
-	G_LAST
-} eGEnum;
-//===============================================
-typedef struct _sGEnum {
-	int onFlag;
-	int id;
-	const char* name;
-} sGEnum;
 //===============================================
 #endif
 //===============================================

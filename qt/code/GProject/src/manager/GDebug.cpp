@@ -39,29 +39,48 @@ void GDebug::getCurrentDate() {
 //===============================================
 void GDebug::write(const char* format, ...) {
 	char lBuffer[G_BUFFER_STRING];
+	int lLenght = 0;
+	getCurrentDate();
+	lLenght += sprintf(&lBuffer[lLenght], "%s | ", m_date);
 	va_list lArgs;
 	va_start(lArgs, format);
-	vsprintf(lBuffer, format, lArgs);
+	lLenght += vsprintf(&lBuffer[lLenght], format, lArgs);
 	va_end(lArgs);
-	getCurrentDate();
 	FILE* lpFile = fopen(m_filename.c_str(), "a+");
-	fprintf(lpFile, "%s | %s\n", m_date, lBuffer);
+	fprintf(lpFile, "%s\n", lBuffer);
 	fclose(lpFile);
+	cout << lBuffer << "\n";
 }
 //===============================================
-void GDebug::writeClass(const char* className, const char* methodName, const char* format, ...) {
+void GDebug::write(int format, ...) {
+	if(format == 0) return;
 	char lBuffer[G_BUFFER_STRING];
+	int lLenght = 0;
+	getCurrentDate();
+	lLenght += sprintf(&lBuffer[lLenght], "%s | ", m_date);
+	int lType = format;
 	va_list lArgs;
 	va_start(lArgs, format);
-	vsprintf(lBuffer, format, lArgs);
+	while(1) {
+		if(lType == 0) break;
+		if(lType == 1) {
+			int lData = va_arg(lArgs, int);
+			lLenght += sprintf(&lBuffer[lLenght], "%d", lData);
+		}
+		else if(lType == 2) {
+			double lData = va_arg(lArgs, double);
+			lLenght += sprintf(&lBuffer[lLenght], "%f", lData);
+		}
+		else if(lType == 3) {
+			char* lData = va_arg(lArgs, char*);
+			lLenght += sprintf(&lBuffer[lLenght], "%s", lData);
+		}
+		lType = va_arg(lArgs, int);
+	}
 	va_end(lArgs);
-	getCurrentDate();
 	FILE* lpFile = fopen(m_filename.c_str(), "a+");
-	fprintf(lpFile, "%s | %s::%s() | %s\n", m_date, className, methodName, lBuffer);
+	fprintf(lpFile, "%s\n", lBuffer);
 	fclose(lpFile);
-}
-//===============================================
-void GDebug::test() {
-	writeClass(__CLASSNAME__, __FUNCTION__, "%s: %s", "key", "value");
+	cout << lBuffer << "\n";
 }
 //===============================================

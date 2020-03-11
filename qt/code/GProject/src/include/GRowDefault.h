@@ -9,13 +9,8 @@ public:
 	GRowDefault(QWidget* parent = 0);
 	~GRowDefault();
 
-public:
-	void setLabelText(QString text);
-	QString getFieldText();
-
 private:
-	QLabel* m_label;
-	QLineEdit* m_field;
+	const char* __CLASSNAME__;
 };
 //===============================================
 #endif

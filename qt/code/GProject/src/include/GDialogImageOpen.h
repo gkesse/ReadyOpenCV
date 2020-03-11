@@ -8,6 +8,9 @@ class GDialogImageOpen : public GDialog {
 public:
 	GDialogImageOpen(QWidget* parent = 0);
 	~GDialogImageOpen();
+
+private:
+	const char* __CLASSNAME__;
 };
 //===============================================
 #endif

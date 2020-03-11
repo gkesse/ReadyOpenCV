@@ -27,9 +27,11 @@ struct _sGModule {
 	int index;
 	int count;
 	int max;
+	int current_index;
 };
 //===============================================
 struct _sGImage {
+	int index;
 	int count;
 	QList<sGImageItem*> list;
 };

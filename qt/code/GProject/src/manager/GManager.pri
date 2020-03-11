@@ -1,5 +1,6 @@
 SOURCES += \
     $$PWD/GManager.cpp \
+    $$PWD/GSetting.cpp \
     $$PWD/GDebug.cpp \
     $$PWD/GEnum.cpp \
     $$PWD/GImage.cpp \
@@ -28,9 +29,11 @@ SOURCES += \
     $$PWD/GModuleVideo.cpp \
     $$PWD/GDialog.cpp \
     $$PWD/GDialogImageOpen.cpp \
+    $$PWD/GDialogImageConvert.cpp \
     $$PWD/GRow.cpp \
     $$PWD/GRowDefault.cpp \
     $$PWD/GRowBrowser.cpp \
+    $$PWD/GRowComboBox.cpp \
     $$PWD/GButtonMap.cpp \
     $$PWD/GButtonMapOkCancel.cpp \
 

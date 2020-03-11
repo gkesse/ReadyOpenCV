@@ -6,8 +6,11 @@
 //===============================================
 class GWorkspaceItemImage : public GWorkspaceItem {
 public:
-	GWorkspaceItemImage(QWidget* parent = 0);
+	GWorkspaceItemImage(QString key, QWidget* parent = 0);
 	~GWorkspaceItemImage();
+
+private:
+	const char* __CLASSNAME__;
 };
 //===============================================
 #endif

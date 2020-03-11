@@ -15,6 +15,9 @@ public:
 signals:
 	void emitWindowAccept();
 	void emitWindowReject();
+
+private:
+	const char* __CLASSNAME__;
 };
 //===============================================
 #endif

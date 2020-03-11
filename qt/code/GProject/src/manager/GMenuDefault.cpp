@@ -1,9 +1,11 @@
 //===============================================
 #include "GMenuDefault.h"
 #include "GPicto.h"
+#include "GDebug.h"
 //===============================================
 GMenuDefault::GMenuDefault(QWidget* parent) :
 GMenu(parent) {
+	__CLASSNAME__ = __FUNCTION__;
 	QVBoxLayout* lMainLayout = new QVBoxLayout;
 
 	QToolButton* lAddModule = new QToolButton;
@@ -68,15 +70,15 @@ void GMenuDefault::createSettingMenu() {
 
 	lAction = new QAction(this);
 	lAction->setText(tr("Afficher le manager"));
-	lAction->setIcon(GPicto::Instance()->getPicto(fa::eyedropper));
+	lAction->setIcon(GPicto::Instance()->getPicto(fa::eye));
 	m_settingMenu->addAction(lAction);
 	m_settingMap[lAction] = "MANAGER_PRINT";
 
 	lAction = new QAction(this);
-	lAction->setText(tr("Vider le manager"));
-	lAction->setIcon(GPicto::Instance()->getPicto(fa::trash));
+	lAction->setText(tr("Charger les paramètres"));
+	lAction->setIcon(GPicto::Instance()->getPicto(fa::spinner));
 	m_settingMenu->addAction(lAction);
-	m_settingMap[lAction] = "MANAGER_CLEAR";
+	m_settingMap[lAction] = "SETTING_LOAD";
 
 	connect(m_settingMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotSettingMenuSelect(QAction*)));
 }

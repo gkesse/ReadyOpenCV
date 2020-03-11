@@ -1,9 +1,11 @@
 //===============================================
 #include "GPicto.h"
+#include "GDebug.h"
 //===============================================
 GPicto* GPicto::m_instance = 0;
 //===============================================
 GPicto::GPicto() {
+	__CLASSNAME__ = __FUNCTION__;
     m_picto = new QtAwesome(qApp);
     m_picto->initFontAwesome();
     m_color = "white";

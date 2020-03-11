@@ -2,9 +2,11 @@
 #include "GTitleDialog.h"
 #include "GPicto.h"
 #include "GPrint.h"
+#include "GDebug.h"
 //===============================================
 GTitleDialog::GTitleDialog(QWidget* parent) :
 GTitle(parent) {
+	__CLASSNAME__ = __FUNCTION__;
 	setObjectName("GTitle2");
 	QHBoxLayout* lMainLayout = new QHBoxLayout;
 
@@ -13,7 +15,7 @@ GTitle(parent) {
 	m_icon->setIconSize(QSize(30, 30));
 
 	m_title = new QLabel(tr("TITRE"));
-	m_title->setObjectName("GLabel");
+	m_title->setObjectName("GTitle2");
 
 	m_help = new QToolButton;
 	m_help->setObjectName("GToolButton");
@@ -44,6 +46,7 @@ GTitleDialog::~GTitleDialog() {
 }
 //===============================================
 void GTitleDialog::mousePressEvent(QMouseEvent *event) {
+	GDebug::Instance()->write("%s::%s()", __CLASSNAME__, __FUNCTION__);
 	if(event->button() == Qt::LeftButton) {
 		QPoint lPressPosition = event->globalPos();
 		emit emitWindowPress(lPressPosition);
@@ -52,6 +55,7 @@ void GTitleDialog::mousePressEvent(QMouseEvent *event) {
 }
 //===============================================
 void GTitleDialog::mouseMoveEvent(QMouseEvent *event) {
+	GDebug::Instance()->write("%s::%s()", __CLASSNAME__, __FUNCTION__);
 	if(event->buttons() & Qt::LeftButton) {
 		QPoint lMovePosition = event->globalPos();
 		emit emitWindowMove(lMovePosition);
@@ -60,6 +64,7 @@ void GTitleDialog::mouseMoveEvent(QMouseEvent *event) {
 }
 //===============================================
 void GTitleDialog::mouseDoubleClickEvent(QMouseEvent *event) {
+	GDebug::Instance()->write("%s::%s()", __CLASSNAME__, __FUNCTION__);
 	if(event->button() == Qt::LeftButton) {
 		emit emitWindowFullScreen();
 	}
@@ -67,10 +72,12 @@ void GTitleDialog::mouseDoubleClickEvent(QMouseEvent *event) {
 }
 //===============================================
 void GTitleDialog::slotWindowTitleChange(QString title) {
+	GDebug::Instance()->write("%s::%s()", __CLASSNAME__, __FUNCTION__);
 	m_title->setText(title);
 }
 //===============================================
 void GTitleDialog::slotWindowIconChange(QIcon icon) {
+	GDebug::Instance()->write("%s::%s()", __CLASSNAME__, __FUNCTION__);
 	m_icon->setIcon(icon);
 }
 //===============================================

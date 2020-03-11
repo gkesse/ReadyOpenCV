@@ -4,6 +4,7 @@
 //===============================================
 GButtonMap::GButtonMap(QWidget* parent) :
 QFrame(parent) {
+	__CLASSNAME__ = __FUNCTION__;
 	setObjectName("GButtonMap");
 }
 //===============================================

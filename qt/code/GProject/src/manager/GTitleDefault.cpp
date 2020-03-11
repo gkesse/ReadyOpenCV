@@ -1,9 +1,11 @@
 //===============================================
 #include "GTitleDefault.h"
 #include "GPicto.h"
+#include "GDebug.h"
 //===============================================
 GTitleDefault::GTitleDefault(QWidget* parent) :
 GTitle(parent) {
+	__CLASSNAME__ = __FUNCTION__;
 	QHBoxLayout* lMainLayout = new QHBoxLayout;
 
 	m_icon = new QToolButton;

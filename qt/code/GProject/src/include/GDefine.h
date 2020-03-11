@@ -1,6 +1,6 @@
 //===============================================
-#ifndef _GDefine_
-#define _GDefine_
+#ifndef _G_DEFINE_
+#define _G_DEFINE_
 //===============================================
 #define G_BUFFER_INTEGER 	32
 #define G_BUFFER_FLOAT 		64

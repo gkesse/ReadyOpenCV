@@ -1,9 +1,11 @@
 //===============================================
 #include "GModuleImage.h"
 #include "GPicto.h"
+#include "GDebug.h"
 //===============================================
 GModuleImage::GModuleImage(QWidget* parent) :
 GModule(parent) {
+	__CLASSNAME__ = __FUNCTION__;
 	QHBoxLayout* lMainLayout = new QHBoxLayout;
 
 	m_title = new QLabel("Image");
@@ -30,6 +32,12 @@ GModule(parent) {
 	lSetting->setIconSize(QSize(lSettingSize, lSettingSize));
 	lSetting->move(50 - lSettingSize - 2, 0);
 
+	m_moduleIndex = new QLabel(m_title);
+	m_moduleIndex->setAlignment(Qt::AlignCenter);
+	m_moduleIndex->setObjectName("GLabel3");
+	m_moduleIndex->setText("1");
+	m_moduleIndex->setGeometry(0, 50 - 15, 50, 15);
+
 	setToolTip(tr("Module Image"));
 
 	connect(lCheck, SIGNAL(clicked(bool)), this, SLOT(slotModuleCheck(bool)));
@@ -53,15 +61,15 @@ GModule(parent) {
 	m_moduleMenu->addAction(lAction);
 
 	lAction = new QAction(this);
-	m_actionMap[lAction] = "IMAGE_GRAY";
-	lAction->setText(tr("Convertir une image en niveau de gris"));
-	lAction->setIcon(GPicto::Instance()->getPicto(fa::paste));
+	m_actionMap[lAction] = "IMAGE_CONVERT";
+	lAction->setText(tr("Convertir une image"));
+	lAction->setIcon(GPicto::Instance()->getPicto(fa::image));
 	m_moduleMenu->addAction(lAction);
 
 	lAction = new QAction(this);
-	m_actionMap[lAction] = "IMAGE_CONVERT";
-	lAction->setText(tr("Convertir une image"));
-	lAction->setIcon(GPicto::Instance()->getPicto(fa::save));
+	m_actionMap[lAction] = "IMAGE_CONVERT_GRAY";
+	lAction->setText(tr("Convertir une image en niveau de gris"));
+	lAction->setIcon(GPicto::Instance()->getPicto(fa::image));
 	m_moduleMenu->addAction(lAction);
 
 	connect(m_moduleMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotModuleMenuSelect(QAction*)));

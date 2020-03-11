@@ -2,6 +2,13 @@
 <RCC version="1.0">
     <qresource prefix="/img">
         <file alias="vision.png">data/img/vision.png</file>
+        <file alias="border.png">data/img/border.png</file>
+        <file alias="sizegrip.png">data/img/sizegrip.png</file>
+        <file alias="check.png">data/img/check.png</file>
+        <file alias="arrow_down.png">data/img/arrow_down.png</file>
+        <file alias="arrow_up.png">data/img/arrow_up.png</file>
+        <file alias="arrow_left.png">data/img/arrow_left.png</file>
+        <file alias="arrow_right.png">data/img/arrow_right.png</file>
     </qresource>
     <qresource prefix="/css">
         <file alias="style.css">data/css/style.css</file>

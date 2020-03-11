@@ -1,17 +1,13 @@
 //===============================================
-#ifndef _GMenuDefault_
-#define _GMenuDefault_
+#ifndef _GRowComboBox_
+#define _GRowComboBox_
 //===============================================
-#include "GMenu.h"
+#include "GRow.h"
 //===============================================
-class GMenuDefault : public GMenu {
+class GRowComboBox : public GRow {
 public:
-	GMenuDefault(QWidget* parent = 0);
-	~GMenuDefault();
-
-private:
-	void createAddModuleMenu();
-	void createSettingMenu();
+	GRowComboBox(QWidget* parent = 0);
+	~GRowComboBox();
 
 private:
 	const char* __CLASSNAME__;

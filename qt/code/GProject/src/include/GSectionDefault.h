@@ -9,6 +9,9 @@ class GSectionDefault : public GSection {
 public:
 	GSectionDefault(QWidget* parent = 0);
 	~GSectionDefault();
+
+private:
+	const char* __CLASSNAME__;
 };
 //===============================================
 #endif

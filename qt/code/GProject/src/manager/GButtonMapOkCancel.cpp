@@ -5,6 +5,7 @@
 //===============================================
 GButtonMapOkCancel::GButtonMapOkCancel(QWidget* parent) :
 GButtonMap(parent) {
+	__CLASSNAME__ = __FUNCTION__;
 	QHBoxLayout* lMainLayout = new QHBoxLayout;
 
 	QPushButton* lOk = new QPushButton(tr("Ok"));

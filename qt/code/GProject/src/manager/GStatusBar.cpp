@@ -1,9 +1,11 @@
 //===============================================
 #include "GStatusBar.h"
 #include "GStatusBarDefault.h"
+#include "GDebug.h"
 //===============================================
 GStatusBar::GStatusBar(QWidget* parent) :
 QFrame(parent) {
+	__CLASSNAME__ = __FUNCTION__;
 	setObjectName("GStatusBar");
 }
 //===============================================

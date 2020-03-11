@@ -1,21 +1,24 @@
 //===============================================
-#include "GDialogImageOpen.h"
+#include "GDialogImageConvert.h"
 #include "GTitle.h"
 #include "GButtonMap.h"
 #include "GRow.h"
 #include "GDebug.h"
 //===============================================
-GDialogImageOpen::GDialogImageOpen(QWidget* parent) :
+GDialogImageConvert::GDialogImageConvert(QWidget* parent) :
 GDialog(parent) {
 	__CLASSNAME__ = __FUNCTION__;
 	GTitle* lTitle = GTitle::Create("DIALOG");
-
-	GRow* lPath = GRow::Create("BROWSER");
-	lPath->setTextLabel(tr("Chemin :"));
+	m_convertType = GRow::Create("COMBOBOX");
+	m_convertType->setTextLabel(tr("Type de conversion :"));
+	m_convertType->clearComboBox();
+	m_convertType->addDataComboBox(tr("Sélectionner un type"));
+	QStringList lNameList = GEnum::Instance()->getConvertNameList();
+	m_convertType->addDataComboBox(lNameList);
 	GButtonMap* lButtonMap = GButtonMap::Create("OK_CANCEL");
 
 	m_frameLayout->addWidget(lTitle);
-	m_frameLayout->addWidget(lPath);
+	m_frameLayout->addWidget(m_convertType);
 	m_buttonMapLayout->addWidget(lButtonMap);
 
 	setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
@@ -30,11 +33,11 @@ GDialog(parent) {
 	connect(this, SIGNAL(windowTitleChanged(QString)), lTitle, SLOT(slotWindowTitleChange(QString)));
 	connect(this, SIGNAL(windowIconChanged(QIcon)), lTitle, SLOT(slotWindowIconChange(QIcon)));
 
-	setWindowTitle(tr("Ouvrir une image | ReadyDev"));
+	setWindowTitle(tr("Choisir le type de conversion | ReadyDev"));
 	if(parent != 0) setWindowIcon(parent->windowIcon());
 }
 //===============================================
-GDialogImageOpen::~GDialogImageOpen() {
+GDialogImageConvert::~GDialogImageConvert() {
 
 }
 //===============================================

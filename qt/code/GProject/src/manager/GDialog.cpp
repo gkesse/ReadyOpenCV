@@ -1,9 +1,12 @@
 //===============================================
 #include "GDialog.h"
 #include "GDialogImageOpen.h"
+#include "GDialogImageConvert.h"
+#include "GDebug.h"
 //===============================================
 GDialog::GDialog(QWidget* parent) :
 QDialog(parent) {
+	__CLASSNAME__ = __FUNCTION__;
 	QVBoxLayout* lMainLayout = new QVBoxLayout;
 	QFrame* lMainFrame = new QFrame;
 	QVBoxLayout* lFrameLayout = new QVBoxLayout;
@@ -38,6 +41,8 @@ QDialog(parent) {
 	lMainLayout->addWidget(lMainFrame);
 
 	setLayout(lMainLayout);
+
+	m_convertType = 0;
 }
 //===============================================
 GDialog::~GDialog() {
@@ -46,14 +51,22 @@ GDialog::~GDialog() {
 //===============================================
 GDialog* GDialog::Create(QString key, QWidget* parent) {
 	if(key == "IMAGE_OPEN") return new GDialogImageOpen(parent);
+	if(key == "IMAGE_CONVERT") return new GDialogImageConvert(parent);
 	return new GDialogImageOpen;
 }
 //===============================================
+QString GDialog::getConvertType() {
+	GDebug::Instance()->write("%s::%s()", __CLASSNAME__, __FUNCTION__);
+	return m_convertType->getDataComboBox();
+}
+//===============================================
 void GDialog::slotWindowPress(QPoint position) {
+	GDebug::Instance()->write("%s::%s()", __CLASSNAME__, __FUNCTION__);
 	m_pressPosition = position - frameGeometry().topLeft();
 }
 //===============================================
 void GDialog::slotWindowMove(QPoint position) {
+	GDebug::Instance()->write("%s::%s()", __CLASSNAME__, __FUNCTION__);
 	QPoint lMovePosition = position - m_pressPosition;
 	move(lMovePosition);
 }

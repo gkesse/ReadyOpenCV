@@ -27,6 +27,9 @@ protected:
 	QMenu* m_settingMenu;
 	QMap<QAction*, QString> m_moduleMap;
 	QMap<QAction*, QString> m_settingMap;
+
+private:
+	const char* __CLASSNAME__;
 };
 //===============================================
 #endif

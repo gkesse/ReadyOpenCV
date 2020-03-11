@@ -2,16 +2,18 @@
 #include "GRowBrowser.h"
 #include "GPicto.h"
 #include "GPrint.h"
+#include "GDebug.h"
 //===============================================
 GRowBrowser::GRowBrowser(QWidget* parent) :
 GRow(parent) {
+	__CLASSNAME__ = __FUNCTION__;
 	QHBoxLayout* lMainLayout = new QHBoxLayout;
 
 	m_label = new QLabel;
 	m_label->setObjectName("GLabel2");
 
-	m_field = new QLineEdit;
-	m_field->setObjectName("GLineEdit");
+	m_lineEdit = new QLineEdit;
+	m_lineEdit->setObjectName("GLineEdit");
 
 	m_browser = new QToolButton;
 	m_browser->setCursor(Qt::PointingHandCursor);
@@ -22,7 +24,7 @@ GRow(parent) {
 	lMainLayout->setSpacing(0);
 	lMainLayout->setAlignment(Qt::AlignLeft);
 	lMainLayout->addWidget(m_label);
-	lMainLayout->addWidget(m_field, 1);
+	lMainLayout->addWidget(m_lineEdit, 1);
 	lMainLayout->addWidget(m_browser);
 
 	setLayout(lMainLayout);

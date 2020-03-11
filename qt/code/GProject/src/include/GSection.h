@@ -32,6 +32,9 @@ protected:
 	QVBoxLayout* m_scrollLayout;
 	QList<GModule*> m_moduleMap;
 	QTimer* m_timer;
+
+private:
+	const char* __CLASSNAME__;
 };
 //===============================================
 #endif

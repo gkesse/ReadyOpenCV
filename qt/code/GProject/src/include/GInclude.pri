@@ -3,6 +3,7 @@ INCLUDEPATH += \
 
 HEADERS += \
     $$PWD/GInclude.h \
+    $$PWD/GSetting.h \
     $$PWD/GDebug.h \
     $$PWD/GDefine.h \
     $$PWD/GEnum.h \
@@ -33,9 +34,11 @@ HEADERS += \
     $$PWD/GModuleVideo.h \
     $$PWD/GDialog.h \
     $$PWD/GDialogImageOpen.h \
+    $$PWD/GDialogImageConvert.h \
     $$PWD/GRow.h \
     $$PWD/GRowDefault.h \
     $$PWD/GRowBrowser.h \
+    $$PWD/GRowComboBox.h \
     $$PWD/GButtonMap.h \
     $$PWD/GButtonMapOkCancel.h \
         
