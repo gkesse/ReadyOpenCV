@@ -1,12 +1,11 @@
 //===============================================
-#include "GSetting.h"
 #include "GProcess.h"
-//===============================================
-using namespace std;
+#include "GDebug.h"
 //===============================================
 int main(int argc, char** argv) {
-    GSetting::Instance()->load("data/config/config.txt");
-    GProcess::Instance()->run(argc, argv);
+    GDebug::Instance()->sep();
+    GDebug::Instance()->write(__FUNCTION__, "()", _EOA_);
+    GProcess::Instance()->process(argc, argv);
     return 0;
 }
 //===============================================
