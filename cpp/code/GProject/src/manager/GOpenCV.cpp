@@ -101,6 +101,20 @@ void GOpenCV::convertImage(std::string imgId, std::string outId, int convertId) 
     cv::cvtColor(*lImg, *lOut, convertId);
 }
 //===============================================
+void GOpenCV::convertGrayImage(std::string imgId, std::string outId) {
+    GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
+    cv::Mat* lImg = m_imgMap[imgId];
+    cv::Mat* lOut = m_imgMap[outId];
+    cv::cvtColor(*lImg, *lOut, cv::COLOR_BGR2GRAY);
+}
+//===============================================
+void GOpenCV::convertColorImage(std::string imgId, std::string outId) {
+    GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
+    cv::Mat* lImg = m_imgMap[imgId];
+    cv::Mat* lOut = m_imgMap[outId];
+    cv::cvtColor(*lImg, *lOut, cv::COLOR_GRAY2BGR);
+}
+//===============================================
 void GOpenCV::getPixelImage(std::string imgId, int x, int y, int& red, int& green, int& blue) {
     GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
     cv::Mat* lImg = m_imgMap[imgId];
@@ -177,6 +191,18 @@ void GOpenCV::drawRectImage(std::string imgId, std::string rectsId, int red, int
     }
 }
 //===============================================
+void GOpenCV::drawCircleImage(std::string imgId, std::string rectsId, int red, int green, int blue, int thickness) {
+    GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
+    cv::Mat* lImg = m_imgMap[imgId];
+    std::vector<cv::Rect>* lRects = m_rectsMap[rectsId];
+    for(int i = 0; i < lRects->size(); i++) {
+        cv::Rect lRect = lRects->at(i);
+        cv::Point lCenter = cv::Point(int(lRect.x + lRect.width*0.5), int(lRect.y + lRect.height*0.5)); 
+        int lRadius = int((lRect.width + lRect.height)*0.25); 
+        cv::circle(*lImg, lCenter, lRadius, cv::Scalar((blue), (green), (red), 0), thickness);
+    }
+}
+//===============================================
 std::string GOpenCV::getStringImage(std::string imgId, std::string language) {
     GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
     GTesseract::Instance()->createTesseract(imgId, language);
@@ -190,28 +216,31 @@ void GOpenCV::faceDetectionImage(std::string imgId, std::string outId) {
     GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
     std::string lFaceDetect = imgId + "lFaceDetect";
     std::string lEyeDetect = imgId + "lEyeDetect";
-    std::string lSmall = imgId + "lSmall";
     std::string lGray = imgId + "lGray";
     std::string lFaceDetectFile = "data/haarcascades/haarcascade_frontalface_alt.xml";
     std::string lEyeDetectFile = "data/haarcascades/haarcascade_eye_tree_eyeglasses.xml";
     
     createCascadeClassifier(lFaceDetect, lFaceDetectFile);
     createCascadeClassifier(lEyeDetect, lEyeDetectFile);
-    createImage(lSmall);
     createImage(lGray);
     
-    convertImage(imgId, lGray, cv::COLOR_BGR2GRAY);
-    resizeImage(lGray, lSmall, 1.0, cv::INTER_LINEAR_EXACT);
-    equalizeHistImage(lSmall, lSmall);
-    detectCascadeClassifier(lSmall, lFaceDetect);
-    drawRectImage(imgId, lFaceDetect, 255, 0, 0, 2);
-    //std::vector<cv::Rect>* lRectsFace = getRectsCascadeClassifier(lFaceDetect);
-    //std::cout << "lRectsFace: " << lRectsFace->size() << "\n";
-    //showImage(lSmall, lSmall);
+    convertGrayImage(imgId, lGray);
+    equalizeHistImage(lGray, lGray);
+    detectCascadeClassifier(lGray, lFaceDetect);
+    detectCascadeClassifier(lGray, lEyeDetect, lFaceDetect);
+    drawRectImage(imgId, lFaceDetect, 0, 255, 0, 2);
+    drawCircleImage(imgId, lFaceDetect, 255, 0, 0, 2);
+    drawRectImage(imgId, lEyeDetect, 255, 255, 0, 2);
+    drawCircleImage(imgId, lEyeDetect, 0, 0, 255, 2); 
+    //resizeImage(imgId, imgId, 0.5);
+    
+    std::vector<cv::Rect>* lFaceRects = getRectsCascadeClassifier(lFaceDetect);
+    std::vector<cv::Rect>* lEyeRects = getRectsCascadeClassifier(lEyeDetect);
+    std::cout << "lFaceRects: " << lFaceRects->size() << "\n";
+    std::cout << "lEyeRects: " << lEyeRects->size() << "\n";
     
     deleteCascadeClassifier(lFaceDetect);
     deleteCascadeClassifier(lEyeDetect);
-    deleteImage(lSmall); 
     deleteImage(lGray);
 }
 //===============================================
@@ -327,13 +356,50 @@ void GOpenCV::detectCascadeClassifier(std::string imgId, std::string classifierI
     cv::Mat* lImg = m_imgMap[imgId];
     cv::CascadeClassifier* lClassifier = m_classifierMap[classifierId];
     std::vector<cv::Rect>* lRects = m_rectsMap[classifierId];
-    lClassifier->detectMultiScale(*lImg, *lRects, 1.1, 2, 0 | cv::CASCADE_SCALE_IMAGE, cv::Size(25, 25));
-    std::cout << "Face: " << lRects->size() << "\n";
+    lClassifier->detectMultiScale(*lImg, *lRects, 1.1, 3, 0 | cv::CASCADE_SCALE_IMAGE, cv::Size(25, 25));
 }
 //===============================================
-void GOpenCV::getRectsCascadeClassifier(std::string classifierId) {
+void GOpenCV::detectCascadeClassifier(std::string imgId, std::string eyeClassifierId, std::string faceClassifierId, int iFaceRect) {
     GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
-    //m_rectsMap[classifierId] = 0;
+    cv::Mat* lImg = m_imgMap[imgId];
+    cv::CascadeClassifier* lEyeClassifier = m_classifierMap[eyeClassifierId];
+    std::vector<cv::Rect>* lEyeRects = m_rectsMap[eyeClassifierId];
+    std::vector<cv::Rect>* lFaceRects = m_rectsMap[faceClassifierId];
+    cv::Rect lFaceRect = lFaceRects->at(iFaceRect);
+    cv::Mat lRoiImg = (*lImg)(lFaceRect);
+    std::vector<cv::Rect> lRects;
+    lEyeClassifier->detectMultiScale(lRoiImg, lRects, 1.1, 3, 0 | cv::CASCADE_SCALE_IMAGE, cv::Size(25, 25));
+    for(int i = 0; i < lRects.size(); i++) {
+        cv::Rect lRect = lRects[i];
+        lRect.x += lFaceRect.x;
+        lRect.y += lFaceRect.y;
+        lEyeRects->push_back(lRect);
+    }
+}
+//===============================================
+void GOpenCV::detectCascadeClassifier(std::string imgId, std::string eyeClassifierId, std::string faceClassifierId) {
+    GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
+    cv::Mat* lImg = m_imgMap[imgId];
+    cv::CascadeClassifier* lEyeClassifier = m_classifierMap[eyeClassifierId];
+    std::vector<cv::Rect>* lEyeRects = m_rectsMap[eyeClassifierId];
+    std::vector<cv::Rect>* lFaceRects = m_rectsMap[faceClassifierId];
+    for(int i = 0; i < lFaceRects->size(); i++) {
+        cv::Rect lFaceRect = lFaceRects->at(i);
+        cv::Mat lRoiImg = (*lImg)(lFaceRect);
+        std::vector<cv::Rect> lRects;
+        lEyeClassifier->detectMultiScale(lRoiImg, lRects, 1.1, 3, 0 | cv::CASCADE_SCALE_IMAGE, cv::Size(25, 25));
+        for(int j = 0; j < lRects.size(); j++) {
+            cv::Rect lRect = lRects[j];
+            lRect.x += lFaceRect.x;
+            lRect.y += lFaceRect.y;
+            lEyeRects->push_back(lRect);
+        }
+    }
+}
+//===============================================
+std::vector<cv::Rect>* GOpenCV::getRectsCascadeClassifier(std::string classifierId) {
+    GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
+    return m_rectsMap[classifierId];
 }
 //===============================================
 void GOpenCV::deleteCascadeClassifier(std::string classifierId) {

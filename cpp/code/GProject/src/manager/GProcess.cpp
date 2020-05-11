@@ -205,7 +205,7 @@ void GProcess::getStringImage(int argc, char** argv) {
 //===============================================
 void GProcess::faceDetectionImage(int argc, char** argv) {
     GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
-    GOpenCV::Instance()->loadImage("org", "data/img/face.jpg");
+    GOpenCV::Instance()->loadImage("org", "data/img/face.png");
     if(GOpenCV::Instance()->checkEmptyImage("org") == 1) return;
     GOpenCV::Instance()->faceDetectionImage("org", "org");
     GOpenCV::Instance()->createWindow("org");

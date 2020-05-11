@@ -25,6 +25,8 @@ public:
     void pyrDownImage(std::string imgId, std::string outId);
     void logPolarImage(std::string imgId, std::string outId, int x, int y);
     void convertImage(std::string imgId, std::string outId, int convertId);
+    void convertGrayImage(std::string imgId, std::string outId);
+    void convertColorImage(std::string imgId, std::string outId);
     void getPixelImage(std::string imgId, int x, int y, int& red, int& green, int& blue);
     void getPixelImage(std::string imgId, int x, int y, int& color);
     void setPixelImage(std::string imgId, int x, int y, int red, int green, int blue);
@@ -35,6 +37,7 @@ public:
     void resizeImage(std::string imgId, std::string outId, double factor, int interpolation);
     void equalizeHistImage(std::string imgId, std::string outId);
     void drawRectImage(std::string imgId, std::string rectsId, int red, int green, int blue, int thickness);
+    void drawCircleImage(std::string imgId, std::string rectsId, int red, int green, int blue, int thickness);
     std::string getStringImage(std::string imgId, std::string language);
     void faceDetectionImage(std::string imgId, std::string outId);
     void deleteImage(std::string imgId);
@@ -57,11 +60,13 @@ public:
     // CascadeClassifier 
     void createCascadeClassifier(std::string classifierId, std::string filename);
     void detectCascadeClassifier(std::string imgId, std::string classifierId);
-    void getRectsCascadeClassifier(std::string classifierId);
+    void detectCascadeClassifier(std::string imgId, std::string eyeClassifierId, std::string faceClassifierId, int iFaceRect);
+    void detectCascadeClassifier(std::string imgId, std::string eyeClassifierId, std::string faceClassifierId);
+    std::vector<cv::Rect>* getRectsCascadeClassifier(std::string classifierId);
     void deleteCascadeClassifier(std::string classifierId);
 
 private:
-    const char* __CLASSNAME__; 
+    const char* __CLASSNAME__;  
     static GOpenCV* m_instance;
     std::map<std::string, cv::Mat*> m_imgMap;
     std::map<std::string, cv::VideoCapture*> m_videoMap;
