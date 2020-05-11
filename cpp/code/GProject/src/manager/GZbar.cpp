@@ -65,17 +65,24 @@ void GZbar::getLocation(std::string imageId) {
     }
 }
 //===============================================
+ std::vector<cv::Point>* GZbar::getPointsQRcode(std::string imageId) {
+    GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
+    return m_pointsMap[imageId];
+}
+//===============================================
 void GZbar::showInfo(std::string imageId) {
     GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
     std::vector<std::string>* lStrings = m_stringsMap[imageId];
     std::vector<cv::Point>* lPoints = m_pointsMap[imageId];
     //
-    std::cout << "decoded: " << lStrings->at(0) << "\n";
-    std::cout << "symbol: " << lStrings->at(1) << "\n";
+    for(int i = 0; i < lStrings->size(); i++) {
+        std::cout << "qrcode_symbol[" << i << "]: " << lStrings->at(i) << "\n";
+    }
+    std::cout << "\n";
     //
     for(int i = 0; i < lPoints->size(); i++) {
         cv::Point lPoint = lPoints->at(i);
-        std::cout << i << ": " << lPoint.x << ", " << lPoint.y << "\n";
+        std::cout << "qrcode_points[" << i << "]: " << lPoint.x << ", " << lPoint.y << "\n";
     }
 }
 //===============================================

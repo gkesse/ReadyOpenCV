@@ -244,7 +244,7 @@ void GOpenCV::faceDetectionImage(std::string imgId, std::string outId) {
     deleteImage(lGray);
 }
 //===============================================
-void GOpenCV::qrcodeImage(std::string imgId) {
+void GOpenCV::decodeQRcodeImage(std::string imgId) {
     GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
     std::string lGray = imgId + "lGray";
     std::string lImage = imgId + "lImage";
@@ -256,10 +256,33 @@ void GOpenCV::qrcodeImage(std::string imgId) {
     GZbar::Instance()->getSymbol(lImage);
     GZbar::Instance()->getLocation(lImage);
     GZbar::Instance()->showInfo(lImage);
+    drawQRcodeImage(imgId, lImage, 255, 0, 0, 2);
+    //drawQRcodeRotatedRectImage(imgId, lImage, 0, 255, 0, 2);
     //showImage(lGray, lGray);
         
     deleteImage(lGray);
     GZbar::Instance()->deleteImage(lImage);
+}
+//===============================================
+void GOpenCV::drawQRcodeImage(std::string imgId, std::string imageId, int red, int green, int blue, int thickness) {
+    GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
+    cv::Mat* lImg = m_imgMap[imgId];
+    std::vector<cv::Point>* lPoints = GZbar::Instance()->getPointsQRcode(imageId);
+    cv::RotatedRect lRotatedRect = cv::minAreaRect(*lPoints);
+    cv::Rect lQRcodeRect = lRotatedRect.boundingRect();
+    cv::rectangle(*lImg, lQRcodeRect, cv::Scalar(blue, green, red, 0), thickness);
+}
+//===============================================
+void GOpenCV::drawQRcodeRotatedRectImage(std::string imgId, std::string imageId, int red, int green, int blue, int thickness) {
+    GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
+    cv::Mat* lImg = m_imgMap[imgId];
+    std::vector<cv::Point>* lPoints = GZbar::Instance()->getPointsQRcode(imageId);
+    cv::RotatedRect lRotatedRect = cv::minAreaRect(*lPoints);
+    cv::Point2f lRotatedPoints[4];
+    lRotatedRect.points(lRotatedPoints);
+    for (int i = 0; i < 4; i++) {
+        cv::line(*lImg, lRotatedPoints[i], lRotatedPoints[(i+1)%4], cv::Scalar(blue, green, red, 0), 2);
+    }
 }
 //===============================================
 void GOpenCV::deleteImage(std::string imgId) {

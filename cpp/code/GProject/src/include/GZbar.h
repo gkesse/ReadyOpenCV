@@ -18,6 +18,7 @@ public:
     void createImage(std::string imageId, std::string imgId);
     void getSymbol(std::string imageId);
     void getLocation(std::string imageId);
+    std::vector<cv::Point>* getPointsQRcode(std::string imageId);
     void showInfo(std::string imageId);
     void deleteImage(std::string imageId);
 

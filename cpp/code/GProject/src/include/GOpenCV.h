@@ -40,7 +40,9 @@ public:
     void drawCircleImage(std::string imgId, std::string rectsId, int red, int green, int blue, int thickness);
     std::string getStringImage(std::string imgId, std::string language);
     void faceDetectionImage(std::string imgId, std::string outId);
-    void qrcodeImage(std::string imgId);
+    void decodeQRcodeImage(std::string imgId);
+    void drawQRcodeImage(std::string imgId, std::string imageId, int red, int green, int blue, int thickness);
+    void drawQRcodeRotatedRectImage(std::string imgId, std::string imageId, int red, int green, int blue, int thickness);
     void deleteImage(std::string imgId);
     // video
     void openVideo(std::string videoId, std::string filename);
