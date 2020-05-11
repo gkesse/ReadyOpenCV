@@ -22,6 +22,8 @@ public:
     void getPixelImage(int argc, char** argv);
     void setPixelImage(int argc, char** argv);
     void getStringImage(int argc, char** argv);
+    void faceDetectionImage(int argc, char** argv);
+    void faceRecognitionImage(int argc, char** argv);
     // video
     void loadVideo(int argc, char** argv);
     void getPropertyVideo(int argc, char** argv);

@@ -29,7 +29,14 @@ public:
     void getPixelImage(std::string imgId, int x, int y, int& color);
     void setPixelImage(std::string imgId, int x, int y, int red, int green, int blue);
     void setPixelImage(std::string imgId, int x, int y, int color);
+    void resizeImage(std::string imgId, std::string outId, int width, int height);
+    void resizeImage(std::string imgId, std::string outId, int width, int height, int interpolation);
+    void resizeImage(std::string imgId, std::string outId, double factor);
+    void resizeImage(std::string imgId, std::string outId, double factor, int interpolation);
+    void equalizeHistImage(std::string imgId, std::string outId);
+    void drawRectImage(std::string imgId, std::string rectsId, int red, int green, int blue, int thickness);
     std::string getStringImage(std::string imgId, std::string language);
+    void faceDetectionImage(std::string imgId, std::string outId);
     void deleteImage(std::string imgId);
     // video
     void openVideo(std::string videoId, std::string filename);
@@ -43,18 +50,25 @@ public:
     void writeImageVideoWriter(std::string videoWriterId, std::string imgId);
     void deleteVideoWriter(std::string videoWriterId);
     // delay
-    int waitKey(int delay);
+    int waitKey(int delay); 
     // window
     void createWindow(std::string windowId);
     void destroyWindows();
+    // CascadeClassifier 
+    void createCascadeClassifier(std::string classifierId, std::string filename);
+    void detectCascadeClassifier(std::string imgId, std::string classifierId);
+    void getRectsCascadeClassifier(std::string classifierId);
+    void deleteCascadeClassifier(std::string classifierId);
 
 private:
-    const char* __CLASSNAME__;
+    const char* __CLASSNAME__; 
     static GOpenCV* m_instance;
     std::map<std::string, cv::Mat*> m_imgMap;
     std::map<std::string, cv::VideoCapture*> m_videoMap;
     std::map<std::string, cv::VideoWriter*> m_videoWriterMap;
-};
+    std::map<std::string, cv::CascadeClassifier*> m_classifierMap;
+    std::map<std::string, std::vector<cv::Rect>*> m_rectsMap;
+}; 
 //===============================================
 #endif
 //===============================================

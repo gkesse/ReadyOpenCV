@@ -16,7 +16,7 @@ public:
     void test(int argc, char** argv);
     // tesseract
     void createTesseract(std::string tesseractId, std::string language);
-    void setImageOpenCV(std::string tesseractId, std::string imgId);
+    void setImageOpenCV(std::string tesseractId, std::string imgId, std::string dpi);
     std::string getString(std::string tesseractId);
     void deleteTesseract(std::string tesseractId);
 

@@ -36,6 +36,8 @@ void GProcess::process(int argc, char** argv) {
         if(lKey == "get_pixel_image") {getPixelImage(argc, argv); lRunFlag = 1; break;}
         if(lKey == "set_pixel_image") {setPixelImage(argc, argv); lRunFlag = 1; break;}
         if(lKey == "get_string_image") {getStringImage(argc, argv); lRunFlag = 1; break;}
+        if(lKey == "face_detection_image") {faceDetectionImage(argc, argv); lRunFlag = 1; break;}
+        if(lKey == "face_recognition_image") {faceRecognitionImage(argc, argv); lRunFlag = 1; break;}
         // video
         if(lKey == "load_video") {loadVideo(argc, argv); lRunFlag = 1; break;}
         if(lKey == "get_property_video") {getPropertyVideo(argc, argv); lRunFlag = 1; break;}
@@ -194,6 +196,29 @@ void GProcess::getStringImage(int argc, char** argv) {
     if(GOpenCV::Instance()->checkEmptyImage("org") == 1) return;
     std::string lString = GOpenCV::Instance()->getStringImage("org", "eng");
     std::cout << lString << "\n";
+    GOpenCV::Instance()->createWindow("org");
+    GOpenCV::Instance()->showImage("org", "org");
+    GOpenCV::Instance()->waitKey(0);
+    GOpenCV::Instance()->destroyWindows();   
+    GOpenCV::Instance()->deleteImage("org");   
+}
+//===============================================
+void GProcess::faceDetectionImage(int argc, char** argv) {
+    GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
+    GOpenCV::Instance()->loadImage("org", "data/img/face.jpg");
+    if(GOpenCV::Instance()->checkEmptyImage("org") == 1) return;
+    GOpenCV::Instance()->faceDetectionImage("org", "org");
+    GOpenCV::Instance()->createWindow("org");
+    GOpenCV::Instance()->showImage("org", "org");
+    GOpenCV::Instance()->waitKey(0);
+    GOpenCV::Instance()->destroyWindows();   
+    GOpenCV::Instance()->deleteImage("org");   
+}
+//===============================================
+void GProcess::faceRecognitionImage(int argc, char** argv) {
+    GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
+    GOpenCV::Instance()->loadImage("org", "data/img/face.jpg");
+    if(GOpenCV::Instance()->checkEmptyImage("org") == 1) return;
     GOpenCV::Instance()->createWindow("org");
     GOpenCV::Instance()->showImage("org", "org");
     GOpenCV::Instance()->waitKey(0);

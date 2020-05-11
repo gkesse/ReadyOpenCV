@@ -37,12 +37,12 @@ void GTesseract::createTesseract(std::string tesseractId, std::string language) 
     m_tesseractMap[tesseractId] = lTesseract;
 }
 //===============================================
-void GTesseract::setImageOpenCV(std::string tesseractId, std::string imgId) {
+void GTesseract::setImageOpenCV(std::string tesseractId, std::string imgId, std::string dpi) {
     GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
     tesseract::TessBaseAPI* lTesseract = m_tesseractMap[tesseractId];
     cv::Mat* lImg = GOpenCV::Instance()->getImage(imgId);
     lTesseract->SetImage(lImg->data, lImg->cols, lImg->rows, 3, lImg->step);
-    std::cout << "GTesseract::setImageOpenCV...\n";
+    lTesseract->SetVariable("user_defined_dpi", dpi.c_str());
 }
 //===============================================
 std::string GTesseract::getString(std::string tesseractId) {
