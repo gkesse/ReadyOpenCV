@@ -257,8 +257,6 @@ void GOpenCV::decodeQRcodeImage(std::string imgId) {
     GZbar::Instance()->getLocation(lImage);
     GZbar::Instance()->showInfo(lImage);
     drawQRcodeImage(imgId, lImage, 255, 0, 0, 2);
-    //drawQRcodeRotatedRectImage(imgId, lImage, 0, 255, 0, 2);
-    //showImage(lGray, lGray);
         
     deleteImage(lGray);
     GZbar::Instance()->deleteImage(lImage);

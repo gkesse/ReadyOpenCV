@@ -230,7 +230,7 @@ void GProcess::faceRecognitionImage(int argc, char** argv) {
 void GProcess::decodeQRcodeImage(int argc, char** argv) {
     GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
     std::string lOrg = "org";
-    GOpenCV::Instance()->loadImage(lOrg, "data/img/qrcode_29_29.png");
+    GOpenCV::Instance()->loadImage(lOrg, "data/img/qrcode.png");
     if(GOpenCV::Instance()->checkEmptyImage(lOrg) == 1) return;
     GOpenCV::Instance()->createWindow(lOrg);
     GOpenCV::Instance()->decodeQRcodeImage(lOrg);
