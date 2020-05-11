@@ -1,6 +1,7 @@
 //===============================================
 #include "GOpenCV.h"
 #include "GTesseract.h"
+#include "GZbar.h"
 #include "GDebug.h"
 //================================================
 #if defined(_GUSE_OPENCV_ON_)
@@ -232,7 +233,6 @@ void GOpenCV::faceDetectionImage(std::string imgId, std::string outId) {
     drawCircleImage(imgId, lFaceDetect, 255, 0, 0, 2);
     drawRectImage(imgId, lEyeDetect, 255, 255, 0, 2);
     drawCircleImage(imgId, lEyeDetect, 0, 0, 255, 2); 
-    //resizeImage(imgId, imgId, 0.5);
     
     std::vector<cv::Rect>* lFaceRects = getRectsCascadeClassifier(lFaceDetect);
     std::vector<cv::Rect>* lEyeRects = getRectsCascadeClassifier(lEyeDetect);
@@ -242,6 +242,24 @@ void GOpenCV::faceDetectionImage(std::string imgId, std::string outId) {
     deleteCascadeClassifier(lFaceDetect);
     deleteCascadeClassifier(lEyeDetect);
     deleteImage(lGray);
+}
+//===============================================
+void GOpenCV::qrcodeImage(std::string imgId) {
+    GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
+    std::string lGray = imgId + "lGray";
+    std::string lImage = imgId + "lImage";
+
+    createImage(lGray);
+    
+    convertGrayImage(imgId, lGray);
+    GZbar::Instance()->createImage(lImage, lGray);
+    GZbar::Instance()->getSymbol(lImage);
+    GZbar::Instance()->getLocation(lImage);
+    GZbar::Instance()->showInfo(lImage);
+    //showImage(lGray, lGray);
+        
+    deleteImage(lGray);
+    GZbar::Instance()->deleteImage(lImage);
 }
 //===============================================
 void GOpenCV::deleteImage(std::string imgId) {

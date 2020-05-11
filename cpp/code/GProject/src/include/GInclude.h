@@ -16,6 +16,7 @@
 //===============================================
 #define _GUSE_OPENCV_ON_
 #define _GUSE_TESSERACT_ON_
+#define _GUSE_ZBAR_ON_
 //===============================================
 #if defined(_GUSE_OPENCV_ON_)
 #include <opencv2/opencv.hpp>
@@ -24,6 +25,10 @@
 #if defined(_GUSE_TESSERACT_ON_)
 #include <tesseract/baseapi.h>
 #include <leptonica/allheaders.h>
+#endif
+//===============================================
+#if defined(_GUSE_ZBAR_ON_)
+#include <zbar.h>
 #endif
 //===============================================
 #endif

@@ -38,6 +38,7 @@ void GProcess::process(int argc, char** argv) {
         if(lKey == "get_string_image") {getStringImage(argc, argv); lRunFlag = 1; break;}
         if(lKey == "face_detection_image") {faceDetectionImage(argc, argv); lRunFlag = 1; break;}
         if(lKey == "face_recognition_image") {faceRecognitionImage(argc, argv); lRunFlag = 1; break;}
+        if(lKey == "qrcode_image") {qrcodeImage(argc, argv); lRunFlag = 1; break;}
         // video
         if(lKey == "load_video") {loadVideo(argc, argv); lRunFlag = 1; break;}
         if(lKey == "get_property_video") {getPropertyVideo(argc, argv); lRunFlag = 1; break;}
@@ -224,6 +225,19 @@ void GProcess::faceRecognitionImage(int argc, char** argv) {
     GOpenCV::Instance()->waitKey(0);
     GOpenCV::Instance()->destroyWindows();   
     GOpenCV::Instance()->deleteImage("org");   
+}
+//===============================================
+void GProcess::qrcodeImage(int argc, char** argv) {
+    GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
+    std::string lOrg = "org";
+    GOpenCV::Instance()->loadImage(lOrg, "data/img/qrcode_29_29.png");
+    if(GOpenCV::Instance()->checkEmptyImage(lOrg) == 1) return;
+    GOpenCV::Instance()->createWindow(lOrg);
+    GOpenCV::Instance()->qrcodeImage(lOrg);
+    GOpenCV::Instance()->showImage(lOrg, lOrg);
+    GOpenCV::Instance()->waitKey(0);
+    GOpenCV::Instance()->destroyWindows();   
+    GOpenCV::Instance()->deleteImage(lOrg);   
 }
 //===============================================
 // video

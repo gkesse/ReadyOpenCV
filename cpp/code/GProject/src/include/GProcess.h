@@ -24,6 +24,7 @@ public:
     void getStringImage(int argc, char** argv);
     void faceDetectionImage(int argc, char** argv);
     void faceRecognitionImage(int argc, char** argv);
+    void qrcodeImage(int argc, char** argv);
     // video
     void loadVideo(int argc, char** argv);
     void getPropertyVideo(int argc, char** argv);
