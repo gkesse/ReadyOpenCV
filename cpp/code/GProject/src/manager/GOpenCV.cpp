@@ -528,6 +528,21 @@ void GOpenCV::createEigenFaceRecognizer(std::string modelId) {
     m_indicesMap[modelId] = lIndices;
 }
 //===============================================
+void GOpenCV::trainEigenFaceRecognizer(std::string modelId) {
+    GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
+    cv::Ptr<cv::face::EigenFaceRecognizer> lModel = m_modelMap[modelId];
+    std::vector<cv::Mat*>* lImgs =  m_imgsMap[modelId];
+    std::vector<int>* lIndices = m_indicesMap[modelId];
+    cv::Mat* lTestImg = lImgs->at(lImgs->size() - 1);
+    int lTestIndice = lIndices->at(lIndices->size() - 1);
+    lImgs->pop_back();
+    lIndices->pop_back();
+    lModel->train(*lImgs, *lIndices);
+    int lPredictIndice = lModel->predict(*lTestImg);
+    std::string lTestMessage = std::format("Predicted class = %d / Actual class = %d.", lPredictIndice, lTestIndice);
+    std::cout << lTestMessage << "\n";
+}
+//===============================================
 void GOpenCV::deleteEigenFaceRecognizer(std::string modelId) {
     GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
     std::vector<cv::Mat*>* lImgs =  m_imgsMap[modelId];
