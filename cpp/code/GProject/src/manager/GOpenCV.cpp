@@ -274,6 +274,25 @@ void GOpenCV::saveOneFaceDetectionImage(std::string fileId, std::string outPath)
     }
 }
 //===============================================
+void GOpenCV::loadOneFaceDetectionImage(std::string modelId, std::string fileId, std::string loadPath) {
+    GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
+    std::vector<std::vector<std::string>> lStringsMap = GFile::Instance()->getData(fileId, ';');
+    std::vector<cv::Mat*>* lImgs = m_imgsMap[modelId];
+    std::vector<int>* lIndices = m_indicesMap[modelId];
+
+    for(int i = 0; i < lStringsMap.size(); i++) {
+        std::vector<std::string> lStringMap = lStringsMap.at(i);
+        std::string lPath = lStringMap[0];
+        std::string lIndice = lStringMap[1];
+        std::string lFilename = GString::Instance()->getFilename(lPath);
+        lFilename = loadPath + "/" + lFilename;
+        cv::Mat* lImg = new cv::Mat;
+        *lImg = cv::imread(lFilename, cv::IMREAD_GRAYSCALE);
+        lImgs->push_back(lImg);
+        lIndices->push_back(atoi(lIndice.c_str()));
+    }
+}
+//===============================================
 void GOpenCV::saveOneFaceDetectionImageFile(std::string imgId, std::string filename) {
     GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
     std::string lFaceDetect = imgId + "lFaceDetect";
@@ -296,9 +315,16 @@ void GOpenCV::faceRecognitionImage(std::string imgId) {
     GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
     std::string lFile = imgId + "lFile";
     std::string lDatabase = "data/rec/face_rec.csv";
+    std::string lLoadPath = "data/img/rec/face";
+    std::string lModel = imgId + "lModel";
+    
+    createEigenFaceRecognizer(lModel);
     GFile::Instance()->createIfstream(lFile, lDatabase);
-    //saveOneFaceDetectionImage(lFile);
+    
+    loadOneFaceDetectionImage(lModel, lFile, lLoadPath);
+    
     GFile::Instance()->deleteIfstream(lFile);
+    deleteEigenFaceRecognizer(lModel);
 }
 //===============================================
 void GOpenCV::decodeQRcodeImage(std::string imgId) {
@@ -495,7 +521,7 @@ void GOpenCV::deleteCascadeClassifier(std::string classifierId) {
 void GOpenCV::createEigenFaceRecognizer(std::string modelId) {
     GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
     cv::Ptr<cv::face::EigenFaceRecognizer> lModel = cv::face::EigenFaceRecognizer::create();
-    std::vector<cv::Mat>* lImgs =  new std::vector<cv::Mat>;
+    std::vector<cv::Mat*>* lImgs =  new std::vector<cv::Mat*>;
     std::vector<int>* lIndices = new std::vector<int>;
     m_modelMap[modelId] = lModel;
     m_imgsMap[modelId] = lImgs;
@@ -504,7 +530,7 @@ void GOpenCV::createEigenFaceRecognizer(std::string modelId) {
 //===============================================
 void GOpenCV::deleteEigenFaceRecognizer(std::string modelId) {
     GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
-    std::vector<cv::Mat>* lImgs =  m_imgsMap[modelId];
+    std::vector<cv::Mat*>* lImgs =  m_imgsMap[modelId];
     std::vector<int>* lIndices = m_indicesMap[modelId];
     delete lImgs;
     delete lIndices;

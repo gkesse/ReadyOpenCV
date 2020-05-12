@@ -42,6 +42,7 @@ public:
     std::string getStringImage(std::string imgId, std::string language);
     void faceDetectionImage(std::string imgId);
     void saveOneFaceDetectionImage(std::string fileId, std::string outPath);
+    void loadOneFaceDetectionImage(std::string modelId, std::string fileId, std::string loadPath);
     void saveOneFaceDetectionImageFile(std::string imgId, std::string filename);
     void faceRecognitionImage(std::string imgId);
     void decodeQRcodeImage(std::string imgId);
@@ -83,7 +84,7 @@ private:
     std::map<std::string, cv::CascadeClassifier*> m_classifierMap;
     std::map<std::string, cv::Ptr<cv::face::EigenFaceRecognizer>> m_modelMap;
     std::map<std::string, std::vector<cv::Rect>*> m_rectsMap;
-    std::map<std::string, std::vector<cv::Mat>*> m_imgsMap;
+    std::map<std::string, std::vector<cv::Mat*>*> m_imgsMap;
     std::map<std::string, std::vector<int>*> m_indicesMap;
 }; 
 //===============================================
