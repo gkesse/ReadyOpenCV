@@ -23,6 +23,7 @@ public:
     void setPixelImage(int argc, char** argv);
     void getStringImage(int argc, char** argv);
     void faceDetectionImage(int argc, char** argv);
+    void saveOneFaceDetectionImage(int argc, char** argv);
     void faceRecognitionImage(int argc, char** argv);
     void decodeQRcodeImage(int argc, char** argv);
     // video

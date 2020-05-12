@@ -1,7 +1,8 @@
 //===============================================
 #include "GProcess.h"
-#include "GDebug.h"
 #include "GOpenCV.h"
+#include "GFile.h"
+#include "GDebug.h"
 //===============================================
 GProcess* GProcess::m_instance = 0;
 //===============================================
@@ -37,6 +38,7 @@ void GProcess::process(int argc, char** argv) {
         if(lKey == "set_pixel_image") {setPixelImage(argc, argv); lRunFlag = 1; break;}
         if(lKey == "get_string_image") {getStringImage(argc, argv); lRunFlag = 1; break;}
         if(lKey == "face_detection_image") {faceDetectionImage(argc, argv); lRunFlag = 1; break;}
+        if(lKey == "save_one_face_detection_image") {saveOneFaceDetectionImage(argc, argv); lRunFlag = 1; break;}
         if(lKey == "face_recognition_image") {faceRecognitionImage(argc, argv); lRunFlag = 1; break;}
         if(lKey == "decode_qrcode_image") {decodeQRcodeImage(argc, argv); lRunFlag = 1; break;}
         // video
@@ -206,25 +208,38 @@ void GProcess::getStringImage(int argc, char** argv) {
 //===============================================
 void GProcess::faceDetectionImage(int argc, char** argv) {
     GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
-    GOpenCV::Instance()->loadImage("org", "data/img/face.png");
-    if(GOpenCV::Instance()->checkEmptyImage("org") == 1) return;
-    GOpenCV::Instance()->faceDetectionImage("org", "org");
-    GOpenCV::Instance()->createWindow("org");
-    GOpenCV::Instance()->showImage("org", "org");
+    std::string lOrg = "org";
+    GOpenCV::Instance()->loadImage(lOrg, "data/img/rec/rec_griezmann_03.jpg");
+    if(GOpenCV::Instance()->checkEmptyImage(lOrg) == 1) return;
+    GOpenCV::Instance()->faceDetectionImage(lOrg);
+    GOpenCV::Instance()->createWindow(lOrg);
+    GOpenCV::Instance()->showImage(lOrg, lOrg);
     GOpenCV::Instance()->waitKey(0);
     GOpenCV::Instance()->destroyWindows();   
-    GOpenCV::Instance()->deleteImage("org");   
+    GOpenCV::Instance()->deleteImage(lOrg);   
+}
+//===============================================
+void GProcess::saveOneFaceDetectionImage(int argc, char** argv) {
+    GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
+    std::string lFile = "lFile";
+    std::string lDatabase = "data/rec/face_rec.csv";
+    std::string lOutPath = "data/rec/face";
+    GFile::Instance()->createIfstream(lFile, lDatabase);
+    GOpenCV::Instance()->saveOneFaceDetectionImage(lFile, lOutPath);
+    GFile::Instance()->deleteIfstream(lFile); 
 }
 //===============================================
 void GProcess::faceRecognitionImage(int argc, char** argv) {
     GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
-    GOpenCV::Instance()->loadImage("org", "data/img/face.jpg");
-    if(GOpenCV::Instance()->checkEmptyImage("org") == 1) return;
-    GOpenCV::Instance()->createWindow("org");
-    GOpenCV::Instance()->showImage("org", "org");
+    std::string lOrg = "org";
+    GOpenCV::Instance()->loadImage(lOrg, "data/img/face_rec.jpg");
+    if(GOpenCV::Instance()->checkEmptyImage(lOrg) == 1) return;
+    GOpenCV::Instance()->faceRecognitionImage(lOrg);
+    GOpenCV::Instance()->createWindow(lOrg);
+    GOpenCV::Instance()->showImage(lOrg, lOrg);
     GOpenCV::Instance()->waitKey(0);
     GOpenCV::Instance()->destroyWindows();   
-    GOpenCV::Instance()->deleteImage("org");   
+    GOpenCV::Instance()->deleteImage(lOrg);   
 }
 //===============================================
 void GProcess::decodeQRcodeImage(int argc, char** argv) {
