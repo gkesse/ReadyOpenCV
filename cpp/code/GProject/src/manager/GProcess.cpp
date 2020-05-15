@@ -46,6 +46,8 @@ void GProcess::process(int argc, char** argv) {
         if(lKey == "get_property_video") {getPropertyVideo(argc, argv); lRunFlag = 1; break;}
         // video_writer
         if(lKey == "write_video") {writeVideo(argc, argv); lRunFlag = 1; break;}
+        // aruco
+        if(lKey == "generate_marker_aruco") {generateMarkerAruco(argc, argv); lRunFlag = 1; break;}
         break;
     }
     if(lRunFlag == 0) help(argc, argv);
@@ -68,6 +70,8 @@ void GProcess::help(int argc, char** argv) {
     printf("\t\%s %s : %s\n", lModule, "convert_image", "convertir image");
     // video
     printf("\t\%s %s : %s\n", lModule, "load_video", "lire video");
+    // aruco
+    printf("\t\%s %s : %s\n", lModule, "generate_marker_aruco", "generer marker aruco");
     printf("\n");
 }
 //===============================================
@@ -222,8 +226,8 @@ void GProcess::faceDetectionImage(int argc, char** argv) {
 void GProcess::saveOneFaceDetectionImage(int argc, char** argv) {
     GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
     std::string lFile = "lFile";
-    std::string lDatabase = "data/rec/face_rec.csv";
-    std::string lOutPath = "data/rec/face";
+    std::string lDatabase = "data/rec/face_rec.txt";
+    std::string lOutPath = "data/img/rec/face";
     GFile::Instance()->createIfstream(lFile, lDatabase);
     GOpenCV::Instance()->saveOneFaceDetectionImage(lFile, lOutPath);
     GFile::Instance()->deleteIfstream(lFile); 
@@ -232,7 +236,7 @@ void GProcess::saveOneFaceDetectionImage(int argc, char** argv) {
 void GProcess::faceRecognitionImage(int argc, char** argv) {
     GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
     std::string lOrg = "org";
-    GOpenCV::Instance()->loadImage(lOrg, "data/img/face_rec.jpg");
+    GOpenCV::Instance()->loadImage(lOrg, "data/img/face/alice_01.png");
     if(GOpenCV::Instance()->checkEmptyImage(lOrg) == 1) return;
     GOpenCV::Instance()->faceRecognitionImage(lOrg);
     GOpenCV::Instance()->createWindow(lOrg);
@@ -331,5 +335,20 @@ void GProcess::writeVideo(int argc, char** argv) {
     GOpenCV::Instance()->deleteImage("canny");   
     GOpenCV::Instance()->deleteVideo("video");   
     GOpenCV::Instance()->deleteVideoWriter("writer");   
+}
+//===============================================
+// aruco
+//===============================================
+void GProcess::generateMarkerAruco(int argc, char** argv) {
+    GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
+    std::string lAruco = "lAruco";
+    std::string lImg = "lImg";
+    GOpenCV::Instance()->createImage(lImg);
+    GOpenCV::Instance()->createArucoDictionary(lAruco);
+    GOpenCV::Instance()->generateArucoDictionary(lAruco, lImg);
+    GOpenCV::Instance()->showImage(lImg, lImg);
+    GOpenCV::Instance()->waitKey(0);
+    GOpenCV::Instance()->deleteImage(lImg);
+    GOpenCV::Instance()->destroyWindows();
 }
 //===============================================

@@ -42,7 +42,7 @@ public:
     std::string getStringImage(std::string imgId, std::string language);
     void faceDetectionImage(std::string imgId);
     void saveOneFaceDetectionImage(std::string fileId, std::string outPath);
-    void loadOneFaceDetectionImage(std::string modelId, std::string fileId, std::string loadPath);
+    void loadOneFaceDetectionImage(std::string modelId, std::string fileId);
     void saveOneFaceDetectionImageFile(std::string imgId, std::string filename);
     void faceRecognitionImage(std::string imgId);
     void decodeQRcodeImage(std::string imgId);
@@ -73,19 +73,29 @@ public:
     void deleteCascadeClassifier(std::string classifierId);
     // EigenFaceRecognizer 
     void createEigenFaceRecognizer(std::string modelId);
+    void trainFaceRecognizer(std::string modelId);
+    int predictFaceRecognizer(std::string modelId, std::string imgId);
+    std::string nameFaceRecognizer(std::string modelId, int indice);
+    void eigenValuesFaceRecognizer(std::string modelId, std::string imgId);
+    void eigenVectorsFaceRecognizer(std::string modelId, std::string imgId);
     void deleteEigenFaceRecognizer(std::string modelId);
-
+    // aruco
+    void createArucoDictionary(std::string arucoId);
+    void generateArucoDictionary(std::string arucoId, std::string imgId);
+    
 private:
     const char* __CLASSNAME__;  
     static GOpenCV* m_instance;
-    std::map<std::string, cv::Mat*> m_imgMap;
     std::map<std::string, cv::VideoCapture*> m_videoMap;
     std::map<std::string, cv::VideoWriter*> m_videoWriterMap;
     std::map<std::string, cv::CascadeClassifier*> m_classifierMap;
     std::map<std::string, cv::Ptr<cv::face::EigenFaceRecognizer>> m_modelMap;
+    std::map<std::string, cv::Ptr<cv::aruco::Dictionary>> m_arucoDicMap;
     std::map<std::string, std::vector<cv::Rect>*> m_rectsMap;
-    std::map<std::string, std::vector<cv::Mat*>*> m_imgsMap;
+    std::map<std::string, cv::Mat*> m_imgMap;
+    std::map<std::string, std::vector<cv::Mat>*> m_imgsMap;
     std::map<std::string, std::vector<int>*> m_indicesMap;
+    std::map<std::string, std::map<int, std::string>*> m_stringsMap;
 }; 
 //===============================================
 #endif

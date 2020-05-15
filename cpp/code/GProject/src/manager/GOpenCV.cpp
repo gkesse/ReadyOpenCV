@@ -27,13 +27,13 @@ GOpenCV* GOpenCV::Instance() {
 //===============================================
 void GOpenCV::test(int argc, char** argv) {
     GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
-    GOpenCV::Instance()->loadImage("org", "data/img/fruits.jpg");
-    if(GOpenCV::Instance()->checkEmptyImage("org") == 1) return;
-    GOpenCV::Instance()->createWindow("org");
-    GOpenCV::Instance()->showImage("org", "org");
-    GOpenCV::Instance()->waitKey(0);
-    GOpenCV::Instance()->deleteImage("org");   
-    GOpenCV::Instance()->destroyWindows();   
+    std::string lAruco = "lAruco";
+    std::string lImg = "lImg";
+    loadImage(lImg, "data/img/face.png");
+    showImage(lImg, lImg);
+    waitKey(0);
+    deleteImage(lImg);
+    destroyWindows();
 }
 //===============================================
 // image
@@ -213,10 +213,11 @@ void GOpenCV::saveImage(std::string imgId, std::string rectsId, std::string path
     for(int i = 0; i < lRects->size(); i++) {
         cv::Rect lRect = lRects->at(i);
         cv::Mat lOut = (*lImg)(lRect);
-        cv::imwrite(path, lOut);
+        cv::Mat lResizeOut;
+        cv::resize(lOut, lResizeOut, cv::Size(100, 100));
+        cv::imwrite(path, lResizeOut);
         break;
     }
-    std::cout << path << "\n";
 }
 //===============================================
 std::string GOpenCV::getStringImage(std::string imgId, std::string language) {
@@ -274,22 +275,23 @@ void GOpenCV::saveOneFaceDetectionImage(std::string fileId, std::string outPath)
     }
 }
 //===============================================
-void GOpenCV::loadOneFaceDetectionImage(std::string modelId, std::string fileId, std::string loadPath) {
+void GOpenCV::loadOneFaceDetectionImage(std::string modelId, std::string fileId) {
     GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
     std::vector<std::vector<std::string>> lStringsMap = GFile::Instance()->getData(fileId, ';');
-    std::vector<cv::Mat*>* lImgs = m_imgsMap[modelId];
+    std::vector<cv::Mat>* lImgs = m_imgsMap[modelId];
     std::vector<int>* lIndices = m_indicesMap[modelId];
+    std::map<int, std::string>* lStrings = m_stringsMap[modelId];
 
     for(int i = 0; i < lStringsMap.size(); i++) {
         std::vector<std::string> lStringMap = lStringsMap.at(i);
         std::string lPath = lStringMap[0];
         std::string lIndice = lStringMap[1];
-        std::string lFilename = GString::Instance()->getFilename(lPath);
-        lFilename = loadPath + "/" + lFilename;
-        cv::Mat* lImg = new cv::Mat;
-        *lImg = cv::imread(lFilename, cv::IMREAD_GRAYSCALE);
+        std::string lName = lStringMap[2];
+        int lIndiceInt = atoi(lIndice.c_str());
+        cv::Mat lImg = cv::imread(lPath, cv::IMREAD_GRAYSCALE);
         lImgs->push_back(lImg);
-        lIndices->push_back(atoi(lIndice.c_str()));
+        lIndices->push_back(lIndiceInt);
+        (*lStrings)[lIndiceInt] = lName;
     }
 }
 //===============================================
@@ -314,14 +316,18 @@ void GOpenCV::saveOneFaceDetectionImageFile(std::string imgId, std::string filen
 void GOpenCV::faceRecognitionImage(std::string imgId) {
     GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
     std::string lFile = imgId + "lFile";
-    std::string lDatabase = "data/rec/face_rec.csv";
-    std::string lLoadPath = "data/img/rec/face";
+    std::string lDatabase = "data/rec/face_data.txt";
     std::string lModel = imgId + "lModel";
     
     createEigenFaceRecognizer(lModel);
     GFile::Instance()->createIfstream(lFile, lDatabase);
     
-    loadOneFaceDetectionImage(lModel, lFile, lLoadPath);
+    loadOneFaceDetectionImage(lModel, lFile);
+    trainFaceRecognizer(lModel);
+    int lIndice = predictFaceRecognizer(lModel, imgId);
+    std::string lName = nameFaceRecognizer(lModel, lIndice);
+    std::cout << "lIndice: " << lIndice << "\n";
+    std::cout << "lName: " << lName << "\n";
     
     GFile::Instance()->deleteIfstream(lFile);
     deleteEigenFaceRecognizer(lModel);
@@ -521,36 +527,75 @@ void GOpenCV::deleteCascadeClassifier(std::string classifierId) {
 void GOpenCV::createEigenFaceRecognizer(std::string modelId) {
     GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
     cv::Ptr<cv::face::EigenFaceRecognizer> lModel = cv::face::EigenFaceRecognizer::create();
-    std::vector<cv::Mat*>* lImgs =  new std::vector<cv::Mat*>;
+    std::vector<cv::Mat>* lImgs =  new std::vector<cv::Mat>;
     std::vector<int>* lIndices = new std::vector<int>;
+    std::map<int, std::string>* lStrings = new std::map<int, std::string>;
     m_modelMap[modelId] = lModel;
     m_imgsMap[modelId] = lImgs;
     m_indicesMap[modelId] = lIndices;
+    m_stringsMap[modelId] = lStrings;
 }
 //===============================================
-void GOpenCV::trainEigenFaceRecognizer(std::string modelId) {
+void GOpenCV::trainFaceRecognizer(std::string modelId) {
     GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
     cv::Ptr<cv::face::EigenFaceRecognizer> lModel = m_modelMap[modelId];
-    std::vector<cv::Mat*>* lImgs =  m_imgsMap[modelId];
+    std::vector<cv::Mat>* lImgs =  m_imgsMap[modelId];
     std::vector<int>* lIndices = m_indicesMap[modelId];
-    cv::Mat* lTestImg = lImgs->at(lImgs->size() - 1);
-    int lTestIndice = lIndices->at(lIndices->size() - 1);
-    lImgs->pop_back();
-    lIndices->pop_back();
     lModel->train(*lImgs, *lIndices);
-    int lPredictIndice = lModel->predict(*lTestImg);
-    std::string lTestMessage = std::format("Predicted class = %d / Actual class = %d.", lPredictIndice, lTestIndice);
-    std::cout << lTestMessage << "\n";
+}
+//===============================================
+int GOpenCV::predictFaceRecognizer(std::string modelId, std::string imgId) {
+    GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
+    cv::Ptr<cv::face::EigenFaceRecognizer> lModel = m_modelMap[modelId];
+    cv::Mat* lImg = m_imgMap[imgId];
+    cv::Mat lGray;
+    cv::cvtColor(*lImg, lGray, cv::COLOR_BGR2GRAY);
+    int lIndice = lModel->predict(lGray);
+    return lIndice;
+}
+//===============================================
+std::string GOpenCV::nameFaceRecognizer(std::string modelId, int indice) {
+    GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
+    std::map<int, std::string>* lStrings = m_stringsMap[modelId];
+    std::string lString = (*lStrings)[indice];
+    return lString;
+}
+//===============================================
+void GOpenCV::eigenValuesFaceRecognizer(std::string modelId, std::string imgId) {
+    GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
+    cv::Ptr<cv::face::EigenFaceRecognizer> lModel = m_modelMap[modelId];
+    cv::Mat* lImg = m_imgMap[imgId];
+}
+//===============================================
+void GOpenCV::eigenVectorsFaceRecognizer(std::string modelId, std::string imgId) {
+    GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
+    cv::Ptr<cv::face::EigenFaceRecognizer> lModel = m_modelMap[modelId];
+    cv::Mat* lImg = m_imgMap[imgId];
 }
 //===============================================
 void GOpenCV::deleteEigenFaceRecognizer(std::string modelId) {
     GDebug::Instance()->write(__CLASSNAME__, "::", __FUNCTION__, "()", _EOA_);
-    std::vector<cv::Mat*>* lImgs =  m_imgsMap[modelId];
+    std::vector<cv::Mat>* lImgs =  m_imgsMap[modelId];
     std::vector<int>* lIndices = m_indicesMap[modelId];
+    std::map<int, std::string>* lStrings = m_stringsMap[modelId];
     delete lImgs;
     delete lIndices;
     m_imgsMap[modelId] = 0;
     m_indicesMap[modelId] = 0;
+    m_stringsMap[modelId] = 0;
+}
+//===============================================
+// aruco
+//===============================================
+void GOpenCV::createArucoDictionary(std::string arucoId) {
+    cv::Ptr<cv::aruco::Dictionary> lDictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_6X6_250);
+    m_arucoDicMap[arucoId] = lDictionary;
+}
+//===============================================
+void GOpenCV::generateArucoDictionary(std::string arucoId, std::string imgId) {
+    cv::Ptr<cv::aruco::Dictionary> lDictionary = m_arucoDicMap[arucoId];
+    cv::Mat* lImg = m_imgMap[imgId];
+    cv::aruco::drawMarker(lDictionary, 33, 200, *lImg, 1);    
 }
 //===============================================
 #endif

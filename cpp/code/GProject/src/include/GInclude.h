@@ -19,10 +19,12 @@
 #define _GUSE_OPENCV_ON_
 #define _GUSE_TESSERACT_ON_
 #define _GUSE_ZBAR_ON_
+#define _GUSE_FORMAT_ON_
 //===============================================
 #if defined(_GUSE_OPENCV_ON_)
 #include <opencv2/opencv.hpp>
 #include <opencv2/face.hpp>
+#include <opencv2/aruco.hpp>
 #endif
 //===============================================
 #if defined(_GUSE_TESSERACT_ON_)
@@ -32,6 +34,10 @@
 //===============================================
 #if defined(_GUSE_ZBAR_ON_)
 #include <zbar.h>
+#endif
+//===============================================
+#if defined(_GUSE_FORMAT_ON_)
+#include <fmt/format.h>
 #endif
 //===============================================
 #endif

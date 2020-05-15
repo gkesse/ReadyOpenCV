@@ -31,6 +31,9 @@ public:
     void getPropertyVideo(int argc, char** argv);
     // video_writer
     void writeVideo(int argc, char** argv);
+    // aruco
+    void generateMarkerAruco(int argc, char** argv);
+
 
 private:
     void help(int argc, char** argv);

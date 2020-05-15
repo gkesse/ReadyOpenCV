@@ -1,0 +1,17 @@
+data/img/face/alice_01.png;1;ALICE
+data/img/face/alice_02.png;1;ALICE
+data/img/face/alice_03.png;1;ALICE
+data/img/face/alice_04.png;1;ALICE
+data/img/face/alice_05.png;1;ALICE
+
+data/img/face/paul_01.png;2;PAUL
+data/img/face/paul_02.png;2;PAUL
+data/img/face/paul_03.png;2;PAUL
+data/img/face/paul_04.png;2;PAUL
+data/img/face/paul_05.png;2;PAUL
+
+data/img/face/pierre_01.png;3;PIERRE
+data/img/face/pierre_02.png;3;PIERRE
+data/img/face/pierre_03.png;3;PIERRE
+data/img/face/pierre_04.png;3;PIERRE
+data/img/face/pierre_05.png;3;PIERRE
